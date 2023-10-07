@@ -1,4 +1,4 @@
-baseURL = "https://coindarw.github.io/blog"
+baseURL = "https://coindarw.github.io/blog/"
 languageCode = "ja"
 defaultContentLanguage = "ja"
 title = "coindarw's page"
