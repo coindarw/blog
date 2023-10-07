@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+
+
+<html lang="ja" data-theme="">
+<head>
+    
+        
+<meta charset="utf-8">
+<meta name="HandheldFriendly" content="True">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer-when-downgrade">
+
+<title>個数制約付きナップサック問題を部分和数え上げから自然に理解する - coindarw&rsquo;s page</title>
+
+<meta name="description" content="はじめに
+
+    
+        
+    
+
+個数制約付きナップサック問題のスライド最小値を使う解法は、テクい部分が多かったりして、初見だと「なんだこの式変形！？」などとなりがちなのではないかと思っています。
+これに対し、導入として個数制約付き部分和数え上げ問題の話をすることで理解が少し簡単になるのではないかと思っており、これについて書いてみます。
+対象読者としては、緑～青くらいの人かなと思います。">
+
+
+
+
+
+<link rel="icon" type="image/x-icon" href="https://coindarw.github.io/blog/favicon.ico">
+<link rel="apple-touch-icon-precomposed" href="https://coindarw.github.io/blog/favicon.png">
+
+
+
+
+    
+
+
+
+<style>
+  body {
+    visibility: hidden;
+    opacity: 0;
+  }
+</style>
+
+<noscript>
+  <style>
+    body {
+      visibility: visible;
+      opacity: 1;
+    }
+  </style>
+</noscript>
+
+
+
+
+    
+
+
+
+
+
+    
+    
+        
+    
+    
+
+    
+        <link rel="stylesheet" href="https://coindarw.github.io/blog/css/style.min.eaefe0f95d1fe64ef0a3932347fc8e07ff4e3de4515423d0ad22b33474042778.css" integrity="sha256-6u/g&#43;V0f5k7wo5MjR/yOB/9OPeRRVCPQrSKzNHQEJ3g=">
+    
+
+
+
+
+
+    
+
+    
+
+
+
+
+
+    
+    
+        
+    
+    
+
+    
+        <script src="https://coindarw.github.io/blog/js/script.min.74bf1a3fcf1af396efa4acf3e660e876b61a2153ab9cbe1893ac24ea6d4f94ee.js" type="text/javascript" charset="utf-8" integrity="sha256-dL8aP88a85bvpKzz5mDodrYaIVOrnL4Yk6wk6m1PlO4="></script>
+    
+
+
+
+
+
+
+
+<meta property="og:title" content="個数制約付きナップサック問題を部分和数え上げから自然に理解する" />
+<meta property="og:description" content="はじめに
+
+    
+        
+    
+
+個数制約付きナップサック問題のスライド最小値を使う解法は、テクい部分が多かったりして、初見だと「なんだこの式変形！？」などとなりがちなのではないかと思っています。
+これに対し、導入として個数制約付き部分和数え上げ問題の話をすることで理解が少し簡単になるのではないかと思っており、これについて書いてみます。
+対象読者としては、緑～青くらいの人かなと思います。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://coindarw.github.io/blog/posts/knapsack-with-limitations/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-10-07T12:33:06+09:00" />
+<meta property="article:modified_time" content="2023-10-07T12:33:06+09:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="個数制約付きナップサック問題を部分和数え上げから自然に理解する"/>
+<meta name="twitter:description" content="はじめに
+
+    
+        
+    
+
+個数制約付きナップサック問題のスライド最小値を使う解法は、テクい部分が多かったりして、初見だと「なんだこの式変形！？」などとなりがちなのではないかと思っています。
+これに対し、導入として個数制約付き部分和数え上げ問題の話をすることで理解が少し簡単になるのではないかと思っており、これについて書いてみます。
+対象読者としては、緑～青くらいの人かなと思います。"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+</head>
+<body>
+    <a class="skip-main" href="#main"></a>
+    <div class="container">
+        <header class="common-header"> 
+            
+                <div class="header-top">
+    <h1 class="site-title">
+    <a href="/blog">coindarw&#39;s page</a>
+</h1>
+    <ul class="social-icons">
+
+
+    
+        <li>
+            <a href="https://github.com/coindarw" title="Github" rel="me">
+            <span class="inline-svg" >
+
+
+
+
+    
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+
+</span>
+
+            </a>
+        </li>
+    
+
+
+
+    <li>
+            <a href="https://coindarw.github.io/blog/index.xml" title="RSS" rel="me">
+            <span class="inline-svg" >
+
+
+
+
+    
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M128.081 415.959c0 35.369-28.672 64.041-64.041 64.041S0 451.328 0 415.959s28.672-64.041 64.041-64.041 64.04 28.673 64.04 64.041zm175.66 47.25c-8.354-154.6-132.185-278.587-286.95-286.95C7.656 175.765 0 183.105 0 192.253v48.069c0 8.415 6.49 15.472 14.887 16.018 111.832 7.284 201.473 96.702 208.772 208.772.547 8.397 7.604 14.887 16.018 14.887h48.069c9.149.001 16.489-7.655 15.995-16.79zm144.249.288C439.596 229.677 251.465 40.445 16.503 32.01 7.473 31.686 0 38.981 0 48.016v48.068c0 8.625 6.835 15.645 15.453 15.999 191.179 7.839 344.627 161.316 352.465 352.465.353 8.618 7.373 15.453 15.999 15.453h48.068c9.034-.001 16.329-7.474 16.005-16.504z"/></svg>
+
+</span>
+
+            </a>
+        </li>
+    
+
+</ul>
+</div>
+
+    <nav>
+        
+        
+        <a class="" href="https://coindarw.github.io/blog/about/" title="">About</a>
+        
+        <a class="" href="https://coindarw.github.io/blog/tags/" title="">Tags</a>
+        
+        <a class="" href="https://coindarw.github.io/blog/posts/" title="">Archive</a>
+        
+    </nav>
+
+
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$','$$'], ['\\[', '\\]']],
+      processEscapes: true,
+      processEnvironments: true
+    },
+    options: {
+      skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+    }
+  };
+
+  window.addEventListener('load', (event) => {
+      document.querySelectorAll("mjx-container").forEach(function(x){
+        x.parentElement.classList += 'has-jax'})
+    });
+
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
+
+            
+        </header>
+        <main id="main" tabindex="-1"> 
+            
+    
+
+    <article class="post h-entry">
+        <div class="post-header">
+            <header>
+                <h1 class="p-name post-title">個数制約付きナップサック問題を部分和数え上げから自然に理解する</h1>
+
+                
+            </header>
+        </div>
+        
+
+
+
+
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#はじめに">はじめに</a></li>
+    <li><a href="#考える問題">考える問題</a></li>
+    <li><a href="#個数制約付き部分和数え上げ">個数制約付き部分和数え上げ</a></li>
+    <li><a href="#改めてナップサックで考える">改めてナップサックで考える</a></li>
+    <li><a href="#まとめ">まとめ</a></li>
+  </ul>
+</nav>
+
+        <div class="content e-content">
+            <h2 id="はじめに" >はじめに
+<span>
+    <a href="#%e3%81%af%e3%81%98%e3%82%81%e3%81%ab">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h2><p>個数制約付きナップサック問題のスライド最小値を使う解法は、テクい部分が多かったりして、初見だと「なんだこの式変形！？」などとなりがちなのではないかと思っています。</p>
+<p>これに対し、導入として個数制約付き部分和数え上げ問題の話をすることで理解が少し簡単になるのではないかと思っており、これについて書いてみます。</p>
+<p>対象読者としては、緑～青くらいの人かなと思います。</p>
+<p>なお、普通の01-ナップサック問題に加え、スライド最小値、あるいはSWAGというデータ構造は既知であるものとして話を進めます。</p>
+<p>（内部構造がわかっている必要はないです。Queueでできる操作に加えて今入っている要素のminやmaxなどを$O(1)$でとれるデータ構造が存在するよ、ということが分かっていればOKです。
+<a href="https://motsu-xe.hatenablog.com/entry/2019/12/06/192424">分かりやすいSWAGの解説記事</a>）</p>
+<h2 id="考える問題" >考える問題
+<span>
+    <a href="#%e8%80%83%e3%81%88%e3%82%8b%e5%95%8f%e9%a1%8c">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h2><p>対象となるのは次のような問題です<a href="https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DPL_1_G&amp;lang=ja">AOJ Course DPL_1_G</a></p>
+<p>​	品物が$N$種類ある。各品物の価値$v[i]$、重さ$w[i]$、個数$m[i]$が与えられるので、重さの合計が$W$以下になるよう選んだ時の価値の合計の最大値を求めよ。(TL 1 sec.)</p>
+<ul>
+<li>品物の種類$N≤100$</li>
+<li>価値$v[i]\leq1000$</li>
+<li>重さ$w[i]\leq1000$</li>
+<li>各品物の個数$m[i]≤10000$</li>
+<li>選べる重さの最大値$W$</li>
+</ul>
+<p>これを時間計算量$O(NW)$で解くことがこの記事の目標となります。</p>
+<h2 id="個数制約付き部分和数え上げ" >個数制約付き部分和数え上げ
+<span>
+    <a href="#%e5%80%8b%e6%95%b0%e5%88%b6%e7%b4%84%e4%bb%98%e3%81%8d%e9%83%a8%e5%88%86%e5%92%8c%e6%95%b0%e3%81%88%e4%b8%8a%e3%81%92">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h2><p>いきなり本筋の問題について考える前に、次のような問題を考えます。</p>
+<p>品物が$N$種類ある。各品物の重さ$w[i]$、個数$m[i]$が与えられるので、重さの合計が$W$になるような選び方を数え上げよ。ただし、<strong>同じ品物は区別しないもの</strong>とする。(TL 1 sec.)</p>
+<p>選び方が異なる=ある品物について選んだ個数が異なる</p>
+<p>制約</p>
+<ul>
+<li>品物の種類$N≤100$</li>
+<li>各品物の重さ$w[i]\leq1000$</li>
+<li>各品物の個数$m[i]≤10000$</li>
+<li>選べる和$W≤10000$</li>
+</ul>
+<p>元の問題とは違い、価値を考えなくていい代わりに数え上げ問題になっています。</p>
+<p>普通のナップサックDPと同じようにやろうとすると、次のような感じで</p>
+<p>$$
+dp[i][j] = i番目までの品物だけを考え、重さjになる選び方
+$$</p>
+<p>とするのが思いつきますが。これを素直にやってしまうと各$dp[i][j]$を求めるのに$O(m[i])$かかるので、トータルで$O(NW\max(m[i]))$かかり、TLEしてしまいます。</p>
+<p>疑似コードは次のような感じ</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>dp[<span style="color:#ae81ff">0</span>][<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> N; <span style="color:#f92672">++</span>i) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;=</span> W; <span style="color:#f92672">++</span>j) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; k <span style="color:#f92672">&lt;=</span> m[i]; <span style="color:#f92672">++</span>k) {
+</span></span><span style="display:flex;"><span>            dp[i][j] <span style="color:#f92672">+=</span> dp[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>][j <span style="color:#f92672">-</span> w[i] <span style="color:#f92672">*</span> k];
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>この遷移をよく見ると、$j$の部分は$\bmod w[i]$ごとに独立になっていることがわかります。</p>
+<p>例えば、下の図は$v[6]=2,w[6]=2$の時に$dp[6][7]$の値を求める様子をイメージしたものですが、$j％2==1$になる要素直近3つ（$=v[6]+1$個）の和を求めていることが分かります。</p>
+<p><img src="./dptable.png" alt="dptable.png"></p>
+<p>これを利用すると次のように、for文を$w[i]$の余りで回し、さらにQueueを使って直前$m[i]+1$項とその和を保存しておくことで$O(NW)$で解くことができるようになります。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>dp[<span style="color:#ae81ff">0</span>][<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> N; <span style="color:#f92672">++</span>i) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> amari <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; amari <span style="color:#f92672">&lt;</span> w[i]; amari <span style="color:#f92672">+=</span> w[i]) {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// mod w[i]でm[i]個前まで
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">//    (dp[i - 1][j - m[i] * w[i]], ..., dp[i - 1][j - w[i]], dp[i - 1][j])
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">// を格納するキューとその合計
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        queue<span style="color:#f92672">&lt;</span>mint<span style="color:#f92672">&gt;</span> que;
+</span></span><span style="display:flex;"><span>        mint queSum;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> amari; j <span style="color:#f92672">&lt;=</span> W; j <span style="color:#f92672">+=</span> w[i]) {  <span style="color:#75715e">// j%w[i]がamariになるものだけループ
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            que.push(dp[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>][j]);
+</span></span><span style="display:flex;"><span>            queSum <span style="color:#f92672">+=</span> dp[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>][j];
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (dq.size() <span style="color:#f92672">&gt;</span> k <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) {
+</span></span><span style="display:flex;"><span>                queSum <span style="color:#f92672">-=</span> que.front();
+</span></span><span style="display:flex;"><span>                que.pop();
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            dp[i][j] <span style="color:#f92672">=</span> queSum;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>（今回は取り上げませんが、数え上げでなく単に部分和を列挙するだけの場合、蟻本にあるように個数を2冪に分解する方法が使えます。logが付いてしまいますが、こちらはbitset高速化が効きます。）</p>
+<h2 id="改めてナップサックで考える" >改めてナップサックで考える
+<span>
+    <a href="#%e6%94%b9%e3%82%81%e3%81%a6%e3%83%8a%e3%83%83%e3%83%97%e3%82%b5%e3%83%83%e3%82%af%e3%81%a7%e8%80%83%e3%81%88%e3%82%8b">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h2><p>先ほどの部分和の例と同じように考えてみます。まずはナイーブなDPを考えると、</p>
+<p>$$
+dp[i][j] = i番目の品物までを考えて重さjになるよう選んだ時の価値の最大値
+$$</p>
+<p>のように考え、次のような処理をすることになります。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">// テーブルは0初期化されているとする
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> N; <span style="color:#f92672">++</span>i) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;=</span> W; <span style="color:#f92672">++</span>j) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; k <span style="color:#f92672">&lt;=</span> m[i]; <span style="color:#f92672">++</span>k) {
+</span></span><span style="display:flex;"><span>            dp[i][j] <span style="color:#f92672">=</span> max(dp[i][j], dp[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>][j <span style="color:#f92672">-</span> w[i] <span style="color:#f92672">*</span> k] <span style="color:#f92672">+</span> v[i] <span style="color:#f92672">*</span> k);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>コードはさっきのTLE解法のものにかなり近く、パッと見AC解法のQueueの部分をスライド最小値に変えてやることで解けるのでは？と思えます。</p>
+<p>しかし、$\bmod w[i]$ごとに独立という性質は先ほどの例と同じであるものの、$+v[i]\cdot k$という部分が余計についているのが邪魔で、単に$\bmod w[i]$で$k$個前までのmaxを取るだけではいけません。</p>
+<p><img src="./dptable2.png" alt="dptable2.png"></p>
+<p>そこで、恣意的にDPテーブルの定義を変えてやることで無理やり「$\bmod w[i]$で$k$個前までのmaxを取るだけ」な状態にすることができないか考えます。</p>
+<p>結論としては、参照する要素ごとに$v[i]$ずつ足す値がずれていくのでそれと相殺するために、
+$$
+dp2[i][j’\cdot w[i]+a] = dp[i][j’\cdot w[i] + a] - j’ \cdot v[i]
+$$</p>
+<p>というように値を$v[i]$ずつずらしたDPテーブルを考えることで、いい感じに余計な項が消えてくれます。（$a$は部分和の時のコードで言う変数amari。$j=j&rsquo;\cdot w[i] + a$としています）</p>
+<p>遷移の時の具体的な計算は、</p>
+<pre tabindex="0"><code>dp2[i][j&#39; * w[i] + a] = max(dp2[i - 1][j&#39;          * w[i] + a], 
+                            dp2[i - 1][(j&#39; - 1)    * w[i] + a], 
+                            ..., 
+                            dp2[i - 1][(j&#39; - m[i]) * w[i] + a]) 
+                         + j&#39; * v[i];
+</code></pre><p>のように、最後に余計な項が少し入るものの基本的にはk項前までのmaxを取るだけになります。</p>
+<p>この形に持ち込めばmaxはスライド最大値やSWAG等を使うことで$O(1)$で計算でき、トータル$O(NW)$で問題を解くことができます。</p>
+<p>実装としては次のような感じになります。（$j&rsquo;\cdot w[i]+a=j$なので、$\lfloor \frac j {w[i]}\rfloor=j&rsquo;$となります）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> N; <span style="color:#f92672">++</span>i) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; a <span style="color:#f92672">&lt;</span> w[i]; <span style="color:#f92672">++</span>a) {
+</span></span><span style="display:flex;"><span>        SWAG<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, max<span style="color:#f92672">&gt;</span> swag; <span style="color:#75715e">// この中身がdp2
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> a; j <span style="color:#f92672">&lt;=</span> W; j <span style="color:#f92672">+=</span> w[i]) { <span style="color:#75715e">// 実装が楽なのでj&#39;でなくjでループを回しています
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            swag.push(dp[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>][j] <span style="color:#f92672">-</span> j <span style="color:#f92672">/</span> w[i] <span style="color:#f92672">*</span> v[i]);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (swag.size() <span style="color:#f92672">&gt;</span> m[i] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) {
+</span></span><span style="display:flex;"><span>                swag.pop();
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            dp[i][j] <span style="color:#f92672">=</span> swag.prod() <span style="color:#f92672">+</span> v[i] <span style="color:#f92672">*</span> (j <span style="color:#f92672">/</span> w[i]); <span style="color:#75715e">// swag.prod() + v[i] * j&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="まとめ" >まとめ
+<span>
+    <a href="#%e3%81%be%e3%81%a8%e3%82%81">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h2><p>個数制約付きナップサック問題を$O(NW)$で解く方法について書きました。</p>
+<p>ポイントとしては以下の3つが重要ですが、部分和数え上げ問題は1だけ利用することで解けるので、そこから解こうとすると2,3が比較的自然な発想で出てくるのではないかと思います。</p>
+<ol>
+<li>DP遷移が$\mod w[i]$で独立であることを利用する</li>
+<li>式変形で扱いやすい形式に持っていく</li>
+<li>データ構造で高速化する</li>
+</ol>
+<p>ACコードを載せておきます</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T, T (<span style="color:#f92672">*</span>op)(T, T)<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">SWAG</span> {
+</span></span><span style="display:flex;"><span>    stack<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> st1, st2, raw;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">push</span>(T x) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (st1.empty()) st1.push(x);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span> st1.push(op(st1.top(), x));
+</span></span><span style="display:flex;"><span>        raw.push(x);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">move</span>() {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (st2.empty()) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">while</span> (<span style="color:#f92672">!</span>st1.empty()) {
+</span></span><span style="display:flex;"><span>                st1.pop();
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> (st2.empty()) st2.push(raw.top());
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">else</span> st2.push(op(raw.top(), st2.top()));
+</span></span><span style="display:flex;"><span>                raw.pop();
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">pop</span>() {
+</span></span><span style="display:flex;"><span>        move();
+</span></span><span style="display:flex;"><span>        st2.pop();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    T <span style="color:#a6e22e">prod</span>() {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (st2.empty()) <span style="color:#66d9ef">return</span> st1.top();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (st1.empty()) <span style="color:#66d9ef">return</span> st2.top();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> op(st2.top(), st1.top());
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">size</span>() { <span style="color:#66d9ef">return</span> st1.size() <span style="color:#f92672">+</span> st2.size(); }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">op</span>(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b) { <span style="color:#66d9ef">return</span> max(a, b); }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> N, W;
+</span></span><span style="display:flex;"><span>    cin <span style="color:#f92672">&gt;&gt;</span> N <span style="color:#f92672">&gt;&gt;</span> W;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">using</span> T <span style="color:#f92672">=</span> tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span>;
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> items(N);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> N; <span style="color:#f92672">++</span>i) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> vi, wi, mi;
+</span></span><span style="display:flex;"><span>        cin <span style="color:#f92672">&gt;&gt;</span> vi <span style="color:#f92672">&gt;&gt;</span> wi <span style="color:#f92672">&gt;&gt;</span> mi;
+</span></span><span style="display:flex;"><span>        items[i] <span style="color:#f92672">=</span> T(vi, wi, mi);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> dp <span style="color:#f92672">=</span> vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span>(N <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span>(W <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> N; <span style="color:#f92672">++</span>i) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">auto</span> [vi, wi, mi] <span style="color:#f92672">=</span> items[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>];
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; a <span style="color:#f92672">&lt;</span> wi; <span style="color:#f92672">++</span>a) {
+</span></span><span style="display:flex;"><span>            SWAG<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, op<span style="color:#f92672">&gt;</span> swag;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> a; j <span style="color:#f92672">&lt;=</span> W; j <span style="color:#f92672">+=</span> wi) {
+</span></span><span style="display:flex;"><span>                swag.push(dp[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>][j] <span style="color:#f92672">-</span> j <span style="color:#f92672">/</span> wi <span style="color:#f92672">*</span> vi);
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> (swag.size() <span style="color:#f92672">&gt;</span> mi <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) swag.pop();
+</span></span><span style="display:flex;"><span>                dp[i][j] <span style="color:#f92672">=</span> swag.prod() <span style="color:#f92672">+</span> vi <span style="color:#f92672">*</span> (j <span style="color:#f92672">/</span> wi);
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> dp[N][W] <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
+        </div>
+        
+
+    
+
+
+
+<div class="post-info">
+    
+        <div class="post-date dt-published">
+            <a class="u-url" href="/blog/posts/knapsack-with-limitations/"><time datetime="2023-10-07">2023-10-07</time></a>
+            
+        </div>
+    
+
+    <a class="post-hidden-url u-url" href="https://coindarw.github.io/blog/posts/knapsack-with-limitations/">https://coindarw.github.io/blog/posts/knapsack-with-limitations/</a>
+    <a href="https://coindarw.github.io/blog/" class="p-name p-author post-hidden-author h-card" rel="me">coindarw</a>
+
+
+    <div class="post-taxonomies">
+        
+        
+            <ul class="post-tags">
+                
+                    
+                    <li><a href="https://coindarw.github.io/blog/tags/dp/">#DP</a></li>
+                
+                    
+                    <li><a href="">#競技プログラミング</a></li>
+                
+            </ul>
+        
+        
+    </div>
+</div>
+
+    </article>
+
+    
+
+    
+
+    
+        
+
+
+
+
+
+
+
+
+    
+
+        </main>
+        
+            <footer class="common-footer">
+    
+    
+
+    <div class="common-footer-bottom">
+        
+        <div class="copyright">
+            <p>© coindarw, 2023<br>
+             <a target="_blank" rel="noopener noreferrer" href="https://gohugo.io/">Hugo</a>,  <a target="_blank" rel="noopener noreferrer" href="https://github.com/mitrichius/hugo-theme-anubis">Anubis</a>.<br>
+            
+            </p>  
+        </div> 
+
+        
+
+    
+
+
+
+
+    <button class="theme-switcher">
+        
+    </button>
+
+
+<script>
+const STORAGE_KEY = 'user-color-scheme'
+const defaultTheme = "auto"
+
+let currentTheme
+let switchButton
+let autoDefinedScheme = window.matchMedia('(prefers-color-scheme: dark)')
+
+const autoChangeScheme = e => {
+    currentTheme = e.matches ? 'dark' : 'light'
+    document.documentElement.setAttribute('data-theme', currentTheme)
+    changeButtonText()
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    switchButton = document.querySelector('.theme-switcher')
+    currentTheme = detectCurrentScheme()
+    if (currentTheme == 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark')
+    }
+    if (currentTheme == 'auto') {
+        autoChangeScheme(autoDefinedScheme);
+        autoDefinedScheme.addListener(autoChangeScheme);
+    }
+
+    if (switchButton) {
+        changeButtonText()
+        switchButton.addEventListener('click', switchTheme, false)
+    }
+  
+    showContent()
+})
+
+function detectCurrentScheme() {
+    if (localStorage !== null && localStorage.getItem(STORAGE_KEY)) {
+        return localStorage.getItem(STORAGE_KEY)
+    } 
+    if (defaultTheme) {
+        return defaultTheme
+    } 
+    if (!window.matchMedia) {
+        return 'light'
+    } 
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        return 'dark'
+    }
+    return 'light'
+}
+
+function changeButtonText()
+{   
+    if (switchButton) {
+        switchButton.textContent = currentTheme == 'dark' ?  "" : ""
+    }
+}
+
+function switchTheme(e) {
+    if (currentTheme == 'dark') {
+        if (localStorage !== null)
+            localStorage.setItem(STORAGE_KEY, 'light')
+        document.documentElement.setAttribute('data-theme', 'light')
+        currentTheme = 'light'
+    } else {
+        if (localStorage !== null)
+            localStorage.setItem(STORAGE_KEY, 'dark')
+        document.documentElement.setAttribute('data-theme', 'dark')
+        currentTheme = 'dark'
+    }
+    changeButtonText()
+}
+
+function showContent() {
+    document.body.style.visibility = 'visible';
+    document.body.style.opacity = 1;
+}
+</script>
+
+   
+    </div>
+
+    <p class="h-card vcard">
+
+    <a href=https://coindarw.github.io/blog/ class="p-name u-url url fn" rel="me">coindarw</a> 
+
+    
+
+    
+</p> 
+</footer>
+
+        
+    </div>
+</body>
+</html>
