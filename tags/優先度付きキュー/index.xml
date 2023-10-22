@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>優先度付きキュー on coindarw&#39;s page</title>
+    <link>https://coindarw.github.io/blog/tags/%E5%84%AA%E5%85%88%E5%BA%A6%E4%BB%98%E3%81%8D%E3%82%AD%E3%83%A5%E3%83%BC/</link>
+    <description>coindarw&#39;s page (優先度付きキュー)</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja</language>
+    <lastBuildDate>Mon, 23 Oct 2023 02:17:48 +0900</lastBuildDate>
+    
+    <atom:link href="https://coindarw.github.io/blog/tags/%E5%84%AA%E5%85%88%E5%BA%A6%E4%BB%98%E3%81%8D%E3%82%AD%E3%83%A5%E3%83%BC/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>priority_queueで今選べる区間を貪欲に選ぶ問題とその個人的にバグらせづらい実装</title>
+      <link>https://coindarw.github.io/blog/posts/priority-queue-greedy-problem/</link>
+      <pubDate>Mon, 23 Oct 2023 02:17:48 +0900</pubDate>
+      
+      <guid>https://coindarw.github.io/blog/posts/priority-queue-greedy-problem/</guid>
+      <description>&lt;p&gt;これ系の問題ちょいちょい見るのに解くとき毎回記憶喪失になるので備忘録&lt;/p&gt;
+&lt;p&gt;新規性はありません&lt;/p&gt;
+&lt;p&gt;変数nowとitrを進めたりするような実装の方がいいんだろうけどバグらせるのでイベントソートっぽく解きます
+（尺取り法とかこういうのを共通して簡単に扱える方法はないのだろうか）&lt;/p&gt;
+&lt;h2 id=&#34;問題概要&#34; &gt;問題概要
+&lt;span&gt;
+    &lt;a href=&#34;#%e5%95%8f%e9%a1%8c%e6%a6%82%e8%a6%81&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h2&gt;&lt;p&gt;次のような問題&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;$N$個の仕事があり、それぞれ$L_i$日目～$R_i$日目の間でやる必要がある。同じ日に複数の仕事を行うことはできない。最大でいくつの仕事を行うことができるか？
+&lt;ul&gt;
+&lt;li&gt;制約 $N\leq 2\mathrm e5, 1\leq L_i,R_i\leq 1\mathrm e18$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;a href=&#34;https://atcoder.jp/contests/abc214/tasks/abc214_e&#34;&gt;ABC214E&lt;/a&gt;, &lt;a href=&#34;https://atcoder.jp/contests/abc325/tasks/abc325_d&#34;&gt;ABC325D&lt;/a&gt;などが該当する。問題文や制約はいろいろ考えられるがこの記事では上のもので行く。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;無限個の箱があり、$N$個のボールを箱に入れていく。箱には1個までしかボールは入らず、また$i$番目のボールは$L_i$以上$R_i$以下の番号のついた箱に入れる必要がある。全てのボールを箱にしまえるか？（ABC214E）&lt;/li&gt;
+&lt;li&gt;$N$個の商品があり、各商品に印字していく。商品$i$は時刻$T_i$から$D_i$単位時間の間（境界時刻含む）印字することが可能。同時に1つの商品にしか印字できず、また一度印字したら1単位時間は印字機が使えない。最大いくつの商品に印字できるか？（ABC325D）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;解き方と実装&#34; &gt;解き方と実装
+&lt;span&gt;
+    &lt;a href=&#34;#%e8%a7%a3%e3%81%8d%e6%96%b9%e3%81%a8%e5%ae%9f%e8%a3%85&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h2&gt;&lt;p&gt;一見区間スケジューリング問題っぽい見た目をしているが、区間[1,3]と[2,2]があったときに、区間スケジューリング問題なら[2,2]を優先した方がいいが、今回の問題だと[1,3]を優先したほうがいい。同じ戦略は使えない。&lt;/p&gt;
+&lt;p&gt;これは次のように解ける&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;考えられる日付を小さいほうから順に列挙していき、今選べる仕事の中で締め切りが最も早いものから順にやる&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;実装方針はいろいろ考えられるが、&lt;/p&gt;
+&lt;p&gt;「今何日目かを表す変数nowとソート済みの区間の今何番目かを示す変数itrを持っておき、itr番目の仕事を選ぶならnow++する。今考えているLiがnowよりも後ならnow=L[i]にする。」&lt;/p&gt;
+&lt;p&gt;のような感じで実装することが多そう&lt;/p&gt;
+&lt;p&gt;ただ、この方法だと変数nowを管理するのが結構面倒&lt;/p&gt;
+&lt;p&gt;priority_queueを使ったイベントソート的な感じで実装するのが楽だと思っている（メモリは少し余計に使うが）&lt;/p&gt;
+&lt;p&gt;以下の2つのイベントを考え、&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;$L$日目～$R$日目の間で行う仕事を候補に追加&lt;/li&gt;
+&lt;li&gt;まだ他の仕事が入っていなければ$L$日目に仕事を行う&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;上手くスケジュールを決めると、仕事を行う日付の候補は「$L_i$日目」か「仕事を行った日の翌日」としてよい&lt;/p&gt;
+&lt;p&gt;イベント2($L$日目)を処理して仕事を行うことを決めたら、イベントを管理するpriority_queueに($L+1$日目)をpushすればOK&lt;/p&gt;
+&lt;p&gt;優先度をイベント1&amp;gt;イベント2にすることに注意&lt;/p&gt;
+&lt;p&gt;イベント2がpushされる回数は高々$2N$回なので計算量は$O(N\log N)$で元の解法と変わらない&lt;/p&gt;
+&lt;h3 id=&#34;実装例&#34; &gt;実装例
+&lt;span&gt;
+    &lt;a href=&#34;#%e5%ae%9f%e8%a3%85%e4%be%8b&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;constexpr&lt;/span&gt; ll linf &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;4&amp;#39;000&amp;#39;000&amp;#39;000&amp;#39;000&amp;#39;000&amp;#39;000&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; solve &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [](&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;pair&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;ll, ll&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; v) &lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// v: 区間[l, r]
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; P &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; pair&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;ll, ll&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    priority_queue&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;P, vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;P&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;, greater&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;P&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; events;         &lt;span style=&#34;color:#75715e&#34;&gt;// イベントソート
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    priority_queue&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;ll, vector&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;ll&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;, greater&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;ll&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; candidates;  &lt;span style=&#34;color:#75715e&#34;&gt;// 現時点で使えるRiの候補
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    unordered_set&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;ll&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; usedTime(v.size());                    &lt;span style=&#34;color:#75715e&#34;&gt;// 使用済みの日付
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// L日目 or 既に使用した日付+1 しか候補にならない
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; [l, r] &lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; v) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        assert(l &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; r &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; r &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; linf);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        events.push({l, r});     &lt;span style=&#34;color:#75715e&#34;&gt;// 仕事の追加[l, r] イベント1
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        events.push({l, linf});  &lt;span style=&#34;color:#75715e&#34;&gt;// L日目時点で可能なら仕事を行う イベント2
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; ans &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;events.empty()) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; [l, r] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; events.top();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        events.pop();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (r &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; linf) {  &lt;span style=&#34;color:#75715e&#34;&gt;// 仕事の追加 イベント1
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;            candidates.push(r);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        } &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;usedTime.contains(l)) {                                        &lt;span style=&#34;color:#75715e&#34;&gt;// L日目時点で可能なら仕事を行う イベント2
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;            &lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;candidates.empty() &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; candidates.top() &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; l) candidates.pop();  &lt;span style=&#34;color:#75715e&#34;&gt;// できないことが確定した仕事を削除
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;            &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;candidates.empty()) {                                             &lt;span style=&#34;color:#75715e&#34;&gt;// できる仕事が存在するならする
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;                candidates.pop();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                ans&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                usedTime.insert(l);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                events.push({l &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, linf});  &lt;span style=&#34;color:#75715e&#34;&gt;// 翌日も仕事ができるなら行う
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;            }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; ans;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;問題リンク&#34; &gt;問題リンク
+&lt;span&gt;
+    &lt;a href=&#34;#%e5%95%8f%e9%a1%8c%e3%83%aa%e3%83%b3%e3%82%af&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://atcoder.jp/contests/abc325/tasks/abc325_d&#34;&gt;https://atcoder.jp/contests/abc325/tasks/abc325_d&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://atcoder.jp/contests/abc214/tasks/abc214_e&#34;&gt;https://atcoder.jp/contests/abc214/tasks/abc214_e&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
