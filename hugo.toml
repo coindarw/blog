@@ -23,6 +23,7 @@ readMore = false
 copyCodeButton = true
 rssAsSocialIcon = true
 mathjax = true
+customCSS = ["css/custom.css"]
 
 
 # Graphcomment support

@@ -1,0 +1,23 @@
+code,
+pre,
+kbd {
+    color: var(--pre-color);
+    background-color: var(--pre-bg-color);
+    font-family: "SFMono-Regular","Consolas","Liberation Mono","Menlo","Courier New",Courier, "monospace","Segoe UI Emoji";
+    font-size: 0.90em;
+    line-height: 154%;
+}
+
+h2 {
+    font-size: 1.8em; 
+    margin: 0.5em 0; 
+    font-weight: bold; 
+    padding: 0.5em; 
+}
+
+h3 {
+    font-size: 1.2em; 
+    margin: 0.5em 0; 
+    font-weight: bold; 
+    padding: 0.5em; 
+}
