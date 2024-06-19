@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>遅延セグメント木 on coindarw&#39;s page</title>
+    <link>https://coindarw.github.io/blog/tags/%E9%81%85%E5%BB%B6%E3%82%BB%E3%82%B0%E3%83%A1%E3%83%B3%E3%83%88%E6%9C%A8/</link>
+    <description>coindarw&#39;s page (遅延セグメント木)</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja</language>
+    <lastBuildDate>Sun, 05 Nov 2023 01:34:17 +0900</lastBuildDate>
+    
+    <atom:link href="https://coindarw.github.io/blog/tags/%E9%81%85%E5%BB%B6%E3%82%BB%E3%82%B0%E3%83%A1%E3%83%B3%E3%83%88%E6%9C%A8/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>コピペ用 ACLib仕様の基本的な遅延セグメント木</title>
+      <link>https://coindarw.github.io/blog/posts/basic-lazysegtree-aclib/</link>
+      <pubDate>Sun, 05 Nov 2023 01:34:17 +0900</pubDate>
+      
+      <guid>https://coindarw.github.io/blog/posts/basic-lazysegtree-aclib/</guid>
+      <description>&lt;p&gt;使い方などは &lt;a href=&#34;https://atcoder.github.io/ac-library/document_ja/lazysegtree.html&#34;&gt;AC-Libraryのドキュメント&lt;/a&gt; を参照&lt;/p&gt;
+&lt;p&gt;コンテスト中、AOJ Coursesにあるようなやつはコピペして使いたいのでまとめ&lt;/p&gt;
+&lt;p&gt;infはint64で表せる十分大きい整数で、足してもオーバーフローしないくらいの大きさを想定。普段は$4\times10^{18}$を使っている&lt;/p&gt;
+&lt;h2 id=&#34;range-affine-range-sum&#34; &gt;Range Affine Range Sum
+&lt;span&gt;
+    &lt;a href=&#34;#range-affine-range-sum&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h2&gt;&lt;p&gt;&lt;a href=&#34;https://atcoder.jp/contests/practice2/tasks/practice2_k&#34;&gt;https://atcoder.jp/contests/practice2/tasks/practice2_k&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;*a+bの更新、区間Sum。適宜llをmintとかに変更&lt;/p&gt;
+&lt;p&gt;1倍してb足すのをRAQ、0倍してa足すのをRUQとして使える&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;S&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    ll a;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; size;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;F&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    ll a, b;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;S &lt;span style=&#34;color:#a6e22e&#34;&gt;op&lt;/span&gt;(S l, S r) { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; {l.a &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; r.a, l.size &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; r.size}; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;S &lt;span style=&#34;color:#a6e22e&#34;&gt;e&lt;/span&gt;() { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; {&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;}; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;S &lt;span style=&#34;color:#a6e22e&#34;&gt;mapping&lt;/span&gt;(F l, S r) { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; {r.a &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; l.a &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; r.size &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; l.b, r.size}; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;F &lt;span style=&#34;color:#a6e22e&#34;&gt;composition&lt;/span&gt;(F l, F r) { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; {r.a &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; l.a, r.b &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; l.a &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; l.b}; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;F &lt;span style=&#34;color:#a6e22e&#34;&gt;id&lt;/span&gt;() { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; F{&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;}; }
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;range-update-query-ruq&#34; &gt;Range Update Query (RUQ)
+&lt;span&gt;
+    &lt;a href=&#34;#range-update-query-ruq&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h2&gt;&lt;p&gt;&lt;a href=&#34;https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_D&amp;amp;lang=ja&#34;&gt;https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_D&amp;amp;lang=ja&lt;/a&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; S &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; ll;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;F&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;bool&lt;/span&gt; id;  &lt;span style=&#34;color:#75715e&#34;&gt;// updateに単位元を作るためのフラグ
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    ll x;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;S &lt;span style=&#34;color:#a6e22e&#34;&gt;op&lt;/span&gt;(S l, S r) { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; min(l, r); }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;S &lt;span style=&#34;color:#a6e22e&#34;&gt;e&lt;/span&gt;() { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; inf; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;S &lt;span style=&#34;color:#a6e22e&#34;&gt;mapping&lt;/span&gt;(F f, S s) { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; f.id &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt; s : f.x; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;F &lt;span style=&#34;color:#a6e22e&#34;&gt;composition&lt;/span&gt;(F f, F g) { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; {f.id &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; g.id, f.id &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt; g.x : f.x}; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;F &lt;span style=&#34;color:#a6e22e&#34;&gt;id&lt;/span&gt;() { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; {true, &lt;span style=&#34;color:#ae81ff&#34;&gt;0ll&lt;/span&gt;}; }
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;rmq-and-ruq&#34; &gt;RMQ and RUQ
+&lt;span&gt;
+    &lt;a href=&#34;#rmq-and-ruq&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h2&gt;&lt;p&gt;&lt;a href=&#34;https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_F&amp;amp;lang=ja&#34;&gt;https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_F&amp;amp;lang=ja&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Min Query&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; S &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; ll;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;F&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;bool&lt;/span&gt; id;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    ll x;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;S &lt;span style=&#34;color:#a6e22e&#34;&gt;op&lt;/span&gt;(S l, S r) { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; min(l, r); }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;S &lt;span style=&#34;color:#a6e22e&#34;&gt;e&lt;/span&gt;() { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; inf; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;S &lt;span style=&#34;color:#a6e22e&#34;&gt;mapping&lt;/span&gt;(F f, S s) { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; f.id &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt; s : f.x; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;F &lt;span style=&#34;color:#a6e22e&#34;&gt;composition&lt;/span&gt;(F f, F g) { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; {f.id &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; g.id, f.id &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt; g.x : f.x}; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;F &lt;span style=&#34;color:#a6e22e&#34;&gt;id&lt;/span&gt;() { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; {true, &lt;span style=&#34;color:#ae81ff&#34;&gt;0ll&lt;/span&gt;}; }
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;rsq-and-raq&#34; &gt;RSQ and RAQ
+&lt;span&gt;
+    &lt;a href=&#34;#rsq-and-raq&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h2&gt;&lt;p&gt;&lt;a href=&#34;https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_G&amp;amp;lang=ja&#34;&gt;https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_G&amp;amp;lang=ja&lt;/a&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;S&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    ll sum, size;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; F &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; ll;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;S &lt;span style=&#34;color:#a6e22e&#34;&gt;op&lt;/span&gt;(S l, S r) { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; S{l.sum &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; r.sum, l.size &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; r.size}; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;S &lt;span style=&#34;color:#a6e22e&#34;&gt;e&lt;/span&gt;() { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; {&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;}; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;S &lt;span style=&#34;color:#a6e22e&#34;&gt;mapping&lt;/span&gt;(F f, S s) { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; S{s.sum &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; s.size &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; f, s.size}; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;F &lt;span style=&#34;color:#a6e22e&#34;&gt;composition&lt;/span&gt;(F f, F g) { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; f &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; g; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;F &lt;span style=&#34;color:#a6e22e&#34;&gt;id&lt;/span&gt;() { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; }
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;rmq-and-raq&#34; &gt;RMQ and RAQ
+&lt;span&gt;
+    &lt;a href=&#34;#rmq-and-raq&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h2&gt;&lt;p&gt;&lt;a href=&#34;https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_H&amp;amp;lang=ja&#34;&gt;https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_H&amp;amp;lang=ja&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Min Query&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; S &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; ll;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; F &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; ll;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;S &lt;span style=&#34;color:#a6e22e&#34;&gt;op&lt;/span&gt;(S l, S r) { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; min(l, r); }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;S &lt;span style=&#34;color:#a6e22e&#34;&gt;e&lt;/span&gt;() { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; inf; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;S &lt;span style=&#34;color:#a6e22e&#34;&gt;mapping&lt;/span&gt;(F f, S s) { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; s &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; inf &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt; inf : s &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; f; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;F &lt;span style=&#34;color:#a6e22e&#34;&gt;composition&lt;/span&gt;(F f, F g) { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; f &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; g; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;F &lt;span style=&#34;color:#a6e22e&#34;&gt;id&lt;/span&gt;() { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; }
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;rsq-and-ruq&#34; &gt;RSQ and RUQ
+&lt;span&gt;
+    &lt;a href=&#34;#rsq-and-ruq&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h2&gt;&lt;p&gt;&lt;a href=&#34;https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_I&amp;amp;lang=ja&#34;&gt;https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_I&amp;amp;lang=ja&lt;/a&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;S&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    ll sum, size;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;F&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;bool&lt;/span&gt; id;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    ll x;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;S &lt;span style=&#34;color:#a6e22e&#34;&gt;op&lt;/span&gt;(S l, S r) { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; S{l.sum &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; r.sum, l.size &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; r.size}; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;S &lt;span style=&#34;color:#a6e22e&#34;&gt;e&lt;/span&gt;() { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; S{&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;}; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;S &lt;span style=&#34;color:#a6e22e&#34;&gt;mapping&lt;/span&gt;(F f, S s) { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; f.id &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt; s : S{f.x &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; s.size, s.size}; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;F &lt;span style=&#34;color:#a6e22e&#34;&gt;composition&lt;/span&gt;(F f, F g) { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; f.id &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt; g : f; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;F &lt;span style=&#34;color:#a6e22e&#34;&gt;id&lt;/span&gt;() { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; {true, &lt;span style=&#34;color:#ae81ff&#34;&gt;0ll&lt;/span&gt;}; }
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

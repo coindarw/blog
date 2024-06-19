@@ -6,10 +6,528 @@
     <description>coindarw&#39;s page (競技プログラミング)</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Mon, 23 Oct 2023 02:17:48 +0900</lastBuildDate>
+    <lastBuildDate>Sun, 05 Nov 2023 01:39:58 +0900</lastBuildDate>
     
     <atom:link href="https://coindarw.github.io/blog/tags/%E7%AB%B6%E6%8A%80%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>競プロ関連、C&#43;&#43;のちょっとしたこと</title>
+      <link>https://coindarw.github.io/blog/posts/cp-cpp-tips/</link>
+      <pubDate>Sun, 05 Nov 2023 01:39:58 +0900</pubDate>
+      
+      <guid>https://coindarw.github.io/blog/posts/cp-cpp-tips/</guid>
+      <description>&lt;p&gt;競技プログラミングに関係したC++関連のTips的なものまとめ。あくまで競プロ用なので、業務ではもっと別の方法を取ったほうがよかったりすると思う。&lt;/p&gt;
+&lt;p&gt;環境としてはWindows, WSL or MinGWでGCCを使うことを想定しているが、所々MinGWでは動かないところもあるので注意。検証していないがLinuxならたぶん大丈夫だと思う。clangはほぼ使ったことがないので不明。&lt;/p&gt;
+&lt;h2 id=&#34;未定義動作の検出&#34; &gt;未定義動作の検出
+&lt;span&gt;
+    &lt;a href=&#34;#%e6%9c%aa%e5%ae%9a%e7%be%a9%e5%8b%95%e4%bd%9c%e3%81%ae%e6%a4%9c%e5%87%ba&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h2&gt;&lt;p&gt;配列範囲外参照、0除算など、未定義動作をコードに仕込んでしまうと、手元環境では正しい答えを出すのに提出するとWA/REが出るといったことが起きる。&lt;/p&gt;
+&lt;p&gt;このような場合の簡単な対処法をこの項と次項「デバッガの使用によるスタックトレースの表示」に書いていく&lt;/p&gt;
+&lt;p&gt;以下のようなコンパイルオプションを指定することでかなり多くの未定義動作を検出することができる。&lt;/p&gt;
+&lt;p&gt;（WindowsでMinGWを使っている場合は &lt;code&gt;fsanitize&lt;/code&gt; が使えないので注意。WSLを使うといい）&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;g++ -fsanitize&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;undefined,address -D_GLIBCXX_DEBUG 
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;かなり多くのオプションがあるが、とりあえず3つだけ書く。&lt;/p&gt;
+&lt;p&gt;これ以外にもメモリリークを検知する &lt;code&gt;LeakSanitizer&lt;/code&gt; とかいろいろあるので調べると面白そう&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://gcc.gnu.org/onlinedocs/gcc/Instrumentation-Options.html#index-fsanitize_003daddress&#34;&gt;https://gcc.gnu.org/onlinedocs/gcc/Instrumentation-Options.html#index-fsanitize_003daddress&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;fsanitizeundefined&#34; &gt;fsanitize=undefined
+&lt;span&gt;
+    &lt;a href=&#34;#fsanitizeundefined&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;&lt;p&gt;WindowsのMinGWでは動かないので注意。WSLなら大丈夫。&lt;a href=&#34;https://stackoverflow.com/questions/67619314/cannot-use-fsanitize-address-in-mingw-compiler&#34;&gt;clangでもいける&lt;/a&gt;っぽい？&lt;/p&gt;
+&lt;p&gt;未定義動作サニタイザ&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;ゼロ除算&lt;/li&gt;
+&lt;li&gt;オーバーフロー&lt;/li&gt;
+&lt;li&gt;範囲外のシフト操作&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;などを検出してくれる&lt;/p&gt;
+&lt;h3 id=&#34;fsanitizeaddress&#34; &gt;fsanitize=address
+&lt;span&gt;
+    &lt;a href=&#34;#fsanitizeaddress&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;&lt;p&gt;これもMinGWでは動かない&lt;/p&gt;
+&lt;p&gt;不正なメモリ操作を検知してくれる&lt;/p&gt;
+&lt;p&gt;生配列・vectorへの &lt;code&gt;[]&lt;/code&gt; アクセスの範囲外参照やスタックオーバーフローなど&lt;/p&gt;
+&lt;h3 id=&#34;d_glibcxx_debug&#34; &gt;D_GLIBCXX_DEBUG
+&lt;span&gt;
+    &lt;a href=&#34;#d_glibcxx_debug&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;&lt;p&gt;これはMinGWでも使える。&lt;/p&gt;
+&lt;p&gt;これを付けておくと、_GLIBCXX_DEBUGマクロが定義されて標準ライブラリがデバッグ用のものに置き換わる。&lt;/p&gt;
+&lt;p&gt;具体例としては、 &lt;code&gt;vector&lt;/code&gt; で &lt;code&gt;[]&lt;/code&gt; アクセスする際に境界チェックが行われる、 &lt;code&gt;lower_bound&lt;/code&gt; を実行した際に配列などの中身の順番がおかしくなっていない（&lt;a href=&#34;https://cpprefjp.github.io/reference/algorithm.html#sequence-is-partitioned&#34;&gt;partitionedである&lt;/a&gt;）かチェックするなど。&lt;/p&gt;
+&lt;p&gt;注意：なお、これを付けるとエラー検知のために計算量も変わることがあるので、提出コードに &lt;code&gt;#define _GLIBCXX_DEBUG&lt;/code&gt; などとするとTLEしてしまったりする&lt;/p&gt;
+&lt;p&gt;余談：lower_boundの要件がソート済みであることではなく、区分化されている（sequence is partitioned）ことにC++11から変わっているの知らなかった&lt;/p&gt;
+&lt;h2 id=&#34;デバッガgdbの使用によるスタックトレースの表示&#34; &gt;デバッガ(gdb)の使用によるスタックトレースの表示
+&lt;span&gt;
+    &lt;a href=&#34;#%e3%83%87%e3%83%90%e3%83%83%e3%82%acgdb%e3%81%ae%e4%bd%bf%e7%94%a8%e3%81%ab%e3%82%88%e3%82%8b%e3%82%b9%e3%82%bf%e3%83%83%e3%82%af%e3%83%88%e3%83%ac%e3%83%bc%e3%82%b9%e3%81%ae%e8%a1%a8%e7%a4%ba&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h2&gt;&lt;p&gt;注意：以降の手順で、WSL1を使用している場合、正しくスタックトレースが表示できない場合がある。（ &lt;code&gt;#0  0x0000000000000000 in ?? ()&lt;/code&gt; などと出てくる）    &lt;code&gt;wsl -l -v&lt;/code&gt; を実行し、VERSIONの欄が1となっている場合はWSL2にアップデートしておくこと。&lt;/p&gt;
+&lt;p&gt;様々な機能があるのだが、とりあえず競プロ中に一番欲しくなるであろう機能として、スタックトレースを表示する方法を書く。&lt;/p&gt;
+&lt;p&gt;何行目のどの関数の中でエラーが起きたのか確認することができる&lt;/p&gt;
+&lt;p&gt;gdbを使うのではなく、環境変数 &lt;code&gt;UBSAN_OPTIONS&lt;/code&gt; に &lt;code&gt;print_stacktrace=1&lt;/code&gt; などと指定してもよさそう&lt;/p&gt;
+&lt;p&gt;また、この項ではコマンドラインでの操作を前提としているが、学生であればGithub Educationに登録することで統合開発環境のClionが無料で使える。GUIでデバッグできるのでこれを使ってもいいと思う&lt;/p&gt;
+&lt;h3 id=&#34;手順&#34; &gt;手順
+&lt;span&gt;
+    &lt;a href=&#34;#%e6%89%8b%e9%a0%86&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;&lt;p&gt;以下の提出のデバッグを行いたいとする。　TODO リンク追加&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;コンパイルする際、オプションとして &lt;code&gt;-g&lt;/code&gt; を付けて実行ファイルにデバッグ用の情報が入るようにする。
+&lt;ol&gt;
+&lt;li&gt;この際、前項のデバッグ用のオプションも併用するとよい。&lt;/li&gt;
+&lt;li&gt;また、 &lt;code&gt;-O0&lt;/code&gt; で最適化を切っておく&lt;/li&gt;
+&lt;li&gt;長くなるのでエイリアスしておくとよい&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;g++ -fsanitize&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;undefined,address -D_GLIBCXX_DEBUG main.cpp -g -O0
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;gdbを実行（この時点では &lt;code&gt;a.out&lt;/code&gt; は実行されない）&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;gdb a.out
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;3&#34;&gt;
+&lt;li&gt;gdbの操作画面になるので、 &lt;code&gt;run&lt;/code&gt; でプログラムを実行する
+&lt;ol&gt;
+&lt;li&gt;この時自分で入力を打ち込んだり、コピペしたりしてもいいのだが、入力途中でプログラムが終了するとそれ以降の入力が入ってしまって不便。入力ファイルを作って &lt;code&gt;&amp;lt; in.txt&lt;/code&gt; のようにリダイレクトで渡すのが良いと思う&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;run &amp;lt; in.txt
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;4&#34;&gt;
+&lt;li&gt;途中で落ちた場合、 &lt;code&gt;bt&lt;/code&gt; でトレースを表示する。（Backtraceの略らしい）
+&lt;ol&gt;
+&lt;li&gt;なお、深い再帰の中でエラーが起きた場合などはとんでもない長さになる。 &lt;code&gt;bt 10&lt;/code&gt; のように最大でいくつ表示するか指定できる&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;bt 10&lt;/code&gt; だと奥から10個、 &lt;code&gt;bt -10&lt;/code&gt; だと手前（例えばmainは普通手前側）から10個表示される&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;bt
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;5&#34;&gt;
+&lt;li&gt;終了する際は &lt;code&gt;q&lt;/code&gt; を入力する。 &lt;code&gt;Quit anyway? (y or n)&lt;/code&gt; と聞かれるのでyを入力すると終了できる&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;q
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;デバッグ出力&#34; &gt;デバッグ出力
+&lt;span&gt;
+    &lt;a href=&#34;#%e3%83%87%e3%83%90%e3%83%83%e3%82%b0%e5%87%ba%e5%8a%9b&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h2&gt;&lt;p&gt;まず、標準エラー出力をデバッグ用出力として使用することがよく行われる&lt;/p&gt;
+&lt;p&gt;C++であれば以下のようにすることで、答えには影響を与えないで変数aの中身を出力することができる。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;cerr &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; a &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;しかし、以下のような欠点もあるため、少し工夫したデバッグ用マクロを作ることも多い&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;出力自体に時間がかかるため、ループ内で出力などしてしまうとTLEになってしまうことがある&lt;/li&gt;
+&lt;li&gt;ジャッジによっては標準エラー出力で余計なアウトプットをしてしまうと正解扱いにならない&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;デバッグ用マクロ&#34; &gt;デバッグ用マクロ
+&lt;span&gt;
+    &lt;a href=&#34;#%e3%83%87%e3%83%90%e3%83%83%e3%82%b0%e7%94%a8%e3%83%9e%e3%82%af%e3%83%ad&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;&lt;p&gt;C++では &lt;code&gt;#ifdef&lt;/code&gt; のようなプリプロセッサ命令を使うことで、環境ごとにコードを変えることができる。&lt;/p&gt;
+&lt;p&gt;多くのジャッジ（AtCoder, Codeforces, yukicoderなど）ではC/C++のコンパイルコマンドに &lt;code&gt;-DONLINE_JUDGE&lt;/code&gt; というオプションがついており、ONLINE_JUDGEというマクロが存在する扱いになっている。&lt;/p&gt;
+&lt;p&gt;もしくはジャッジ側ではなく、ローカル環境の方でコンパイルする際に &lt;code&gt;-DLOCAL&lt;/code&gt; オプションなどを付けて特別扱いする場合もある。別PCを使用する際にエイリアス設定をする必要があるなど手間は多少あるが、どのオンラインジャッジでも使えることが利点。&lt;/p&gt;
+&lt;p&gt;例えば以下のようなコードを書けば、手元の環境では &lt;code&gt;debug(a)&lt;/code&gt; と書くとaの値を出力してくれるが、提出した場合は実行に一切影響しない（余計な実行時間もかからない）デバッグ用マクロを定義することができる。&lt;/p&gt;
+&lt;p&gt;実際には、複数変数の出力などに対応させるため、もう少し複雑なコードにしている人が多いと思う&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#ifdef ONLINE_JUDGE
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#define debug(x)
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#else
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#define debug(x) cerr &amp;lt;&amp;lt; x &amp;lt;&amp;lt; endl;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#endif
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;del&gt;私のデバッグ用マクロは特定のコンテナを入れると壊れたりするのでここには載せません。&lt;/del&gt;&lt;/p&gt;
+&lt;p&gt;「競プロ　デバッグ　マクロ」とかで検索すると強い人のテンプレがいろいろ出てくる。&lt;/p&gt;
+&lt;h2 id=&#34;bitsstdchのプリコンパイル&#34; &gt;bits/stdc++.hのプリコンパイル
+&lt;span&gt;
+    &lt;a href=&#34;#bitsstdch%e3%81%ae%e3%83%97%e3%83%aa%e3%82%b3%e3%83%b3%e3%83%91%e3%82%a4%e3%83%ab&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h2&gt;&lt;p&gt;主要な標準ライブラリをまとめてincludeしてくれるbits/stdc++.hは便利だが、コンパイル時間が伸びてしまう。&lt;/p&gt;
+&lt;p&gt;bits/stdc++.hだけ事前にコンパイルしておき、コンパイル時にはこれを参照するようにしておくことでかなりコンパイル時間が短縮される。&lt;/p&gt;
+&lt;p&gt;なお、コンパイルオプションごとに別にプリコンパイルしておくことが必要。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;#pragma&lt;/code&gt; 命令の扱いがよくわかっていない．&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;#include&lt;/code&gt; の後に &lt;code&gt;#pragma&lt;/code&gt; があればプリコンパイルヘッダが使われるが、逆だと使われないなど条件がよくわからない&lt;/p&gt;
+&lt;p&gt;1回のコンパイルにつき、プリコンパイルヘッダは1つしか指定できないので、 &lt;code&gt;&amp;lt;bits/stdc++.h&amp;gt;&lt;/code&gt; と &lt;code&gt;&amp;lt;atcoder/all&amp;gt;&lt;/code&gt; の両方をプリコンパイルしておくといったことはできない&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;• Only one precompiled header can be used in a particular compilation.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;私の場合はそれらをまとめた &lt;code&gt;&amp;lt;mylibs/all.h&amp;gt;&lt;/code&gt; をプリコンパイルしておき、 &lt;code&gt;ONLINE_JUDGE&lt;/code&gt; マクロの有無でどちらをインクルードするか分岐している。WSLで1.3秒くらいでコンパイルできる。&lt;/p&gt;
+&lt;p&gt;プリコンパイルヘッダーとしてコンパイル時に認識される条件などは割と複雑。ドキュメントの該当ページは短いので通して読んでおくのがよさそう&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://gcc.gnu.org/onlinedocs/gcc/Precompiled-Headers.html&#34;&gt;https://gcc.gnu.org/onlinedocs/gcc/Precompiled-Headers.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;.h.gch&lt;/code&gt; ファイルの名前は基本何でもいいが，ディレクトリ名や拡張子を間違えると認識してくれないので注意&lt;/p&gt;
+&lt;h3 id=&#34;手順-1&#34; &gt;手順
+&lt;span&gt;
+    &lt;a href=&#34;#%e6%89%8b%e9%a0%86-1&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;&lt;p&gt;Linux/WSLであればこんな感じ&lt;/p&gt;
+&lt;p&gt;（fatal error … Permission deniedなどと言われたら適宜 &lt;code&gt;sudo&lt;/code&gt; を付けて実行）&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# bits/stdc++.hの場所を調べる&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;echo -e &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;#include&amp;lt;bits/stdc++.h&amp;gt;\n int main(){}&amp;#34;&lt;/span&gt; | g++ -xc++ - -M | grep &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;bits/stdc++.h&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;cd /usr/include/x86_64-linux-gnu/c++/11/bits &lt;span style=&#34;color:#75715e&#34;&gt;# 上のコマンドで得られた場所に適宜書き換え&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;mkdir stdc++.h.gch
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;cd stdc++.h.gch
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 使うコンパイルコマンドごとにコンパイル&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;g++ stdc++.h -o stdc++.h.gch/stdc++.h.gch
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;g++ stdc++.h -o stdc++.h.gch/stdc++_o2.h.gch -O2
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;g++ stdc++.h -o stdc++.h.gch/stdc++_debug.h.gch -fsanitize&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;undefined,address -D_GLIBCXX_DEBUG -g -O0
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Windowsであればこんな感じ&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-powershell&#34; data-lang=&#34;powershell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# bits/stdc++.hの場所を調べる&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;echo  &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;#include&amp;lt;bits/stdc++.h&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;`n&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;int main(){}&amp;#34;&lt;/span&gt; &amp;gt; bb.cpp; g++ bb.cpp -M |  Select-String -SimpleMatch &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;bits/stdc++&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 適宜得られたパスに書き換え、bitsディレクトリまで行く&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;cd C:/mingwのパス/lib/gcc/x86_64-w64-mingw32/&lt;span style=&#34;color:#ae81ff&#34;&gt;13.1&lt;/span&gt;.&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;/include/c++/x86_64-w64-mingw32
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;mkdir stdc++.h.gch
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;cd stdc++.h.gch
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 使うコンパイルコマンドごとにコンパイル&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;g++ stdc++.h -o stdc++.h.gch/stdc++.h.gch
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;g++ stdc++.h -o stdc++.h.gch/stdc++_o2.h.gch -O2
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;g++ stdc++.h -o stdc++.h.gch/stdc++_debug.h.gch -D_GLIBCXX_DEBUG -g -O0
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;確認方法&#34; &gt;確認方法
+&lt;span&gt;
+    &lt;a href=&#34;#%e7%a2%ba%e8%aa%8d%e6%96%b9%e6%b3%95&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;&lt;p&gt;（実際のところ、目に見えてコンパイル時間は縮むので基本的には設定できたことは感覚でわかるのだが、ファイル名など間違えているとうまくいかないので）&lt;/p&gt;
+&lt;p&gt;適当なファイルを作って、そこでプリコンパイルしたヘッダをインクルードする&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;bits/stdc++.h&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt; () {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;-H&lt;/code&gt; オプションを使うとインクルードしたヘッダを確認できる．例えば次のような出力が出て、現在の設定に合致するオプションでコンパイルしたファイルが勝手に選ばれることが確認できる。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ g++ main.cpp -H
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;x /usr/include/x86_64-linux-gnu/c++/11/bits/stdc++.h.gch/stdc++_debug.h.gch
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;x /usr/include/x86_64-linux-gnu/c++/11/bits/stdc++.h.gch/stdc++_o2_debug.h.gch
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;x /usr/include/x86_64-linux-gnu/c++/11/bits/stdc++.h.gch/stdc++_o3.h.gch
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;! /usr/include/x86_64-linux-gnu/c++/11/bits/stdc++.h.gch/stdc++.h.gch
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; main.cpp
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;上手く設定できていないと、このように大量のファイルを読みに行ってしまう&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ g++ main.cpp -H
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;. /usr/include/x86_64-linux-gnu/c++/11/bits/stdc++.h
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;.. /usr/include/c++/11/cassert
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;... /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;.... /usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;..... /usr/include/features.h
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;...... /usr/include/features-time64.h
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;....... /usr/include/x86_64-linux-gnu/bits/wordsize.h
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;....... /usr/include/x86_64-linux-gnu/bits/timesize.h
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;........ /usr/include/x86_64-linux-gnu/bits/wordsize.h
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;...... /usr/include/x86_64-linux-gnu/sys/cdefs.h
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;....... /usr/include/x86_64-linux-gnu/bits/wordsize.h
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;....... /usr/include/x86_64-linux-gnu/bits/long-double.h
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;...... /usr/include/x86_64-linux-gnu/gnu/stubs.h
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;....... /usr/include/x86_64-linux-gnu/gnu/stubs-64.h
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;.... /usr/include/x86_64-linux-gnu/c++/11/bits/cpu_defines.h
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;.... /usr/include/c++/11/pstl/pstl_config.h
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;... /usr/include/assert.h
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;.. /usr/include/c++/11/cctype
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;...以下大量に続く
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;エイリアス&#34; &gt;エイリアス
+&lt;span&gt;
+    &lt;a href=&#34;#%e3%82%a8%e3%82%a4%e3%83%aa%e3%82%a2%e3%82%b9&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h2&gt;&lt;p&gt;デバッグ用のオプションを盛ったコンパイルコマンドなどはかなり長くなるので、エイリアス機能を使って短いコマンドを作っておくと便利&lt;/p&gt;
+&lt;p&gt;WindowsのPowerShellであれば &lt;code&gt;$PROFILE&lt;/code&gt; がプロファイルのパスになっているので、&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-powershell&#34; data-lang=&#34;powershell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;code $PROFILE &lt;span style=&#34;color:#75715e&#34;&gt;# VSCodeでプロファイルを開く&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;などとして以下のようにエイリアスを定義することができる&lt;/p&gt;
+&lt;p&gt;この例では &lt;code&gt;g++debug&lt;/code&gt; というエイリアスを定義している&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-powershell&#34; data-lang=&#34;powershell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; g++debug {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &amp;amp; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;g++.exe&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;-std=c++20&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;-D_GLIBCXX_DEBUG&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;-g&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;-O0&amp;#39;&lt;/span&gt; @args
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Linux/WSLであれば&lt;code&gt;.bashrc&lt;/code&gt; などに以下のように記述することでエイリアスを定義できる。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;alias g++debug&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;g++ -fsanitize=undefined,address -D_GLIBCXX_DEBUG -g -O0&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;その他便利なオプションなど&#34; &gt;その他便利なオプションなど
+&lt;span&gt;
+    &lt;a href=&#34;#%e3%81%9d%e3%81%ae%e4%bb%96%e4%be%bf%e5%88%a9%e3%81%aa%e3%82%aa%e3%83%97%e3%82%b7%e3%83%a7%e3%83%b3%e3%81%aa%e3%81%a9&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h2&gt;&lt;h3 id=&#34;コンパイルオプションpragmaなど&#34; &gt;コンパイルオプション・pragmaなど
+&lt;span&gt;
+    &lt;a href=&#34;#%e3%82%b3%e3%83%b3%e3%83%91%e3%82%a4%e3%83%ab%e3%82%aa%e3%83%97%e3%82%b7%e3%83%a7%e3%83%b3pragma%e3%81%aa%e3%81%a9&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;-Wfatal-errors&lt;/code&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;最初の1つ目のコンパイルエラーが発生した時点でコンパイルを止める&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;#pragma GCC diagnostic error &amp;quot;警告&amp;quot;&lt;/code&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;特定の警告をエラーにすることができる。例えば&lt;code&gt;#pragma GCC diagnostic error &amp;quot;-Wshadow&amp;quot;&lt;/code&gt; とテンプレートの上の方に入れておけば、変数のシャドウイングをエラーにすることができ、ありがちな「入力にkがあるのに添字でもkを使ってしまった」のようなことを防止できる。&lt;/li&gt;
+&lt;li&gt;コンパイルオプション &lt;code&gt;-Werror=shadow&lt;/code&gt; でもいいが、ソースコードに入れておくとCE扱いになるので安全&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; n, k; &lt;span style=&#34;color:#75715e&#34;&gt;// 入力にkがあるのに
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;cin &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; n &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; k;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;rep(i, n) rep(j, n) rep(k, n) { &lt;span style=&#34;color:#75715e&#34;&gt;// 添字としてkを使ってしまっている
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;/* 何かの処理 */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;export UBSAN_OPTIONS=&amp;quot;print_stacktrace=1&amp;quot;&lt;/code&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;環境変数で指定しておくとサニタイザを指定してコンパイルしたプログラムが落ちた時にスタックトレースを表示してくれる&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-g&lt;/code&gt; オプションも併用するとスタックトレースの行数も出る&lt;/li&gt;
+&lt;li&gt;「未定義動作の検出」の項にあるようにWindowsのMinGWでは使えない&lt;/li&gt;
+&lt;li&gt;以下参照
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://taotao54321.hatenablog.com/entry/2021/02/12/075342&#34;&gt;https://taotao54321.hatenablog.com/entry/2021/02/12/075342&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;便利な文法関数&#34; &gt;便利な文法・関数
+&lt;span&gt;
+    &lt;a href=&#34;#%e4%be%bf%e5%88%a9%e3%81%aa%e6%96%87%e6%b3%95%e9%96%a2%e6%95%b0&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;構造化束縛・ &lt;code&gt;std::tie&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;std::is_sorted&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;std::static_assert&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;作っておくと便利な関数など&#34; &gt;作っておくと便利な関数など
+&lt;span&gt;
+    &lt;a href=&#34;#%e4%bd%9c%e3%81%a3%e3%81%a6%e3%81%8a%e3%81%8f%e3%81%a8%e4%be%bf%e5%88%a9%e3%81%aa%e9%96%a2%e6%95%b0%e3%81%aa%e3%81%a9&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.google.com/search?q=%E5%A4%9A%E6%AC%A1%E5%85%83vector+%E3%83%9E%E3%82%AF%E3%83%AD+C%2B%2B+%E7%AB%B6%E3%83%97%E3%83%AD&#34;&gt;多次元vectorを作るマクロ&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;YesNo関数：&lt;code&gt;string YesNo(bool cond) { return cond ? &amp;quot;Yes&amp;quot; : &amp;quot;No&amp;quot;; }&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;配列全部に1足したりできる &lt;code&gt;auto add(auto vec, ll x = 1) { for (auto&amp;amp; e : vec) e += x; return vec; }&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;ACLのmodintの出力のオーバーライド &lt;code&gt;template &amp;lt;int M&amp;gt;inline ostream&amp;amp; operator&amp;lt;&amp;lt;(ostream&amp;amp; os, const static_modint&amp;lt;M&amp;gt;&amp;amp; m) { return os &amp;lt;&amp;lt; m.val(); }&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;さらに些末なこと&#34; &gt;さらに些末なこと
+&lt;span&gt;
+    &lt;a href=&#34;#%e3%81%95%e3%82%89%e3%81%ab%e4%ba%9b%e6%9c%ab%e3%81%aa%e3%81%93%e3%81%a8&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;TODOマクロ。配列サイズをテスト用に小さくしたときなどでも、 &lt;code&gt;todo(&amp;quot;Nを戻す&amp;quot;);&lt;/code&gt;などとしておくとSubmitしてもCEにしてくれる。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#ifdef ONLINE_JUDGE
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#define todo(err) static_assert(false, err)
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#else
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#define todo(err)
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#endif
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;今はまだ使えないが、恐らく次の言語アプデで入るGCC14では &lt;code&gt;std::println&lt;/code&gt; が使える。
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://cpprefjp.github.io/reference/print/println.html&#34;&gt;https://cpprefjp.github.io/reference/print/println.html&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;参考&#34; &gt;参考
+&lt;span&gt;
+    &lt;a href=&#34;#%e5%8f%82%e8%80%83&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h2&gt;&lt;p&gt;&lt;a href=&#34;https://gcc.gnu.org/onlinedocs/gcc-6.3.0/gcc/Warning-Options.html#Warning-Options&#34;&gt;https://gcc.gnu.org/onlinedocs/gcc-6.3.0/gcc/Warning-Options.html#Warning-Options&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://aki33524.hatenablog.com/entry/2017/01/16/212526&#34;&gt;https://aki33524.hatenablog.com/entry/2017/01/16/212526&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://taotao54321.hatenablog.com/entry/2021/02/12/075342&#34;&gt;https://taotao54321.hatenablog.com/entry/2021/02/12/075342&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;上で言及していないが便利なリンク集&#34; &gt;上で言及していないが便利なリンク集
+&lt;span&gt;
+    &lt;a href=&#34;#%e4%b8%8a%e3%81%a7%e8%a8%80%e5%8f%8a%e3%81%97%e3%81%a6%e3%81%84%e3%81%aa%e3%81%84%e3%81%8c%e4%be%bf%e5%88%a9%e3%81%aa%e3%83%aa%e3%83%b3%e3%82%af%e9%9b%86&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h2&gt;&lt;p&gt;&lt;a href=&#34;https://qiita.com/TumoiYorozu/items/0ca14c65559e693f9e89&#34;&gt;https://qiita.com/TumoiYorozu/items/0ca14c65559e693f9e89&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.youtube.com/watch?v=uhnASau7fB4&amp;amp;list=PLAYMgc8c_QezzZAEcnhI_Awo1QHWxE6FD&amp;amp;index=3&#34;&gt;https://www.youtube.com/watch?v=uhnASau7fB4&amp;amp;list=PLAYMgc8c_QezzZAEcnhI_Awo1QHWxE6FD&amp;amp;index=3&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;オプション・環境
+&lt;ul&gt;
+&lt;li&gt;AtC &lt;a href=&#34;https://atcoder.jp/contests/abc314/rules&#34;&gt;https://atcoder.jp/contests/abc314/rules&lt;/a&gt; （コンテストページ一番下の「ルール」）&lt;/li&gt;
+&lt;li&gt;CF &lt;a href=&#34;https://codeforces.com/blog/entry/121114&#34;&gt;https://codeforces.com/blog/entry/121114&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;yuki &lt;a href=&#34;https://yukicoder.me/help/environments&#34;&gt;https://yukicoder.me/help/environments&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;AOJ &lt;a href=&#34;https://onlinejudge.u-aizu.ac.jp/system_info&#34;&gt;https://onlinejudge.u-aizu.ac.jp/system_info&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;POJ &lt;a href=&#34;http://poj.org/page?id=1000&#34;&gt;http://poj.org/page?id=1000&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;HackerRank &lt;a href=&#34;https://candidatesupport.hackerrank.com/hc/en-us/articles/4402913877523-Execution-Environment-and-Samples&#34;&gt;https://candidatesupport.hackerrank.com/hc/en-us/articles/4402913877523-Execution-Environment-and-Samples&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;paiza &lt;a href=&#34;https://paiza.jp/guide/language&#34;&gt;https://paiza.jp/guide/language&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;</description>
+    </item>
+    
+    <item>
+      <title>コピペ用 ACLib仕様の基本的な遅延セグメント木</title>
+      <link>https://coindarw.github.io/blog/posts/basic-lazysegtree-aclib/</link>
+      <pubDate>Sun, 05 Nov 2023 01:34:17 +0900</pubDate>
+      
+      <guid>https://coindarw.github.io/blog/posts/basic-lazysegtree-aclib/</guid>
+      <description>&lt;p&gt;使い方などは &lt;a href=&#34;https://atcoder.github.io/ac-library/document_ja/lazysegtree.html&#34;&gt;AC-Libraryのドキュメント&lt;/a&gt; を参照&lt;/p&gt;
+&lt;p&gt;コンテスト中、AOJ Coursesにあるようなやつはコピペして使いたいのでまとめ&lt;/p&gt;
+&lt;p&gt;infはint64で表せる十分大きい整数で、足してもオーバーフローしないくらいの大きさを想定。普段は$4\times10^{18}$を使っている&lt;/p&gt;
+&lt;h2 id=&#34;range-affine-range-sum&#34; &gt;Range Affine Range Sum
+&lt;span&gt;
+    &lt;a href=&#34;#range-affine-range-sum&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h2&gt;&lt;p&gt;&lt;a href=&#34;https://atcoder.jp/contests/practice2/tasks/practice2_k&#34;&gt;https://atcoder.jp/contests/practice2/tasks/practice2_k&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;*a+bの更新、区間Sum。適宜llをmintとかに変更&lt;/p&gt;
+&lt;p&gt;1倍してb足すのをRAQ、0倍してa足すのをRUQとして使える&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;S&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    ll a;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; size;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;F&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    ll a, b;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;S &lt;span style=&#34;color:#a6e22e&#34;&gt;op&lt;/span&gt;(S l, S r) { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; {l.a &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; r.a, l.size &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; r.size}; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;S &lt;span style=&#34;color:#a6e22e&#34;&gt;e&lt;/span&gt;() { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; {&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;}; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;S &lt;span style=&#34;color:#a6e22e&#34;&gt;mapping&lt;/span&gt;(F l, S r) { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; {r.a &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; l.a &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; r.size &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; l.b, r.size}; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;F &lt;span style=&#34;color:#a6e22e&#34;&gt;composition&lt;/span&gt;(F l, F r) { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; {r.a &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; l.a, r.b &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; l.a &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; l.b}; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;F &lt;span style=&#34;color:#a6e22e&#34;&gt;id&lt;/span&gt;() { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; F{&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;}; }
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;range-update-query-ruq&#34; &gt;Range Update Query (RUQ)
+&lt;span&gt;
+    &lt;a href=&#34;#range-update-query-ruq&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h2&gt;&lt;p&gt;&lt;a href=&#34;https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_D&amp;amp;lang=ja&#34;&gt;https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_D&amp;amp;lang=ja&lt;/a&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; S &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; ll;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;F&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;bool&lt;/span&gt; id;  &lt;span style=&#34;color:#75715e&#34;&gt;// updateに単位元を作るためのフラグ
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    ll x;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;S &lt;span style=&#34;color:#a6e22e&#34;&gt;op&lt;/span&gt;(S l, S r) { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; min(l, r); }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;S &lt;span style=&#34;color:#a6e22e&#34;&gt;e&lt;/span&gt;() { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; inf; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;S &lt;span style=&#34;color:#a6e22e&#34;&gt;mapping&lt;/span&gt;(F f, S s) { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; f.id &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt; s : f.x; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;F &lt;span style=&#34;color:#a6e22e&#34;&gt;composition&lt;/span&gt;(F f, F g) { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; {f.id &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; g.id, f.id &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt; g.x : f.x}; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;F &lt;span style=&#34;color:#a6e22e&#34;&gt;id&lt;/span&gt;() { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; {true, &lt;span style=&#34;color:#ae81ff&#34;&gt;0ll&lt;/span&gt;}; }
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;rmq-and-ruq&#34; &gt;RMQ and RUQ
+&lt;span&gt;
+    &lt;a href=&#34;#rmq-and-ruq&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h2&gt;&lt;p&gt;&lt;a href=&#34;https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_F&amp;amp;lang=ja&#34;&gt;https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_F&amp;amp;lang=ja&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Min Query&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; S &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; ll;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;F&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;bool&lt;/span&gt; id;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    ll x;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;S &lt;span style=&#34;color:#a6e22e&#34;&gt;op&lt;/span&gt;(S l, S r) { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; min(l, r); }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;S &lt;span style=&#34;color:#a6e22e&#34;&gt;e&lt;/span&gt;() { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; inf; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;S &lt;span style=&#34;color:#a6e22e&#34;&gt;mapping&lt;/span&gt;(F f, S s) { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; f.id &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt; s : f.x; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;F &lt;span style=&#34;color:#a6e22e&#34;&gt;composition&lt;/span&gt;(F f, F g) { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; {f.id &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; g.id, f.id &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt; g.x : f.x}; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;F &lt;span style=&#34;color:#a6e22e&#34;&gt;id&lt;/span&gt;() { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; {true, &lt;span style=&#34;color:#ae81ff&#34;&gt;0ll&lt;/span&gt;}; }
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;rsq-and-raq&#34; &gt;RSQ and RAQ
+&lt;span&gt;
+    &lt;a href=&#34;#rsq-and-raq&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h2&gt;&lt;p&gt;&lt;a href=&#34;https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_G&amp;amp;lang=ja&#34;&gt;https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_G&amp;amp;lang=ja&lt;/a&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;S&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    ll sum, size;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; F &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; ll;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;S &lt;span style=&#34;color:#a6e22e&#34;&gt;op&lt;/span&gt;(S l, S r) { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; S{l.sum &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; r.sum, l.size &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; r.size}; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;S &lt;span style=&#34;color:#a6e22e&#34;&gt;e&lt;/span&gt;() { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; {&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;}; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;S &lt;span style=&#34;color:#a6e22e&#34;&gt;mapping&lt;/span&gt;(F f, S s) { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; S{s.sum &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; s.size &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; f, s.size}; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;F &lt;span style=&#34;color:#a6e22e&#34;&gt;composition&lt;/span&gt;(F f, F g) { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; f &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; g; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;F &lt;span style=&#34;color:#a6e22e&#34;&gt;id&lt;/span&gt;() { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; }
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;rmq-and-raq&#34; &gt;RMQ and RAQ
+&lt;span&gt;
+    &lt;a href=&#34;#rmq-and-raq&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h2&gt;&lt;p&gt;&lt;a href=&#34;https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_H&amp;amp;lang=ja&#34;&gt;https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_H&amp;amp;lang=ja&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Min Query&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; S &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; ll;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; F &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; ll;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;S &lt;span style=&#34;color:#a6e22e&#34;&gt;op&lt;/span&gt;(S l, S r) { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; min(l, r); }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;S &lt;span style=&#34;color:#a6e22e&#34;&gt;e&lt;/span&gt;() { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; inf; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;S &lt;span style=&#34;color:#a6e22e&#34;&gt;mapping&lt;/span&gt;(F f, S s) { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; s &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; inf &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt; inf : s &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; f; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;F &lt;span style=&#34;color:#a6e22e&#34;&gt;composition&lt;/span&gt;(F f, F g) { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; f &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; g; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;F &lt;span style=&#34;color:#a6e22e&#34;&gt;id&lt;/span&gt;() { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; }
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;rsq-and-ruq&#34; &gt;RSQ and RUQ
+&lt;span&gt;
+    &lt;a href=&#34;#rsq-and-ruq&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h2&gt;&lt;p&gt;&lt;a href=&#34;https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_I&amp;amp;lang=ja&#34;&gt;https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_I&amp;amp;lang=ja&lt;/a&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;S&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    ll sum, size;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;F&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;bool&lt;/span&gt; id;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    ll x;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;S &lt;span style=&#34;color:#a6e22e&#34;&gt;op&lt;/span&gt;(S l, S r) { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; S{l.sum &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; r.sum, l.size &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; r.size}; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;S &lt;span style=&#34;color:#a6e22e&#34;&gt;e&lt;/span&gt;() { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; S{&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;}; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;S &lt;span style=&#34;color:#a6e22e&#34;&gt;mapping&lt;/span&gt;(F f, S s) { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; f.id &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt; s : S{f.x &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; s.size, s.size}; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;F &lt;span style=&#34;color:#a6e22e&#34;&gt;composition&lt;/span&gt;(F f, F g) { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; f.id &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt; g : f; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;F &lt;span style=&#34;color:#a6e22e&#34;&gt;id&lt;/span&gt;() { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; {true, &lt;span style=&#34;color:#ae81ff&#34;&gt;0ll&lt;/span&gt;}; }
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
     
     <item>
       <title>priority_queueで今選べる区間を貪欲に選ぶ問題とその個人的にバグらせづらい実装</title>
