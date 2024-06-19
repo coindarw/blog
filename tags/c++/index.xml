@@ -325,7 +325,7 @@
 &lt;li&gt;&lt;a href=&#34;https://www.google.com/search?q=%E5%A4%9A%E6%AC%A1%E5%85%83vector+%E3%83%9E%E3%82%AF%E3%83%AD+C%2B%2B+%E7%AB%B6%E3%83%97%E3%83%AD&#34;&gt;多次元vectorを作るマクロ&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;YesNo関数：&lt;code&gt;string YesNo(bool cond) { return cond ? &amp;quot;Yes&amp;quot; : &amp;quot;No&amp;quot;; }&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;配列全部に1足したりできる &lt;code&gt;auto add(auto vec, ll x = 1) { for (auto&amp;amp; e : vec) e += x; return vec; }&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;ACLのmodintの出力のオーバーライド &lt;code&gt;template &amp;lt;int M&amp;gt;inline ostream&amp;amp; operator&amp;lt;&amp;lt;(ostream&amp;amp; os, const static_modint&amp;lt;M&amp;gt;&amp;amp; m) { return os &amp;lt;&amp;lt; m.val(); }&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;ACLのmodintの出力のオーバーロード &lt;code&gt;template &amp;lt;int M&amp;gt;inline ostream&amp;amp; operator&amp;lt;&amp;lt;(ostream&amp;amp; os, const static_modint&amp;lt;M&amp;gt;&amp;amp; m) { return os &amp;lt;&amp;lt; m.val(); }&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id=&#34;さらに些末なこと&#34; &gt;さらに些末なこと
 &lt;span&gt;
