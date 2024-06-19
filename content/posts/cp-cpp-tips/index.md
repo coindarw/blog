@@ -326,7 +326,7 @@ alias g++debug='g++ -fsanitize=undefined,address -D_GLIBCXX_DEBUG -g -O0'
 - [多次元vectorを作るマクロ](https://www.google.com/search?q=%E5%A4%9A%E6%AC%A1%E5%85%83vector+%E3%83%9E%E3%82%AF%E3%83%AD+C%2B%2B+%E7%AB%B6%E3%83%97%E3%83%AD)
 - YesNo関数：`string YesNo(bool cond) { return cond ? "Yes" : "No"; }`
 - 配列全部に1足したりできる `auto add(auto vec, ll x = 1) { for (auto& e : vec) e += x; return vec; }`
-- ACLのmodintの出力のオーバーライド `template <int M>inline ostream& operator<<(ostream& os, const static_modint<M>& m) { return os << m.val(); }`
+- ACLのmodintの出力のオーバーロード `template <int M>inline ostream& operator<<(ostream& os, const static_modint<M>& m) { return os << m.val(); }`
 
 ### さらに些末なこと
 
