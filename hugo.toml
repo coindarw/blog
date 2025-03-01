@@ -3,7 +3,8 @@ languageCode = "ja"
 defaultContentLanguage = "ja"
 title = "coindarw's page"
 theme = "anubis"
-paginate = 5
+[pagination]
+    paginate = 5
 
 # disqusShortname = ""
 # googleAnalytics = ""
