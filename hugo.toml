@@ -4,13 +4,13 @@ defaultContentLanguage = "ja"
 title = "coindarw's page"
 theme = "anubis"
 [pagination]
-    paginate = 5
+paginate = 5
 
 # disqusShortname = ""
 # googleAnalytics = ""
-
-[author]
-name = "coindarw"
+disableComments = false
+# [author]
+# name = "coindarw"
 
 [params]
 toc = true
