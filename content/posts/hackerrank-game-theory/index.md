@@ -1,5 +1,5 @@
 +++
-title = 'Hackerrank Game Theory'
+title = 'HackerRank Game Theory'
 date = 2024-06-19T17:38:15+09:00
 tags = ['ゲーム問題', '競技プログラミング']
 +++
@@ -207,7 +207,7 @@ int main() {
 ## Day 2: Nimble Game
 https://www.hackerrank.com/contests/5-days-of-game-theory/challenges/nimble
 ### 問題概要
-T<=10^4 
+T<=10^4
 
 n(<=100)個のマス目があり、各マスにはc_i(<=10^9)個のコインがある。
 
@@ -420,7 +420,7 @@ int main() {
 }
 ```
 
-## Day 3: Chessboard Game, Again! 
+## Day 3: Chessboard Game, Again!
 https://www.hackerrank.com/contests/5-days-of-game-theory/challenges/a-chessboard-game
 ### 問題概要
 ※Day1 A Chessboard Gameが、テストケース数225→1000、コインの数1→K(1000) に制約強化されたver.
@@ -620,7 +620,7 @@ int main() {
 ## Day 4: Powers Game
 https://www.hackerrank.com/contests/5-days-of-game-theory/challenges/powers-of-two-game
 ### 問題概要
-T<=10^6 
+T<=10^6
 
 n(<=10^6)が与えられる。
 
