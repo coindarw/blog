@@ -1,0 +1,1487 @@
+<!DOCTYPE html>
+
+
+<html lang="ja" data-theme="">
+<head>
+    
+        
+<meta charset="utf-8">
+<meta name="HandheldFriendly" content="True">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer-when-downgrade">
+
+<title>Hackerrank Game Theory - coindarw&rsquo;s page</title>
+
+<meta name="description" content="5 Days of Game Theoryというものがかつてあったらしいのでやる
+https://www.hackerrank.com/5-days-of-game-theory
+vjudge
+https://vjudge.net/problem#OJId=HackerRank&amp;probNum=&amp;title=&amp;source=5-days-of-game-theory&amp;category=all">
+
+
+
+
+
+<link rel="icon" type="image/x-icon" href="https://coindarw.github.io/blog/favicon.ico">
+<link rel="apple-touch-icon-precomposed" href="https://coindarw.github.io/blog/favicon.png">
+
+
+
+
+    
+
+
+
+<style>
+  body {
+    visibility: hidden;
+    opacity: 0;
+  }
+</style>
+
+<noscript>
+  <style>
+    body {
+      visibility: visible;
+      opacity: 1;
+    }
+  </style>
+</noscript>
+
+
+
+
+    
+
+
+
+
+
+    
+    
+        
+    
+    
+
+    
+        <link rel="stylesheet" href="https://coindarw.github.io/blog/css/style.min.a9fc9636a4bb1c27b94647cef1d5457e897a9155d53fca3900cc91d7cfe8e983.css" integrity="sha256-qfyWNqS7HCe5RkfO8dVFfol6kVXVP8o5AMyR18/o6YM=">
+    
+
+
+
+
+
+    
+
+    
+
+
+
+
+
+    
+    
+        
+    
+    
+
+    
+        <script src="https://coindarw.github.io/blog/js/script.min.74bf1a3fcf1af396efa4acf3e660e876b61a2153ab9cbe1893ac24ea6d4f94ee.js" type="text/javascript" charset="utf-8" integrity="sha256-dL8aP88a85bvpKzz5mDodrYaIVOrnL4Yk6wk6m1PlO4="></script>
+    
+
+
+
+
+
+
+
+<meta property="og:url" content="https://coindarw.github.io/blog/posts/hackerrank-game-theory/">
+  <meta property="og:site_name" content="coindarw&#39;s page">
+  <meta property="og:title" content="Hackerrank Game Theory">
+  <meta property="og:description" content="5 Days of Game Theoryというものがかつてあったらしいのでやる https://www.hackerrank.com/5-days-of-game-theory
+vjudge https://vjudge.net/problem#OJId=HackerRank&amp;probNum=&amp;title=&amp;source=5-days-of-game-theory&amp;category=all">
+  <meta property="og:locale" content="ja">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-06-19T17:38:15+09:00">
+    <meta property="article:modified_time" content="2024-06-19T17:38:15+09:00">
+    <meta property="article:tag" content="ゲーム問題">
+    <meta property="article:tag" content="競技プログラミング">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Hackerrank Game Theory">
+  <meta name="twitter:description" content="5 Days of Game Theoryというものがかつてあったらしいのでやる https://www.hackerrank.com/5-days-of-game-theory
+vjudge https://vjudge.net/problem#OJId=HackerRank&amp;probNum=&amp;title=&amp;source=5-days-of-game-theory&amp;category=all">
+
+
+
+
+
+
+
+
+
+    
+</head>
+<body>
+    <a class="skip-main" href="#main"></a>
+    <div class="container">
+        <header class="common-header"> 
+            
+                <div class="header-top">
+    <div class="header-top-left">
+        <h1 class="site-title">
+    <a href="/blog">coindarw&#39;s page</a>
+</h1>
+        <ul class="social-icons">
+
+
+    
+        <li>
+            <a href="https://github.com/coindarw" title="Github" rel="me">
+            <span class="inline-svg" >
+
+
+
+
+    
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+
+</span>
+
+            </a>
+        </li>
+    
+
+
+
+    <li>
+            <a href="https://coindarw.github.io/blog/index.xml" title="RSS" rel="me">
+            <span class="inline-svg" >
+
+
+
+
+    
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M128.081 415.959c0 35.369-28.672 64.041-64.041 64.041S0 451.328 0 415.959s28.672-64.041 64.041-64.041 64.04 28.673 64.04 64.041zm175.66 47.25c-8.354-154.6-132.185-278.587-286.95-286.95C7.656 175.765 0 183.105 0 192.253v48.069c0 8.415 6.49 15.472 14.887 16.018 111.832 7.284 201.473 96.702 208.772 208.772.547 8.397 7.604 14.887 16.018 14.887h48.069c9.149.001 16.489-7.655 15.995-16.79zm144.249.288C439.596 229.677 251.465 40.445 16.503 32.01 7.473 31.686 0 38.981 0 48.016v48.068c0 8.625 6.835 15.645 15.453 15.999 191.179 7.839 344.627 161.316 352.465 352.465.353 8.618 7.373 15.453 15.999 15.453h48.068c9.034-.001 16.329-7.474 16.005-16.504z"/></svg>
+
+</span>
+
+            </a>
+        </li>
+    
+
+</ul>
+    </div>
+    <div class="header-top-right">
+        
+
+    
+
+
+
+
+    <div class="theme-switcher">
+        <span class="inline-svg" >
+
+
+
+
+    
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 290 290">
+<path fill="currentColor" d="M142.959,0C64.131,0,0,64.132,0,142.96c0,78.828,64.131,142.959,142.959,142.959c78.828,0,142.96-64.131,142.96-142.959  C285.919,64.132,221.787,0,142.959,0z M142.959,260.919V142.96V25c65.043,0,117.96,52.917,117.96,117.96  C260.919,208.003,208.002,260.919,142.959,260.919z"/>
+</svg>
+
+</span>
+
+    </div>
+
+
+<script>
+const STORAGE_KEY = 'user-color-scheme'
+const defaultTheme = "auto"
+
+let currentTheme
+let switchButton
+let autoDefinedScheme = window.matchMedia('(prefers-color-scheme: dark)')
+
+const autoChangeScheme = e => {
+    currentTheme = e.matches ? 'dark' : 'light'
+    document.documentElement.setAttribute('data-theme', currentTheme)
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    switchButton = document.querySelector('.theme-switcher')
+    currentTheme = detectCurrentScheme()
+    if (currentTheme == 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark')
+    }
+    if (currentTheme == 'auto') {
+        autoChangeScheme(autoDefinedScheme);
+        autoDefinedScheme.addListener(autoChangeScheme);
+    }
+
+    if (switchButton) {
+        switchButton.addEventListener('click', switchTheme, false)
+    }
+  
+    showContent()
+})
+
+function detectCurrentScheme() {
+    if (localStorage !== null && localStorage.getItem(STORAGE_KEY)) {
+        return localStorage.getItem(STORAGE_KEY)
+    } 
+    if (defaultTheme) {
+        return defaultTheme
+    } 
+    if (!window.matchMedia) {
+        return 'light'
+    } 
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        return 'dark'
+    }
+    return 'light'
+}
+
+function switchTheme(e) {
+    if (currentTheme == 'dark') {
+        if (localStorage !== null)
+            localStorage.setItem(STORAGE_KEY, 'light')
+        document.documentElement.setAttribute('data-theme', 'light')
+        currentTheme = 'light'
+    } else {
+        if (localStorage !== null)
+            localStorage.setItem(STORAGE_KEY, 'dark')
+        document.documentElement.setAttribute('data-theme', 'dark')
+        currentTheme = 'dark'
+    }
+}
+
+function showContent() {
+    document.body.style.visibility = 'visible';
+    document.body.style.opacity = 1;
+}
+</script>
+
+  
+    </div>
+</div>
+
+
+    <nav>
+        
+        
+        <a class="" href="https://coindarw.github.io/blog/about/" title="">About</a>
+        
+        <a class="" href="https://coindarw.github.io/blog/tags/" title="">Tags</a>
+        
+        <a class="" href="https://coindarw.github.io/blog/posts/" title="">Archive</a>
+        
+    </nav>
+
+
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$','$$'], ['\\[', '\\]']],
+      processEscapes: true,
+      processEnvironments: true
+    },
+    options: {
+      skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+    }
+  };
+
+  window.addEventListener('load', (event) => {
+      document.querySelectorAll("mjx-container").forEach(function(x){
+        x.parentElement.classList += 'has-jax'})
+    });
+
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
+            
+        </header>
+        <main id="main" tabindex="-1"> 
+            
+    
+
+    <article class="post h-entry">
+        <div class="post-header">
+            <header>
+                <h1 class="p-name post-title">Hackerrank Game Theory</h1>
+
+                
+            </header>
+        </div>
+        
+
+
+
+
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#day-1-game-of-stones">Day 1: Game of Stones</a>
+      <ul>
+        <li><a href="#問題概要">問題概要</a></li>
+        <li><a href="#解法メモ">解法メモ</a></li>
+        <li><a href="#実装例">実装例</a></li>
+      </ul>
+    </li>
+    <li><a href="#day-1-tower-breakers">Day 1: Tower Breakers</a>
+      <ul>
+        <li><a href="#問題概要-1">問題概要</a></li>
+        <li><a href="#解法メモ-1">解法メモ</a></li>
+        <li><a href="#実装例-1">実装例</a></li>
+      </ul>
+    </li>
+    <li><a href="#day-1-a-chessboard-game">Day 1: A Chessboard Game</a>
+      <ul>
+        <li><a href="#問題概要-2">問題概要</a></li>
+        <li><a href="#解法メモ-2">解法メモ</a></li>
+        <li><a href="#実装例-2">実装例</a></li>
+      </ul>
+    </li>
+    <li><a href="#day-2-nim-game">Day 2: Nim Game</a>
+      <ul>
+        <li><a href="#問題概要-3">問題概要</a></li>
+        <li><a href="#解法メモ-3">解法メモ</a></li>
+        <li><a href="#実装例-3">実装例</a></li>
+      </ul>
+    </li>
+    <li><a href="#day-2-misère-nim">Day 2: Misère Nim</a>
+      <ul>
+        <li><a href="#問題概要-4">問題概要</a></li>
+        <li><a href="#解法メモ-4">解法メモ</a></li>
+        <li><a href="#実装例-4">実装例</a></li>
+      </ul>
+    </li>
+    <li><a href="#day-2-nimble-game">Day 2: Nimble Game</a>
+      <ul>
+        <li><a href="#問題概要-5">問題概要</a></li>
+        <li><a href="#解法メモ-5">解法メモ</a></li>
+        <li><a href="#実装例-5">実装例</a></li>
+      </ul>
+    </li>
+    <li><a href="#day-2-poker-nim">Day 2: Poker Nim</a>
+      <ul>
+        <li><a href="#問題概要-6">問題概要</a></li>
+        <li><a href="#解法メモ-6">解法メモ</a></li>
+        <li><a href="#実装例-6">実装例</a></li>
+      </ul>
+    </li>
+    <li><a href="#day-2-tower-breakers-revisited">Day 2: Tower Breakers, Revisited!</a>
+      <ul>
+        <li><a href="#問題概要-7">問題概要</a></li>
+        <li><a href="#解法メモ-7">解法メモ</a></li>
+        <li><a href="#実装例-7">実装例</a></li>
+      </ul>
+    </li>
+    <li><a href="#day-3-tower-breakers-again">Day 3: Tower Breakers, Again!</a>
+      <ul>
+        <li><a href="#問題概要-8">問題概要</a></li>
+        <li><a href="#解法メモ-8">解法メモ</a></li>
+        <li><a href="#実装例-8">実装例</a></li>
+      </ul>
+    </li>
+    <li><a href="#day-3-chessboard-game-again">Day 3: Chessboard Game, Again!</a>
+      <ul>
+        <li><a href="#問題概要-9">問題概要</a></li>
+        <li><a href="#解法メモ-9">解法メモ</a></li>
+        <li><a href="#実装例-9">実装例</a></li>
+      </ul>
+    </li>
+    <li><a href="#day-3-digits-square-board">Day 3: Digits Square Board</a>
+      <ul>
+        <li><a href="#問題概要-10">問題概要</a></li>
+        <li><a href="#解法メモ-10">解法メモ</a></li>
+        <li><a href="#実装例-10">実装例</a></li>
+      </ul>
+    </li>
+    <li><a href="#day-4-fun-game">Day 4: Fun Game</a>
+      <ul>
+        <li><a href="#問題概要-11">問題概要</a></li>
+        <li><a href="#解法メモ-11">解法メモ</a></li>
+        <li><a href="#実装例-11">実装例</a></li>
+      </ul>
+    </li>
+    <li><a href="#day-4-powers-game">Day 4: Powers Game</a>
+      <ul>
+        <li><a href="#問題概要-12">問題概要</a></li>
+        <li><a href="#解法メモ-12">解法メモ</a></li>
+        <li><a href="#実装例-12">実装例</a></li>
+      </ul>
+    </li>
+    <li><a href="#day-5-deforestation">Day 5: Deforestation</a>
+      <ul>
+        <li><a href="#問題概要-13">問題概要</a></li>
+        <li><a href="#解法メモ-13">解法メモ</a></li>
+        <li><a href="#実装例-13">実装例</a></li>
+      </ul>
+    </li>
+    <li><a href="#day-5tower-breakers---the-final-battle">Day 5: Tower Breakers - The Final Battle</a>
+      <ul>
+        <li><a href="#問題概要-14">問題概要</a></li>
+        <li><a href="#解法メモ-14">解法メモ</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+        <div class="content e-content">
+            <p>5 Days of Game Theoryというものがかつてあったらしいのでやる
+<a href="https://www.hackerrank.com/5-days-of-game-theory">https://www.hackerrank.com/5-days-of-game-theory</a></p>
+<p>vjudge
+<a href="https://vjudge.net/problem#OJId=HackerRank&amp;probNum=&amp;title=&amp;source=5-days-of-game-theory&amp;category=all">https://vjudge.net/problem#OJId=HackerRank&amp;probNum=&amp;title=&amp;source=5-days-of-game-theory&amp;category=all</a></p>
+<p>特に記述がない場合は問題文に以下が付いているものとする。
+2人のプレイヤーがゲームをする。プレイヤー1が先手で、交互に手番が回る．両者最適に行動した場合、どちらが勝つか判定せよ
+テストケース数をTとする</p>
+<h2 id="day-1-game-of-stones" >Day 1: Game of Stones
+<span>
+    <a href="#day-1-game-of-stones">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h2><p><a href="https://www.hackerrank.com/contests/5-days-of-game-theory/challenges/a-game-of-stones">https://www.hackerrank.com/contests/5-days-of-game-theory/challenges/a-game-of-stones</a></p>
+<h3 id="問題概要" >問題概要
+<span>
+    <a href="#%e5%95%8f%e9%a1%8c%e6%a6%82%e8%a6%81">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><p>T&lt;=100</p>
+<p>山に石がN(&lt;=100)個あり、各手番で2,3,5個のいずれか取り除く。できない場合負ける。</p>
+<h3 id="解法メモ" >解法メモ
+<span>
+    <a href="#%e8%a7%a3%e6%b3%95%e3%83%a1%e3%83%a2">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><p>DPやメモ化再帰で山の数がiであるとき勝ちか負けかを調べる</p>
+<h3 id="実装例" >実装例
+<span>
+    <a href="#%e5%ae%9f%e8%a3%85%e4%be%8b">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">// Day1 Game of Stones
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define rep(i, n) for (int i = 0, i##_len = (n); i &lt; i##_len; ++i)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    ios_base<span style="color:#f92672">::</span>sync_with_stdio(false);
+</span></span><span style="display:flex;"><span>    cin.tie(NULL);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> t;
+</span></span><span style="display:flex;"><span>    cin <span style="color:#f92672">&gt;&gt;</span> t;
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">bool</span><span style="color:#f92672">&gt;</span> dp(<span style="color:#ae81ff">101</span>);
+</span></span><span style="display:flex;"><span>    rep(i, <span style="color:#ae81ff">100</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">100</span>) dp[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>] <span style="color:#f92672">=</span> dp[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>] <span style="color:#f92672">||</span> <span style="color:#f92672">!</span>dp[i];
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">+</span> <span style="color:#ae81ff">3</span> <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">100</span>) dp[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">3</span>] <span style="color:#f92672">=</span> dp[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">3</span>] <span style="color:#f92672">||</span> <span style="color:#f92672">!</span>dp[i];
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">+</span> <span style="color:#ae81ff">5</span> <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">100</span>) dp[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">5</span>] <span style="color:#f92672">=</span> dp[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">5</span>] <span style="color:#f92672">||</span> <span style="color:#f92672">!</span>dp[i];
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    rep(_, t) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> n;
+</span></span><span style="display:flex;"><span>        cin <span style="color:#f92672">&gt;&gt;</span> n;
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> (dp[n] <span style="color:#f92672">?</span> <span style="color:#e6db74">&#34;First&#34;</span> <span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Second&#34;</span>) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="day-1-tower-breakers" >Day 1: Tower Breakers
+<span>
+    <a href="#day-1-tower-breakers">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h2><p><a href="https://www.hackerrank.com/contests/5-days-of-game-theory/challenges/tower-breakers">https://www.hackerrank.com/contests/5-days-of-game-theory/challenges/tower-breakers</a></p>
+<h3 id="問題概要-1" >問題概要
+<span>
+    <a href="#%e5%95%8f%e9%a1%8c%e6%a6%82%e8%a6%81-1">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><p>T&lt;=100</p>
+<p>塔がN(&lt;=10^6)個あり、それぞれの高さはM(&lt;=10^6)である。</p>
+<p>各手番で1つ塔を選び、その高さを現在の値の約数に変える。（約数として現在の値を選ぶことは不可）</p>
+<p>全ての塔の高さが1の状態で手番が回ってくると負け。</p>
+<h3 id="解法メモ-1" >解法メモ
+<span>
+    <a href="#%e8%a7%a3%e6%b3%95%e3%83%a1%e3%83%a2-1">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><p>Nimとみなせる（各塔が山、素因数の個数が石の個数）ので、Nが偶数 or M=1 なら後手の勝ち、それ以外なら先手の勝ち</p>
+<h3 id="実装例-1" >実装例
+<span>
+    <a href="#%e5%ae%9f%e8%a3%85%e4%be%8b-1">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">// Day1 Tower Breakers
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define rep(i, n) for (int i = 0, i##_len = (n); i &lt; i##_len; ++i)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    ios_base<span style="color:#f92672">::</span>sync_with_stdio(false);
+</span></span><span style="display:flex;"><span>    cin.tie(NULL);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> t;
+</span></span><span style="display:flex;"><span>    cin <span style="color:#f92672">&gt;&gt;</span> t;
+</span></span><span style="display:flex;"><span>    rep(_, t) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> n, m;
+</span></span><span style="display:flex;"><span>        cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> m;
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> ((n <span style="color:#f92672">%</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">||</span> m <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">?</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">:</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="day-1-a-chessboard-game" >Day 1: A Chessboard Game
+<span>
+    <a href="#day-1-a-chessboard-game">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h2><p><a href="https://www.hackerrank.com/contests/5-days-of-game-theory/challenges/day-1-a-chessboard-game">https://www.hackerrank.com/contests/5-days-of-game-theory/challenges/day-1-a-chessboard-game</a></p>
+<h3 id="問題概要-2" >問題概要
+<span>
+    <a href="#%e5%95%8f%e9%a1%8c%e6%a6%82%e8%a6%81-2">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><p>T&lt;=15x15</p>
+<p>15x15のチェス盤でゲームを行う。最初(xi, yi)にコインが置かれている</p>
+<p>各手番でコインを(x-2,y+1),(x-2,y-1),(x+1,y-2),(x-1,y-2)に移動できる（ナイトの動ける場所の内半分。問題文の図参照）</p>
+<h3 id="解法メモ-2" >解法メモ
+<span>
+    <a href="#%e8%a7%a3%e6%b3%95%e3%83%a1%e3%83%a2-2">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><p>メモ化再帰でコインが(i,j)にいるとき勝ちか負けかを調べる。トポロジカル順序が面倒なので再帰で実装するのが楽。</p>
+<h3 id="実装例-2" >実装例
+<span>
+    <a href="#%e5%ae%9f%e8%a3%85%e4%be%8b-2">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">// Day1 A Chessboard Game
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> ll <span style="color:#f92672">=</span> <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span>;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#define rep(i, n) for (int i = 0, i##_len = (n); i &lt; i##_len; ++i)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    ios_base<span style="color:#f92672">::</span>sync_with_stdio(false);
+</span></span><span style="display:flex;"><span>    cin.tie(NULL);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> memo <span style="color:#f92672">=</span> vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span>(<span style="color:#ae81ff">15</span>, vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span>(<span style="color:#ae81ff">15</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">auto</span> rec <span style="color:#f92672">=</span> [<span style="color:#f92672">&amp;</span>](<span style="color:#66d9ef">auto</span> rec, <span style="color:#66d9ef">int</span> x, <span style="color:#66d9ef">int</span> y) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (memo[x][y] <span style="color:#f92672">!=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">return</span> memo[x][y];
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> res <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> y <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">15</span>) res <span style="color:#f92672">|=</span> <span style="color:#f92672">!</span>rec(rec, x <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>, y <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> y <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>) res <span style="color:#f92672">|=</span> <span style="color:#f92672">!</span>rec(rec, x <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>, y <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">15</span> <span style="color:#f92672">&amp;&amp;</span> y <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>) res <span style="color:#f92672">|=</span> <span style="color:#f92672">!</span>rec(rec, x <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, y <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> y <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>) res <span style="color:#f92672">|=</span> <span style="color:#f92672">!</span>rec(rec, x <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>, y <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> memo[x][y] <span style="color:#f92672">=</span> res;
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> t;
+</span></span><span style="display:flex;"><span>    cin <span style="color:#f92672">&gt;&gt;</span> t;
+</span></span><span style="display:flex;"><span>    rep(_, t) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> x, y;
+</span></span><span style="display:flex;"><span>        cin <span style="color:#f92672">&gt;&gt;</span> x <span style="color:#f92672">&gt;&gt;</span> y;
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> (rec(rec, x <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>, y <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">?</span> <span style="color:#e6db74">&#34;First&#34;</span> <span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Second&#34;</span>) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="day-2-nim-game" >Day 2: Nim Game
+<span>
+    <a href="#day-2-nim-game">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h2><p><a href="https://www.hackerrank.com/contests/5-days-of-game-theory/challenges/day-2-nim-game">https://www.hackerrank.com/contests/5-days-of-game-theory/challenges/day-2-nim-game</a></p>
+<h3 id="問題概要-3" >問題概要
+<span>
+    <a href="#%e5%95%8f%e9%a1%8c%e6%a6%82%e8%a6%81-3">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><p>T&lt;=100</p>
+<p>n個(&lt;=100)の山があり、各山にはs_i個(&lt;=100)個の石がある。各手番で1つの山から1つ以上の石を取り除く。全ての山が0個の状態で手番が回ってきたら負け</p>
+<h3 id="解法メモ-3" >解法メモ
+<span>
+    <a href="#%e8%a7%a3%e6%b3%95%e3%83%a1%e3%83%a2-3">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><p>普通のNimなのでs_iのXORを取って0か判定すればよい</p>
+<h3 id="実装例-3" >実装例
+<span>
+    <a href="#%e5%ae%9f%e8%a3%85%e4%be%8b-3">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">// Day2 Nim Game
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define rep(i, n) for (int i = 0, i##_len = (n); i &lt; i##_len; ++i)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    ios_base<span style="color:#f92672">::</span>sync_with_stdio(false);
+</span></span><span style="display:flex;"><span>    cin.tie(NULL);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> t;
+</span></span><span style="display:flex;"><span>    cin <span style="color:#f92672">&gt;&gt;</span> t;
+</span></span><span style="display:flex;"><span>    rep(_, t) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> n;
+</span></span><span style="display:flex;"><span>        cin <span style="color:#f92672">&gt;&gt;</span> n;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> all_xor <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        rep(i, n) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> s;
+</span></span><span style="display:flex;"><span>            cin <span style="color:#f92672">&gt;&gt;</span> s;
+</span></span><span style="display:flex;"><span>            all_xor <span style="color:#f92672">^=</span> s;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> (all_xor <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">?</span> <span style="color:#e6db74">&#34;First&#34;</span> <span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Second&#34;</span>) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="day-2-misère-nim" >Day 2: Misère Nim
+<span>
+    <a href="#day-2-mis%c3%a8re-nim">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h2><p><a href="https://www.hackerrank.com/contests/5-days-of-game-theory/challenges/misere-nim">https://www.hackerrank.com/contests/5-days-of-game-theory/challenges/misere-nim</a></p>
+<h3 id="問題概要-4" >問題概要
+<span>
+    <a href="#%e5%95%8f%e9%a1%8c%e6%a6%82%e8%a6%81-4">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><p>T&lt;=100</p>
+<p>最後に石を取ると勝ちになるNim</p>
+<p>n(&lt;=100)個の山があり、各山にはs_i(&lt;=10^9)個の石がある。各手番で1つの山から1つ以上の石を取り除く。最後の1つの石を取ると負け</p>
+<h3 id="解法メモ-4" >解法メモ
+<span>
+    <a href="#%e8%a7%a3%e6%b3%95%e3%83%a1%e3%83%a2-4">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><p>競プロを始める前から何かを見て知っていた。</p>
+<p>「全ての山の石の数が1個ならnが偶数→先手勝ち：nが奇数→後手勝ち、そうでなければ普通のNimと同じ」で勝ち負けを判定できる。</p>
+<p>戦略：</p>
+<p>基本的には普通のNimと同じように動き、自分の手番ですべての山の石の数が1以下になる時だけ、総XORが1になるように石を取ればよい。</p>
+<p>（初期配置の時点ですべての山が1の場合を除いて、勝てる初期配置で最適に動いていれば、このような状況はゲーム中1回だけ自分の手番で現れる）</p>
+<h3 id="実装例-4" >実装例
+<span>
+    <a href="#%e5%ae%9f%e8%a3%85%e4%be%8b-4">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">// Day 2 Mise`re Nim
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define rep(i, n) for (int i = 0, i##_len = (n); i &lt; i##_len; ++i)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    ios_base<span style="color:#f92672">::</span>sync_with_stdio(false);
+</span></span><span style="display:flex;"><span>    cin.tie(NULL);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> t;
+</span></span><span style="display:flex;"><span>    cin <span style="color:#f92672">&gt;&gt;</span> t;
+</span></span><span style="display:flex;"><span>    rep(_, t) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> n;
+</span></span><span style="display:flex;"><span>        cin <span style="color:#f92672">&gt;&gt;</span> n;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> all_xor <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">bool</span> all_one <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>        rep(i, n) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> y;
+</span></span><span style="display:flex;"><span>            cin <span style="color:#f92672">&gt;&gt;</span> y;
+</span></span><span style="display:flex;"><span>            all_xor <span style="color:#f92672">^=</span> y;
+</span></span><span style="display:flex;"><span>            all_one <span style="color:#f92672">&amp;=</span> y <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (all_one) cout <span style="color:#f92672">&lt;&lt;</span> (n <span style="color:#f92672">%</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">?</span> <span style="color:#e6db74">&#34;First&#34;</span> <span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Second&#34;</span>) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span> cout <span style="color:#f92672">&lt;&lt;</span> (all_xor <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">?</span> <span style="color:#e6db74">&#34;First&#34;</span> <span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Second&#34;</span>) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="day-2-nimble-game" >Day 2: Nimble Game
+<span>
+    <a href="#day-2-nimble-game">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h2><p><a href="https://www.hackerrank.com/contests/5-days-of-game-theory/challenges/nimble">https://www.hackerrank.com/contests/5-days-of-game-theory/challenges/nimble</a></p>
+<h3 id="問題概要-5" >問題概要
+<span>
+    <a href="#%e5%95%8f%e9%a1%8c%e6%a6%82%e8%a6%81-5">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><p>T&lt;=10^4</p>
+<p>n(&lt;=100)個のマス目があり、各マスにはc_i(&lt;=10^9)個のコインがある。</p>
+<p>各手番で1つマスを選び、そこからちょうど1つのコインを、それよりも番号が小さいマスに移動させる。操作ができない場合負け。</p>
+<h3 id="解法メモ-5" >解法メモ
+<span>
+    <a href="#%e8%a7%a3%e6%b3%95%e3%83%a1%e3%83%a2-5">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><p>Nimとみなせる（各コインが山、コインのあるマス番号が石の数）。各ciは偶奇しか関係ないことに注意</p>
+<h3 id="実装例-5" >実装例
+<span>
+    <a href="#%e5%ae%9f%e8%a3%85%e4%be%8b-5">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">// Day2 Nimble Game
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define rep(i, n) for (int i = 0, i##_len = (n); i &lt; i##_len; ++i)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    ios_base<span style="color:#f92672">::</span>sync_with_stdio(false);
+</span></span><span style="display:flex;"><span>    cin.tie(NULL);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> t;
+</span></span><span style="display:flex;"><span>    cin <span style="color:#f92672">&gt;&gt;</span> t;
+</span></span><span style="display:flex;"><span>    rep(_, t) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> n;
+</span></span><span style="display:flex;"><span>        cin <span style="color:#f92672">&gt;&gt;</span> n;
+</span></span><span style="display:flex;"><span>        vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> c(n);
+</span></span><span style="display:flex;"><span>        rep(i, n) cin <span style="color:#f92672">&gt;&gt;</span> c[i];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> all_xor <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        rep(i, n) { all_xor <span style="color:#f92672">^=</span> (c[i] <span style="color:#f92672">%</span> <span style="color:#ae81ff">2</span>) <span style="color:#f92672">*</span> i; }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> (all_xor <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">?</span> <span style="color:#e6db74">&#34;First&#34;</span> <span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Second&#34;</span>) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="day-2-poker-nim" >Day 2: Poker Nim
+<span>
+    <a href="#day-2-poker-nim">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h2><p><a href="https://www.hackerrank.com/contests/5-days-of-game-theory/challenges/day-2-poker-nim">https://www.hackerrank.com/contests/5-days-of-game-theory/challenges/day-2-poker-nim</a></p>
+<h3 id="問題概要-6" >問題概要
+<span>
+    <a href="#%e5%95%8f%e9%a1%8c%e6%a6%82%e8%a6%81-6">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><p>T&lt;=100</p>
+<p>n(&lt;=100)個のチップの山があり、各山にはc_i(&lt;=10^9)個のチップがある。</p>
+<p>各手番で1つ山を選び、「1つ以上チップを取り除く」「1つ以上チップを追加する」どちらかの行動をする。ただし、追加は各プレイヤーごとにK(&lt;=100)回しかできない。</p>
+<p>操作ができない場合負け。</p>
+<h3 id="解法メモ-6" >解法メモ
+<span>
+    <a href="#%e8%a7%a3%e6%b3%95%e3%83%a1%e3%83%a2-6">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><p>一瞬難しいと思ったが気づくとギャグ寄り。</p>
+<p>チップ追加ルールを考えない、普通のNimの勝者をプレイヤーA、敗者をプレイヤーBとする。</p>
+<p>もしお互いにチップを追加しなければ普通にNimをして終わる。したがって、最初にチップ追加するのはプレイヤーB。しかし、次の手番でプレイヤーAが追加分をそのまま取り除けば元の状態に戻ってしまう。</p>
+<p>この行動にチップ追加回数は消費しないため、プレイヤーBの追加回数だけが減り、最終的に普通のNimになる。</p>
+<h3 id="実装例-6" >実装例
+<span>
+    <a href="#%e5%ae%9f%e8%a3%85%e4%be%8b-6">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">// Day2 Poker Nim
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> ll <span style="color:#f92672">=</span> <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span>;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#define rep(i, n) for (int i = 0, i##_len = (n); i &lt; i##_len; ++i)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    ios_base<span style="color:#f92672">::</span>sync_with_stdio(false);
+</span></span><span style="display:flex;"><span>    cin.tie(NULL);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> t;
+</span></span><span style="display:flex;"><span>    cin <span style="color:#f92672">&gt;&gt;</span> t;
+</span></span><span style="display:flex;"><span>    rep(_, t) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> n, k;
+</span></span><span style="display:flex;"><span>        cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> k;
+</span></span><span style="display:flex;"><span>        vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> a(n);
+</span></span><span style="display:flex;"><span>        rep(i, n) cin <span style="color:#f92672">&gt;&gt;</span> a[i];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> all_xor <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        rep(i, n) all_xor <span style="color:#f92672">^=</span> a[i];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> (all_xor <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">?</span> <span style="color:#e6db74">&#34;First&#34;</span> <span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Second&#34;</span>) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="day-2-tower-breakers-revisited" >Day 2: Tower Breakers, Revisited!
+<span>
+    <a href="#day-2-tower-breakers-revisited">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h2><p><a href="https://www.hackerrank.com/contests/5-days-of-game-theory/challenges/tower-breakers-2">https://www.hackerrank.com/contests/5-days-of-game-theory/challenges/tower-breakers-2</a></p>
+<h3 id="問題概要-7" >問題概要
+<span>
+    <a href="#%e5%95%8f%e9%a1%8c%e6%a6%82%e8%a6%81-7">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><p>※Day1 Tower Breakersの塔の高さが一定でないver.</p>
+<p>T&lt;=100</p>
+<p>塔がN(&lt;=10^6)個あり、それぞれの高さはh_i(&lt;=10^6)</p>
+<p>各手番で1つ塔を選び、その高さを現在の値の約数に変える。（約数として現在の値を選ぶことは不可）</p>
+<p>全ての塔の高さが1の状態で手番が回ってくると負け。</p>
+<h3 id="解法メモ-7" >解法メモ
+<span>
+    <a href="#%e8%a7%a3%e6%b3%95%e3%83%a1%e3%83%a2-7">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><p>Nimとみなせる（各塔が山、素因数の個数が石の個数）ので、素因数分解してXORを求めればよい。</p>
+<h3 id="実装例-7" >実装例
+<span>
+    <a href="#%e5%ae%9f%e8%a3%85%e4%be%8b-7">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">// Day2 Tower Breakers, Revisited!
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define rep(i, n) for (int i = 0, i##_len = (n); i &lt; i##_len; ++i)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> prime_factorize(<span style="color:#66d9ef">int</span> n) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (n <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">return</span> {};
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> ans;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>; i <span style="color:#f92672">*</span> i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> (n <span style="color:#f92672">%</span> i <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>            ans.push_back(i);
+</span></span><span style="display:flex;"><span>            n <span style="color:#f92672">/=</span> i;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (n <span style="color:#f92672">!=</span> <span style="color:#ae81ff">1</span>) {
+</span></span><span style="display:flex;"><span>        ans.push_back(n);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> ans;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    ios_base<span style="color:#f92672">::</span>sync_with_stdio(false);
+</span></span><span style="display:flex;"><span>    cin.tie(NULL);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> t;
+</span></span><span style="display:flex;"><span>    cin <span style="color:#f92672">&gt;&gt;</span> t;
+</span></span><span style="display:flex;"><span>    rep(_, t) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> n;
+</span></span><span style="display:flex;"><span>        cin <span style="color:#f92672">&gt;&gt;</span> n;
+</span></span><span style="display:flex;"><span>        vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> a(n);
+</span></span><span style="display:flex;"><span>        rep(i, n) cin <span style="color:#f92672">&gt;&gt;</span> a[i];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> all_xor <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        rep(i, n) all_xor <span style="color:#f92672">^=</span> prime_factorize(a[i]).size();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> (all_xor <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">?</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">:</span> <span style="color:#ae81ff">2</span>) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="day-3-tower-breakers-again" >Day 3: Tower Breakers, Again!
+<span>
+    <a href="#day-3-tower-breakers-again">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h2><p><a href="https://www.hackerrank.com/contests/5-days-of-game-theory/challenges/tower-breakers-3">https://www.hackerrank.com/contests/5-days-of-game-theory/challenges/tower-breakers-3</a></p>
+<h3 id="問題概要-8" >問題概要
+<span>
+    <a href="#%e5%95%8f%e9%a1%8c%e6%a6%82%e8%a6%81-8">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><p>T&lt;=200</p>
+<p>塔がN(&lt;=100)個あり、それぞれの高さはh_i(&lt;=10^5)</p>
+<p>各手番で1つ塔を選ぶ。選んだ等の高さをXとして、Xの約数Yを1つ選ぶ。塔をY
+個の高さX/Yの塔に分割する。</p>
+<p>全ての塔の高さが1の状態で手番が回ってくると負け。</p>
+<h3 id="解法メモ-8" >解法メモ
+<span>
+    <a href="#%e8%a7%a3%e6%b3%95%e3%83%a1%e3%83%a2-8">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><p>状態が分裂するタイプのゲームなので、再帰やDPで各高さのGrundy数を求めてXORを取ればよい。</p>
+<h3 id="実装例-8" >実装例
+<span>
+    <a href="#%e5%ae%9f%e8%a3%85%e4%be%8b-8">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">// Day3 Tower Breakers, Again!
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define rep(i, n) for (int i = 0, i##_len = (n); i &lt; i##_len; ++i)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define all(v) begin(v), end(v)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> divisor(<span style="color:#66d9ef">int</span> n) {
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> res;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">*</span> i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (n <span style="color:#f92672">%</span> i <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>            res.push_back(i);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (n <span style="color:#f92672">/</span> i <span style="color:#f92672">!=</span> i) res.push_back(n <span style="color:#f92672">/</span> i);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    sort(res.begin(), res.end());
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> res;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    ios_base<span style="color:#f92672">::</span>sync_with_stdio(false);
+</span></span><span style="display:flex;"><span>    cin.tie(NULL);
+</span></span><span style="display:flex;"><span>    map<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> memo;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">auto</span> grundy <span style="color:#f92672">=</span> [<span style="color:#f92672">&amp;</span>](<span style="color:#66d9ef">auto</span> grundy, <span style="color:#66d9ef">int</span> h) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (memo.count(h)) <span style="color:#66d9ef">return</span> memo[h];
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">auto</span> divs <span style="color:#f92672">=</span> divisor(h);
+</span></span><span style="display:flex;"><span>        vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> nxt;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> d : divs) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (d <span style="color:#f92672">==</span> h) <span style="color:#66d9ef">continue</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> num <span style="color:#f92672">=</span> h <span style="color:#f92672">/</span> d;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (num <span style="color:#f92672">%</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>                nxt.push_back(<span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>            } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>                nxt.push_back(grundy(grundy, d));
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        sort(all(nxt));
+</span></span><span style="display:flex;"><span>        nxt.erase(unique(all(nxt)), nxt.end());
+</span></span><span style="display:flex;"><span>        rep(i, nxt.size()) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">!=</span> nxt[i]) <span style="color:#66d9ef">return</span> memo[h] <span style="color:#f92672">=</span> i;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> memo[h] <span style="color:#f92672">=</span> nxt.size();
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> t;
+</span></span><span style="display:flex;"><span>    cin <span style="color:#f92672">&gt;&gt;</span> t;
+</span></span><span style="display:flex;"><span>    rep(_, t) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> n;
+</span></span><span style="display:flex;"><span>        cin <span style="color:#f92672">&gt;&gt;</span> n;
+</span></span><span style="display:flex;"><span>        vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> h(n);
+</span></span><span style="display:flex;"><span>        rep(i, n) cin <span style="color:#f92672">&gt;&gt;</span> h[i];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> all_xor <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        rep(i, n) all_xor <span style="color:#f92672">^=</span> grundy(grundy, h[i]);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> (all_xor <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">?</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">:</span> <span style="color:#ae81ff">2</span>) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="day-3-chessboard-game-again" >Day 3: Chessboard Game, Again!
+<span>
+    <a href="#day-3-chessboard-game-again">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h2><p><a href="https://www.hackerrank.com/contests/5-days-of-game-theory/challenges/a-chessboard-game">https://www.hackerrank.com/contests/5-days-of-game-theory/challenges/a-chessboard-game</a></p>
+<h3 id="問題概要-9" >問題概要
+<span>
+    <a href="#%e5%95%8f%e9%a1%8c%e6%a6%82%e8%a6%81-9">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><p>※Day1 A Chessboard Gameが、テストケース数225→1000、コインの数1→K(1000) に制約強化されたver.</p>
+<p>T&lt;=1000</p>
+<p>15x15のチェス盤でゲームを行う。K(&lt;=1000)個のコインが置かれており、それぞれ(x_i, y_i)にある</p>
+<p>各手番でコインを(x-2,y+1),(x-2,y-1),(x+1,y-2),(x-1,y-2)に移動できる（ナイトの動ける場所の内半分。問題文の図参照）</p>
+<p>コイン同士は重なっても構わない。</p>
+<h3 id="解法メモ-9" >解法メモ
+<span>
+    <a href="#%e8%a7%a3%e6%b3%95%e3%83%a1%e3%83%a2-9">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><p>メモ化再帰でコインが(i,j)にいるときのGrundy数を調べてXORを取ればよい。</p>
+<h3 id="実装例-9" >実装例
+<span>
+    <a href="#%e5%ae%9f%e8%a3%85%e4%be%8b-9">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">// Day3 Chessboard Game, Again!
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> ll <span style="color:#f92672">=</span> <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span>;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#define rep(i, n) for (int i = 0, i##_len = (n); i &lt; i##_len; ++i)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define all(v) begin(v), end(v)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    ios_base<span style="color:#f92672">::</span>sync_with_stdio(false);
+</span></span><span style="display:flex;"><span>    cin.tie(NULL);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> memo <span style="color:#f92672">=</span> vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span>(<span style="color:#ae81ff">15</span>, vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span>(<span style="color:#ae81ff">15</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">auto</span> rec <span style="color:#f92672">=</span> [<span style="color:#f92672">&amp;</span>](<span style="color:#66d9ef">auto</span> rec, <span style="color:#66d9ef">int</span> x, <span style="color:#66d9ef">int</span> y) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (memo[x][y] <span style="color:#f92672">!=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">return</span> memo[x][y];
+</span></span><span style="display:flex;"><span>        vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> nxt;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> y <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">15</span>) nxt.push_back(rec(rec, x <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>, y <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>));
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> y <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>) nxt.push_back(rec(rec, x <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>, y <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>));
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">15</span> <span style="color:#f92672">&amp;&amp;</span> y <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>) nxt.push_back(rec(rec, x <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, y <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>));
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> y <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>) nxt.push_back(rec(rec, x <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>, y <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>));
+</span></span><span style="display:flex;"><span>        sort(all(nxt));
+</span></span><span style="display:flex;"><span>        nxt.erase(unique(all(nxt)), nxt.end());
+</span></span><span style="display:flex;"><span>        rep(i, nxt.size()) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">!=</span> nxt[i]) <span style="color:#66d9ef">return</span> memo[x][y] <span style="color:#f92672">=</span> i;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> memo[x][y] <span style="color:#f92672">=</span> nxt.size();
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> t;
+</span></span><span style="display:flex;"><span>    cin <span style="color:#f92672">&gt;&gt;</span> t;
+</span></span><span style="display:flex;"><span>    rep(_, t) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> k;
+</span></span><span style="display:flex;"><span>        cin <span style="color:#f92672">&gt;&gt;</span> k;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> all_xor <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        rep(i, k) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> x, y;
+</span></span><span style="display:flex;"><span>            cin <span style="color:#f92672">&gt;&gt;</span> x <span style="color:#f92672">&gt;&gt;</span> y;
+</span></span><span style="display:flex;"><span>            all_xor <span style="color:#f92672">^=</span> rec(rec, x <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>, y <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> (all_xor <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">?</span> <span style="color:#e6db74">&#34;First&#34;</span> <span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Second&#34;</span>) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="day-3-digits-square-board" >Day 3: Digits Square Board
+<span>
+    <a href="#day-3-digits-square-board">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h2><p><a href="https://www.hackerrank.com/contests/5-days-of-game-theory/challenges/digits-square-board">https://www.hackerrank.com/contests/5-days-of-game-theory/challenges/digits-square-board</a></p>
+<h3 id="問題概要-10" >問題概要
+<span>
+    <a href="#%e5%95%8f%e9%a1%8c%e6%a6%82%e8%a6%81-10">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><p>T&lt;=10</p>
+<p>NxNのグリッドがあり、各マスには整数1&hellip;9までの整数A_{i,j}が書かれている。（N&lt;=30）</p>
+<p>各手番で、プレイヤーは非素数が書かれているグリッドを1つ選び、縦か横に2分割する。（板チョコのような感じ）</p>
+<p>操作ができない場合、つまり全てのグリッドが「素数しか書かれていない」or「非素数が書かれていて1x1」のどちらかになった状態で手番が回ってきた場合負け。</p>
+<p>非素数には1も含むことに注意</p>
+<h3 id="解法メモ-10" >解法メモ
+<span>
+    <a href="#%e8%a7%a3%e6%b3%95%e3%83%a1%e3%83%a2-10">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><p>Grundy数を定義通りに求めていけばよい。グリッドの左端・右端・上端・下端・どこで切るか を探索するのでO(N^5)</p>
+<p>非素数が含まれるかどうかは2次元imos法などを使えばよい</p>
+<h3 id="実装例-10" >実装例
+<span>
+    <a href="#%e5%ae%9f%e8%a3%85%e4%be%8b-10">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">// Day3 Digits Square Board
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define rep(i, n) for (int i = 0, i##_len = (n); i &lt; i##_len; ++i)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define reps(i, n) for (int i = 1, i##_len = (n); i &lt;= i##_len; ++i)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define all(v) begin(v), end(v)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">isPrime</span>(<span style="color:#66d9ef">int</span> n) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (n <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">return</span> false;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>; i <span style="color:#f92672">*</span> i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (n <span style="color:#f92672">%</span> i <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> false;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> true;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> memo[<span style="color:#ae81ff">31</span>][<span style="color:#ae81ff">31</span>][<span style="color:#ae81ff">31</span>][<span style="color:#ae81ff">31</span>];
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    ios_base<span style="color:#f92672">::</span>sync_with_stdio(false);
+</span></span><span style="display:flex;"><span>    cin.tie(NULL);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> t;
+</span></span><span style="display:flex;"><span>    cin <span style="color:#f92672">&gt;&gt;</span> t;
+</span></span><span style="display:flex;"><span>    rep(_, t) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> n;
+</span></span><span style="display:flex;"><span>        cin <span style="color:#f92672">&gt;&gt;</span> n;
+</span></span><span style="display:flex;"><span>        vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> a(n <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span>(n <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>));
+</span></span><span style="display:flex;"><span>        reps(i, n) reps(j, n) cin <span style="color:#f92672">&gt;&gt;</span> a[i][j];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> ca(n <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span>(n <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>));
+</span></span><span style="display:flex;"><span>        reps(i, n) reps(j, n) ca[i][j] <span style="color:#f92672">=</span> <span style="color:#f92672">!</span>isPrime(a[i][j]);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        reps(i, n) reps(j, n) ca[i][j] <span style="color:#f92672">+=</span> ca[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>][j];
+</span></span><span style="display:flex;"><span>        reps(i, n) reps(j, n) ca[i][j] <span style="color:#f92672">+=</span> ca[i][j <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        memset(memo, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">sizeof</span>(memo));
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">auto</span> grundy <span style="color:#f92672">=</span> [<span style="color:#f92672">&amp;</span>](<span style="color:#66d9ef">auto</span> grundy, <span style="color:#66d9ef">int</span> y1, <span style="color:#66d9ef">int</span> x1, <span style="color:#66d9ef">int</span> y2, <span style="color:#66d9ef">int</span> x2) <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">int</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (memo[y1][x1][y2][x2] <span style="color:#f92672">!=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">return</span> memo[y1][x1][y2][x2];
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> sum <span style="color:#f92672">=</span> ca[y2][x2] <span style="color:#f92672">-</span> ca[y1 <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>][x2] <span style="color:#f92672">-</span> ca[y2][x1 <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> ca[y1 <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>][x1 <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>];
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (sum <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">return</span> memo[y1][x1][y2][x2] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> nxt;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> y <span style="color:#f92672">=</span> y1; y <span style="color:#f92672">&lt;</span> y2; <span style="color:#f92672">++</span>y) {
+</span></span><span style="display:flex;"><span>                nxt.push_back(grundy(grundy, y1, x1, y, x2) <span style="color:#f92672">^</span> grundy(grundy, y <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, x1, y2, x2));
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> x <span style="color:#f92672">=</span> x1; x <span style="color:#f92672">&lt;</span> x2; <span style="color:#f92672">++</span>x) {
+</span></span><span style="display:flex;"><span>                nxt.push_back(grundy(grundy, y1, x1, y2, x) <span style="color:#f92672">^</span> grundy(grundy, y1, x <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, y2, x2));
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            sort(all(nxt));
+</span></span><span style="display:flex;"><span>            nxt.erase(unique(all(nxt)), nxt.end());
+</span></span><span style="display:flex;"><span>            rep(i, nxt.size()) {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">!=</span> nxt[i]) <span style="color:#66d9ef">return</span> memo[y1][x1][y2][x2] <span style="color:#f92672">=</span> i;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> memo[y1][x1][y2][x2] <span style="color:#f92672">=</span> nxt.size();
+</span></span><span style="display:flex;"><span>        };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> (grundy(grundy, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, n, n) <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">?</span> <span style="color:#e6db74">&#34;First&#34;</span> <span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Second&#34;</span>) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="day-4-fun-game" >Day 4: Fun Game
+<span>
+    <a href="#day-4-fun-game">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h2><p><a href="https://www.hackerrank.com/contests/5-days-of-game-theory/challenges/fun-game">https://www.hackerrank.com/contests/5-days-of-game-theory/challenges/fun-game</a></p>
+<h3 id="問題概要-11" >問題概要
+<span>
+    <a href="#%e5%95%8f%e9%a1%8c%e6%a6%82%e8%a6%81-11">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><p>T&lt;=10</p>
+<p>長さN(&lt;=1000)の正整数列A,Bがある。各要素A_i,B_i&lt;=10^5。</p>
+<p>各手番でプレイヤーは今までに選ばれていないiを選択、先手ならA_i点、後手ならB_i点得られる。</p>
+<p>Nターン目終了時、すべてのiが選択されるが、その時点で得た得点の合計が高いほうが勝者となる。</p>
+<p>先手勝ちor後手勝ち<strong>or引き分け</strong> どれになるか答えよ</p>
+<h3 id="解法メモ-11" >解法メモ
+<span>
+    <a href="#%e8%a7%a3%e6%b3%95%e3%83%a1%e3%83%a2-11">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><p>A_i, B_iは「自分が取れる点数」「相手から取れる点数」と考えられ、どちらも同じ重み。</p>
+<p>A_i+B_iで降順ソートして交互に取っていき、点数を比較すればよい。</p>
+<h3 id="実装例-11" >実装例
+<span>
+    <a href="#%e5%ae%9f%e8%a3%85%e4%be%8b-11">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">// Day4 Fun Game
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> ll <span style="color:#f92672">=</span> <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span>;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#define rep(i, n) for (int i = 0, i##_len = (n); i &lt; i##_len; ++i)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define all(v) begin(v), end(v)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    ios_base<span style="color:#f92672">::</span>sync_with_stdio(false);
+</span></span><span style="display:flex;"><span>    cin.tie(NULL);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> t;
+</span></span><span style="display:flex;"><span>    cin <span style="color:#f92672">&gt;&gt;</span> t;
+</span></span><span style="display:flex;"><span>    rep(_, t) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> n;
+</span></span><span style="display:flex;"><span>        cin <span style="color:#f92672">&gt;&gt;</span> n;
+</span></span><span style="display:flex;"><span>        vector<span style="color:#f92672">&lt;</span>pair<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> a(n);
+</span></span><span style="display:flex;"><span>        rep(i, n) cin <span style="color:#f92672">&gt;&gt;</span> a[i].first;
+</span></span><span style="display:flex;"><span>        rep(i, n) cin <span style="color:#f92672">&gt;&gt;</span> a[i].second;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        sort(all(a), [](<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">auto</span><span style="color:#f92672">&amp;</span> x, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">auto</span><span style="color:#f92672">&amp;</span> y) { <span style="color:#66d9ef">return</span> x.first <span style="color:#f92672">+</span> x.second <span style="color:#f92672">&gt;</span> y.first <span style="color:#f92672">+</span> y.second; });
+</span></span><span style="display:flex;"><span>        ll s1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, s2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        rep(i, n) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">%</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>                s1 <span style="color:#f92672">+=</span> a[i].first;
+</span></span><span style="display:flex;"><span>            } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>                s2 <span style="color:#f92672">+=</span> a[i].second;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (s1 <span style="color:#f92672">==</span> s2) {
+</span></span><span style="display:flex;"><span>            cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Tie</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (s1 <span style="color:#f92672">&gt;</span> s2) {
+</span></span><span style="display:flex;"><span>            cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;First</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>            cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Second</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="day-4-powers-game" >Day 4: Powers Game
+<span>
+    <a href="#day-4-powers-game">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h2><p><a href="https://www.hackerrank.com/contests/5-days-of-game-theory/challenges/powers-of-two-game">https://www.hackerrank.com/contests/5-days-of-game-theory/challenges/powers-of-two-game</a></p>
+<h3 id="問題概要-12" >問題概要
+<span>
+    <a href="#%e5%95%8f%e9%a1%8c%e6%a6%82%e8%a6%81-12">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><p>T&lt;=10^6</p>
+<p>n(&lt;=10^6)が与えられる。</p>
+<p>$*2^1\ *2^2\ *2^3*\ \cdots\ *2^n$ という列があり、各手番で＊を＋ーどちらかに変更する。</p>
+<p>アスタリスクがなくなる、n回目の手番の終了時点で式の値が17の倍数なら後手の勝利、そうでなければ先手の勝利</p>
+<h3 id="解法メモ-12" >解法メモ
+<span>
+    <a href="#%e8%a7%a3%e6%b3%95%e3%83%a1%e3%83%a2-12">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><p>mod 17で考えると$2^i$は$1,2,4,8,16,15,13,9,1,2, \cdots$と周期8でループする。</p>
+<p>この列を見ると、1+16=2+15=4+13=8+9=17と、3つ飛ばした2つを足すと17になる。
+mod17で(1,2,4,8,-1,-2,-4,-8)と見て、符号は関係ないので4つごとに区切る方が分かりやすいかもしれない</p>
+<p>nが8の倍数なら後手がこのペアの符号を一致させれば17の倍数になり、必勝。
+先手が1の符号を+にしたら-1の符号を+にする、4の符号を-にしたら-4の符号を-にするといった感じ。</p>
+<p>それ以外の場合、先手が必勝になる。</p>
+<ul>
+<li>列を8個ずつに区切り、最後の1&hellip;7個以外は↑の、ペアの符号を一致させる戦略を今度は先手側が取ることにする。</li>
+<li>そうすると、最後の1&hellip;7個以外は合計が0(mod 17)になる。</li>
+<li>最後の1&hellip;7個は、先手が適切にペアを作れば、後手がどう頑張っても17の倍数にすることはできない</li>
+</ul>
+<pre tabindex="0"><code>ラストn%8個 -&gt; 先手が初手で選ぶものの候補
+(1)       -&gt; (1)
+(1,2)     -&gt; (1,2)
+(1,2,4)   -&gt; (1,2,4)
+(1,2,4,8) -&gt; (1,2,4,8)
+
+(1,2,4,8,-1)        -- (1,-1)を合わせて0にする---------------&gt; (2,4,8)
+(1,2,4,8,-1,-2)     -- (1,-1),(2,-2)を合わせて0にする--------&gt; (4,8)
+(1,2,4,8,-1,-2,-4)  -- (1,-1),(2,-2)(4,-4)を合わせて0にする--&gt; (8)
+</code></pre><h3 id="実装例-12" >実装例
+<span>
+    <a href="#%e5%ae%9f%e8%a3%85%e4%be%8b-12">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">// Day4 Powers Game
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define rep(i, n) for (int i = 0, i##_len = (n); i &lt; i##_len; ++i)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define all(v) begin(v), end(v)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    ios_base<span style="color:#f92672">::</span>sync_with_stdio(false);
+</span></span><span style="display:flex;"><span>    cin.tie(NULL);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> t;
+</span></span><span style="display:flex;"><span>    cin <span style="color:#f92672">&gt;&gt;</span> t;
+</span></span><span style="display:flex;"><span>    rep(_, t) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> n;
+</span></span><span style="display:flex;"><span>        cin <span style="color:#f92672">&gt;&gt;</span> n;
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> (n <span style="color:#f92672">%</span> <span style="color:#ae81ff">8</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">?</span> <span style="color:#e6db74">&#34;Second&#34;</span> <span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;First&#34;</span>) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="day-5-deforestation" >Day 5: Deforestation
+<span>
+    <a href="#day-5-deforestation">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h2><p><a href="https://www.hackerrank.com/contests/5-days-of-game-theory/challenges/deforestation">https://www.hackerrank.com/contests/5-days-of-game-theory/challenges/deforestation</a></p>
+<h3 id="問題概要-13" >問題概要
+<span>
+    <a href="#%e5%95%8f%e9%a1%8c%e6%a6%82%e8%a6%81-13">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><p>T&lt;=100</p>
+<p>N(&lt;=500)頂点の、頂点1を根とする木が与えられる。</p>
+<p>各手番でプレイヤーは辺を1つ選び、木のそこから先の部分木を削除する。</p>
+<p>頂点1しかない状態で手番が回ってきたら負け。</p>
+<h3 id="解法メモ-13" >解法メモ
+<span>
+    <a href="#%e8%a7%a3%e6%b3%95%e3%83%a1%e3%83%a2-13">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><p>AGC017Dと全く同じ。各部分木のGrundy数を考える。</p>
+<h3 id="実装例-13" >実装例
+<span>
+    <a href="#%e5%ae%9f%e8%a3%85%e4%be%8b-13">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">// Day5 Deforestation
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define rep(i, n) for (int i = 0, i##_len = (n); i &lt; i##_len; ++i)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    ios_base<span style="color:#f92672">::</span>sync_with_stdio(false);
+</span></span><span style="display:flex;"><span>    cin.tie(NULL);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> t;
+</span></span><span style="display:flex;"><span>    cin <span style="color:#f92672">&gt;&gt;</span> t;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    rep(_, t) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> n;
+</span></span><span style="display:flex;"><span>        cin <span style="color:#f92672">&gt;&gt;</span> n;
+</span></span><span style="display:flex;"><span>        vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> G(n);
+</span></span><span style="display:flex;"><span>        rep(i, n <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> u, v;
+</span></span><span style="display:flex;"><span>            cin <span style="color:#f92672">&gt;&gt;</span> u <span style="color:#f92672">&gt;&gt;</span> v;
+</span></span><span style="display:flex;"><span>            u<span style="color:#f92672">--</span>, v<span style="color:#f92672">--</span>;
+</span></span><span style="display:flex;"><span>            G[u].push_back(v);
+</span></span><span style="display:flex;"><span>            G[v].push_back(u);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">bool</span><span style="color:#f92672">&gt;</span> seen(n);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">auto</span> dfs <span style="color:#f92672">=</span> [<span style="color:#f92672">&amp;</span>](<span style="color:#66d9ef">auto</span> dfs, <span style="color:#66d9ef">int</span> u) <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">int</span> {
+</span></span><span style="display:flex;"><span>            seen.at(u) <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> grundy <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">auto</span> <span style="color:#f92672">&amp;</span>e : G.at(u)) {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> (seen.at(e)) <span style="color:#66d9ef">continue</span>;
+</span></span><span style="display:flex;"><span>                grundy <span style="color:#f92672">^=</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">+</span> dfs(dfs, e);
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> grundy;
+</span></span><span style="display:flex;"><span>        };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> (dfs(dfs, <span style="color:#ae81ff">0</span>) <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">?</span> <span style="color:#e6db74">&#34;Alice&#34;</span> <span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Bob&#34;</span>) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="day-5tower-breakers---the-final-battle" >Day 5: Tower Breakers - The Final Battle
+<span>
+    <a href="#day-5tower-breakers---the-final-battle">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h2><p><a href="https://www.hackerrank.com/contests/5-days-of-game-theory/challenges/final-tower-breakers">https://www.hackerrank.com/contests/5-days-of-game-theory/challenges/final-tower-breakers</a></p>
+<h3 id="問題概要-14" >問題概要
+<span>
+    <a href="#%e5%95%8f%e9%a1%8c%e6%a6%82%e8%a6%81-14">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><p>T&lt;=100</p>
+<p>最初、高さN(&lt;=10^18)の塔が1つだけあり、変数HはH=Nで初期化されている。これらを使ってゲームを行う。</p>
+<p>先手はゲーム中支払うコインをできるだけ少なくしようとし、後手はできるだけ多くのコインを稼ごうとする。</p>
+<p>各手番で、先手、後手の行う行動は異なり、以下を行う。</p>
+<ul>
+<li>先手は高さHの塔を、より小さな、和がHである複数の塔の列h_1, h_2, &hellip;, h_xに分割する。分割後の塔の数xやh_iは自由に選べる。</li>
+<li>後手は、直前に先手が分割したx個の塔から塔kを選ぶ(1&lt;=k&lt;=x)。その後、先手は後手にコインk^2を払い、Hにh_kを代入する
+先手の手番が回ってきた時点でH=1であればゲームを終了する。</li>
+</ul>
+<h3 id="解法メモ-14" >解法メモ
+<span>
+    <a href="#%e8%a7%a3%e6%b3%95%e3%83%a1%e3%83%a2-14">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><p>難しい。</p>
+<p>まず、たくさん分割してしまうと先手が渡さなければならないコインは$k^2$と2次関数で大きくなるうえ、そもそも適当にやっても全部2分割してしまえば$\log_2 N$程度のターン数で終わる。</p>
+<p>分割後の個数xを大きくすることで先手が得られるメリット（次回のHが小さくなるのでトータルのターン数が少なくなる）は、デメリット（後手にこのターン支払うコインが増える）よりもかなり小さそうだという感覚になる。</p>
+<p>とりあえず2分割しかしないものとして実験してみると、H=2の時を除けば常にk=1を選ばせるのが良さそうだと予想できる。</p>
+<p>常に2分割が最適かというとそうではなく、3番目の要素に1つずらすことで上手くいくような場合もあるはずなので、どうするか考える必要がある。</p>
+<p>N=tの時の最適コストを$f(t)$とすると、以下の式が満たされていればよい。
+$$
+f(h_1)+1^2 \leq f(h_2)+2^2 \leq f(h_3)+3^2 \leq\dots\leq f(h_x)+x^2<br>
+$$</p>
+<p>$f(t)$は非常にゆっくり単調増加する関数なので、$f(t)$の値が変わる境目がどこなのかを求めていって、探索範囲が$10^{18}$を超えた時点で打ち切れば、あとは境目を格納した配列を見るだけでクエリに答えることができる。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">// Day5 Tower Breakers - The Final Battle
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> ll <span style="color:#f92672">=</span> <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span>;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#define rep(i, n) for (int i = 0, i##_len = (n); i &lt; i##_len; ++i)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define reps(i, n) for (int i = 1, i##_len = (n); i &lt;= i##_len; ++i)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define all(v) begin(v), end(v)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    ios_base<span style="color:#f92672">::</span>sync_with_stdio(false);
+</span></span><span style="display:flex;"><span>    cin.tie(NULL);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span>ll<span style="color:#f92672">&gt;</span> bound <span style="color:#f92672">=</span> {<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>};  <span style="color:#75715e">// bound[t] := f(s)&lt;=tとなる最大のs
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">auto</span> f <span style="color:#f92672">=</span> [<span style="color:#f92672">&amp;</span>](ll t) <span style="color:#f92672">-&gt;</span> ll {
+</span></span><span style="display:flex;"><span>        assert(t <span style="color:#f92672">&lt;=</span> bound.back());
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> lower_bound(all(bound), t) <span style="color:#f92672">-</span> bound.begin();
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> (bound.back() <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">1&#39;000&#39;000&#39;000&#39;000&#39;000&#39;000</span>) {
+</span></span><span style="display:flex;"><span>        ll ft <span style="color:#f92672">=</span> bound.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        ll t <span style="color:#f92672">=</span> bound.back();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// x*x &gt; ftだと、後手がこれを取るだけで良くなってしまうので、これ以降は候補にならない
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">int</span> x <span style="color:#f92672">=</span> <span style="color:#66d9ef">int</span>(sqrt(ft <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>));  <span style="color:#75715e">// 分割する数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        ll sum <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        reps(i, x) { sum <span style="color:#f92672">+=</span> bound[ft <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> i <span style="color:#f92672">*</span> i]; }
+</span></span><span style="display:flex;"><span>        bound.push_back(sum);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> t;
+</span></span><span style="display:flex;"><span>    cin <span style="color:#f92672">&gt;&gt;</span> t;
+</span></span><span style="display:flex;"><span>    rep(_, t) {
+</span></span><span style="display:flex;"><span>        ll h;
+</span></span><span style="display:flex;"><span>        cin <span style="color:#f92672">&gt;&gt;</span> h;
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> f(h) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
+        </div>
+        
+
+    
+
+
+
+<div class="post-info">
+    
+        <div class="post-date dt-published">
+            <a class="u-url" href="/blog/posts/hackerrank-game-theory/"><time datetime="2024-06-19">2024-06-19</time></a>
+            
+        </div>
+    
+
+    <a class="post-hidden-url u-url" href="https://coindarw.github.io/blog/posts/hackerrank-game-theory/">https://coindarw.github.io/blog/posts/hackerrank-game-theory/</a>
+    <a href="https://coindarw.github.io/blog/" class="p-name p-author post-hidden-author h-card" rel="me">coindarw</a>
+
+
+    <div class="post-taxonomies">
+        
+        
+            <ul class="post-tags">
+                
+                    
+                    <li><a href="">#ゲーム問題</a></li>
+                
+                    
+                    <li><a href="">#競技プログラミング</a></li>
+                
+            </ul>
+        
+        
+    </div>
+</div>
+
+    </article>
+
+    
+
+    
+
+    
+        
+    
+
+        </main>
+        
+            <footer class="common-footer">
+    
+    
+
+    <div class="common-footer-bottom">
+        
+        <div class="copyright">
+            <p>© coindarw, 2025<br>
+             <a target="_blank" rel="noopener noreferrer" href="https://gohugo.io/">Hugo</a>,  <a target="_blank" rel="noopener noreferrer" href="https://github.com/mitrichius/hugo-theme-anubis">Anubis</a>.<br>
+            
+            </p>  
+        </div> 
+    </div>
+
+    <p class="h-card vcard">
+
+    <a href=https://coindarw.github.io/blog/ class="p-name u-url url fn" rel="me">coindarw</a> 
+
+    
+
+    
+</p> 
+</footer>
+
+        
+    </div>
+</body>
+</html>

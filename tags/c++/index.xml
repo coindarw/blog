@@ -165,8 +165,7 @@
 &lt;p&gt;&lt;code&gt;#include&lt;/code&gt; の後に &lt;code&gt;#pragma&lt;/code&gt; があればプリコンパイルヘッダが使われるが、逆だと使われないなど条件がよくわからない&lt;/p&gt;
 &lt;p&gt;1回のコンパイルにつき、プリコンパイルヘッダは1つしか指定できないので、 &lt;code&gt;&amp;lt;bits/stdc++.h&amp;gt;&lt;/code&gt; と &lt;code&gt;&amp;lt;atcoder/all&amp;gt;&lt;/code&gt; の両方をプリコンパイルしておくといったことはできない&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;• Only one precompiled header can be used in a particular compilation.&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;• Only one precompiled header can be used in a particular compilation.&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;私の場合はそれらをまとめた &lt;code&gt;&amp;lt;mylibs/all.h&amp;gt;&lt;/code&gt; をプリコンパイルしておき、 &lt;code&gt;ONLINE_JUDGE&lt;/code&gt; マクロの有無でどちらをインクルードするか分岐している。WSLで1.3秒くらいでコンパイルできる。&lt;/p&gt;
 &lt;p&gt;プリコンパイルヘッダーとしてコンパイル時に認識される条件などは割と複雑。ドキュメントの該当ページは短いので通して読んでおくのがよさそう&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://gcc.gnu.org/onlinedocs/gcc/Precompiled-Headers.html&#34;&gt;https://gcc.gnu.org/onlinedocs/gcc/Precompiled-Headers.html&lt;/a&gt;&lt;/p&gt;
