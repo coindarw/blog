@@ -1,5 +1,5 @@
 +++
 title = '{{ replace .File.ContentBaseName "-" " " | title }}'
 date = {{ .Date }}
-draft = true
+tags = ['競技プログラミング', '蟻本練習問題']
 +++
