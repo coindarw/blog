@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+
+
+<html lang="ja" data-theme="">
+<head>
+    
+        
+<meta charset="utf-8">
+<meta name="HandheldFriendly" content="True">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer-when-downgrade">
+
+<title>POJ 1986 Distance Queries - coindarw&rsquo;s page</title>
+
+<meta name="description" content="http://poj.org/problem?id=1986
+http://bailian.openjudge.cn/practice/1986?lang=en_US
+https://vjudge.net/problem/POJ-1986
+https://vjudge.net/problem/OpenJ_Bailian-1986
+POJだとMLがきついのでOpenJ_BailianでAC。">
+
+
+
+
+
+<link rel="icon" type="image/x-icon" href="https://coindarw.github.io/blog/favicon.ico">
+<link rel="apple-touch-icon-precomposed" href="https://coindarw.github.io/blog/favicon.png">
+
+
+
+
+    
+
+
+
+<style>
+  body {
+    visibility: hidden;
+    opacity: 0;
+  }
+</style>
+
+<noscript>
+  <style>
+    body {
+      visibility: visible;
+      opacity: 1;
+    }
+  </style>
+</noscript>
+
+
+
+
+    
+
+
+
+
+
+    
+    
+        
+    
+    
+
+    
+        <link rel="stylesheet" href="https://coindarw.github.io/blog/css/style.min.a9fc9636a4bb1c27b94647cef1d5457e897a9155d53fca3900cc91d7cfe8e983.css" integrity="sha256-qfyWNqS7HCe5RkfO8dVFfol6kVXVP8o5AMyR18/o6YM=">
+    
+
+
+
+
+
+    
+
+    
+
+
+
+
+
+    
+    
+        
+    
+    
+
+    
+        <script src="https://coindarw.github.io/blog/js/script.min.74bf1a3fcf1af396efa4acf3e660e876b61a2153ab9cbe1893ac24ea6d4f94ee.js" type="text/javascript" charset="utf-8" integrity="sha256-dL8aP88a85bvpKzz5mDodrYaIVOrnL4Yk6wk6m1PlO4="></script>
+    
+
+
+
+
+
+
+
+<meta property="og:url" content="https://coindarw.github.io/blog/posts/practice/poj-1986/">
+  <meta property="og:site_name" content="coindarw&#39;s page">
+  <meta property="og:title" content="POJ 1986 Distance Queries">
+  <meta property="og:description" content="http://poj.org/problem?id=1986 http://bailian.openjudge.cn/practice/1986?lang=en_US
+https://vjudge.net/problem/POJ-1986 https://vjudge.net/problem/OpenJ_Bailian-1986
+POJだとMLがきついのでOpenJ_BailianでAC。">
+  <meta property="og:locale" content="ja">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-03-04T13:53:28+09:00">
+    <meta property="article:modified_time" content="2025-03-04T13:53:28+09:00">
+    <meta property="article:tag" content="競技プログラミング">
+    <meta property="article:tag" content="蟻本練習問題">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="POJ 1986 Distance Queries">
+  <meta name="twitter:description" content="http://poj.org/problem?id=1986 http://bailian.openjudge.cn/practice/1986?lang=en_US
+https://vjudge.net/problem/POJ-1986 https://vjudge.net/problem/OpenJ_Bailian-1986
+POJだとMLがきついのでOpenJ_BailianでAC。">
+
+
+
+
+
+
+
+
+
+    
+</head>
+<body>
+    <a class="skip-main" href="#main"></a>
+    <div class="container">
+        <header class="common-header"> 
+            
+                <div class="header-top">
+    <div class="header-top-left">
+        <h1 class="site-title">
+    <a href="/blog">coindarw&#39;s page</a>
+</h1>
+        <ul class="social-icons">
+
+
+    
+        <li>
+            <a href="https://github.com/coindarw" title="Github" rel="me">
+            <span class="inline-svg" >
+
+
+
+
+    
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+
+</span>
+
+            </a>
+        </li>
+    
+
+
+
+    <li>
+            <a href="https://coindarw.github.io/blog/index.xml" title="RSS" rel="me">
+            <span class="inline-svg" >
+
+
+
+
+    
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M128.081 415.959c0 35.369-28.672 64.041-64.041 64.041S0 451.328 0 415.959s28.672-64.041 64.041-64.041 64.04 28.673 64.04 64.041zm175.66 47.25c-8.354-154.6-132.185-278.587-286.95-286.95C7.656 175.765 0 183.105 0 192.253v48.069c0 8.415 6.49 15.472 14.887 16.018 111.832 7.284 201.473 96.702 208.772 208.772.547 8.397 7.604 14.887 16.018 14.887h48.069c9.149.001 16.489-7.655 15.995-16.79zm144.249.288C439.596 229.677 251.465 40.445 16.503 32.01 7.473 31.686 0 38.981 0 48.016v48.068c0 8.625 6.835 15.645 15.453 15.999 191.179 7.839 344.627 161.316 352.465 352.465.353 8.618 7.373 15.453 15.999 15.453h48.068c9.034-.001 16.329-7.474 16.005-16.504z"/></svg>
+
+</span>
+
+            </a>
+        </li>
+    
+
+</ul>
+    </div>
+    <div class="header-top-right">
+        
+
+    
+
+
+
+
+    <div class="theme-switcher">
+        <span class="inline-svg" >
+
+
+
+
+    
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 290 290">
+<path fill="currentColor" d="M142.959,0C64.131,0,0,64.132,0,142.96c0,78.828,64.131,142.959,142.959,142.959c78.828,0,142.96-64.131,142.96-142.959  C285.919,64.132,221.787,0,142.959,0z M142.959,260.919V142.96V25c65.043,0,117.96,52.917,117.96,117.96  C260.919,208.003,208.002,260.919,142.959,260.919z"/>
+</svg>
+
+</span>
+
+    </div>
+
+
+<script>
+const STORAGE_KEY = 'user-color-scheme'
+const defaultTheme = "auto"
+
+let currentTheme
+let switchButton
+let autoDefinedScheme = window.matchMedia('(prefers-color-scheme: dark)')
+
+const autoChangeScheme = e => {
+    currentTheme = e.matches ? 'dark' : 'light'
+    document.documentElement.setAttribute('data-theme', currentTheme)
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    switchButton = document.querySelector('.theme-switcher')
+    currentTheme = detectCurrentScheme()
+    if (currentTheme == 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark')
+    }
+    if (currentTheme == 'auto') {
+        autoChangeScheme(autoDefinedScheme);
+        autoDefinedScheme.addListener(autoChangeScheme);
+    }
+
+    if (switchButton) {
+        switchButton.addEventListener('click', switchTheme, false)
+    }
+  
+    showContent()
+})
+
+function detectCurrentScheme() {
+    if (localStorage !== null && localStorage.getItem(STORAGE_KEY)) {
+        return localStorage.getItem(STORAGE_KEY)
+    } 
+    if (defaultTheme) {
+        return defaultTheme
+    } 
+    if (!window.matchMedia) {
+        return 'light'
+    } 
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        return 'dark'
+    }
+    return 'light'
+}
+
+function switchTheme(e) {
+    if (currentTheme == 'dark') {
+        if (localStorage !== null)
+            localStorage.setItem(STORAGE_KEY, 'light')
+        document.documentElement.setAttribute('data-theme', 'light')
+        currentTheme = 'light'
+    } else {
+        if (localStorage !== null)
+            localStorage.setItem(STORAGE_KEY, 'dark')
+        document.documentElement.setAttribute('data-theme', 'dark')
+        currentTheme = 'dark'
+    }
+}
+
+function showContent() {
+    document.body.style.visibility = 'visible';
+    document.body.style.opacity = 1;
+}
+</script>
+
+  
+    </div>
+</div>
+
+
+    <nav>
+        
+        
+        <a class="" href="https://coindarw.github.io/blog/about/" title="">About</a>
+        
+        <a class="" href="https://coindarw.github.io/blog/tags/" title="">Tags</a>
+        
+        <a class="" href="https://coindarw.github.io/blog/posts/" title="">Archive</a>
+        
+    </nav>
+
+
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$','$$'], ['\\[', '\\]']],
+      processEscapes: true,
+      processEnvironments: true
+    },
+    options: {
+      skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+    }
+  };
+
+  window.addEventListener('load', (event) => {
+      document.querySelectorAll("mjx-container").forEach(function(x){
+        x.parentElement.classList += 'has-jax'})
+    });
+
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
+            
+        </header>
+        <main id="main" tabindex="-1"> 
+            
+    
+
+    <article class="post h-entry">
+        <div class="post-header">
+            <header>
+                <h1 class="p-name post-title">POJ 1986 Distance Queries</h1>
+
+                
+            </header>
+        </div>
+        
+
+
+
+
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#問題概要">問題概要</a>
+      <ul>
+        <li><a href="#制約">制約</a></li>
+      </ul>
+    </li>
+    <li><a href="#解法メモ">解法メモ</a></li>
+    <li><a href="#実装例">実装例</a></li>
+  </ul>
+</nav>
+
+        <div class="content e-content">
+            <p><a href="http://poj.org/problem?id=1986">http://poj.org/problem?id=1986</a>
+<a href="http://bailian.openjudge.cn/practice/1986?lang=en_US">http://bailian.openjudge.cn/practice/1986?lang=en_US</a></p>
+<p><a href="https://vjudge.net/problem/POJ-1986">https://vjudge.net/problem/POJ-1986</a>
+<a href="https://vjudge.net/problem/OpenJ_Bailian-1986">https://vjudge.net/problem/OpenJ_Bailian-1986</a></p>
+<p>POJだとMLがきついのでOpenJ_BailianでAC。</p>
+<h2 id="問題概要" >問題概要
+<span>
+    <a href="#%e5%95%8f%e9%a1%8c%e6%a6%82%e8%a6%81">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h2><p>（ <a href="http://poj.org/problem?id=1984">POJ 1984 Navigation Nightmare</a>と同じ入力形式の問題なのでこちらの問題文を読む必要もある ）</p>
+<ul>
+<li>
+<p>2次元平面状に$N$個の農場があり、$1\cdots N$の番号が付いている</p>
+</li>
+<li>
+<p>長さの異なる$M$本の道路があり、$i$本目の道路は$A_i$番目の農場から$B_i$番目の農場へ続く距離$L_i$の道路で、$D_i\in{N,E,W,S}$方向につながっている。</p>
+</li>
+<li>
+<p>2つの農場の間にはちょうど1つパスが存在する。（木になっている)</p>
+</li>
+<li>
+<p>面倒な入力は与えられない。</p>
+<ul>
+<li>農場は道路の端点にのみある</li>
+<li>道路が交差することはない</li>
+<li>矛盾するデータが来ることはない</li>
+</ul>
+</li>
+<li>
+<p>$K$個のクエリが与えられるので答えよ。</p>
+</li>
+<li>
+<p>クエリ $a_i,b_i$ : 農場$a_i$から農場$b_i$に移動するとき通る道路の長さの合計を求めよ</p>
+</li>
+</ul>
+<h3 id="制約" >制約
+<span>
+    <a href="#%e5%88%b6%e7%b4%84">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><ul>
+<li>$2\leq N\leq 4\times10^4$</li>
+<li>$1\leq M&lt; 4\times10^4$</li>
+<li>$1\leq L_i\leq 10^3$</li>
+<li>$1\leq K\leq 10^4$</li>
+</ul>
+<h2 id="解法メモ" >解法メモ
+<span>
+    <a href="#%e8%a7%a3%e6%b3%95%e3%83%a1%e3%83%a2">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h2><ul>
+<li>木の適当な頂点を根とする。</li>
+<li>根から他の頂点$v$への距離$d(v)$を列挙しておけば、答えは$d(a_i)+d(b_i)-2d(\mathrm{lca}(a_i,b_i))$となる。</li>
+<li>方位が与えられるがこの問題では特に関係ない</li>
+</ul>
+<h2 id="実装例" >実装例
+<span>
+    <a href="#%e5%ae%9f%e8%a3%85%e4%be%8b">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h2><p>POJだとMLが30000 kBなのでMLE</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;algorithm&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;cassert&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;cstdio&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stack&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;vector&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define rep(i, n) for (int i = 0, i##_len = (n); i &lt; i##_len; ++i)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define inf int(2e9)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#define all(v) v.begin(), v.end()
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> edge<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">LCA</span> {
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SparseTable</span> {
+</span></span><span style="display:flex;"><span>        vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">&gt;</span> st;
+</span></span><span style="display:flex;"><span>        vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> lookup;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> n, N, logN;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>       <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>        SparseTable() {}
+</span></span><span style="display:flex;"><span>        SparseTable(<span style="color:#66d9ef">const</span> vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span>v) {
+</span></span><span style="display:flex;"><span>            n <span style="color:#f92672">=</span> v.size();
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (n <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>            N <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> (<span style="color:#ae81ff">32</span> <span style="color:#f92672">-</span> __builtin_clz(v.size()));
+</span></span><span style="display:flex;"><span>            logN <span style="color:#f92672">=</span> <span style="color:#ae81ff">32</span> <span style="color:#f92672">-</span> __builtin_clz(N);
+</span></span><span style="display:flex;"><span>            st.assign(logN, vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span><span style="color:#f92672">&gt;</span>(N, (<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span>)<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>));
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; <span style="color:#f92672">++</span>i) st[<span style="color:#ae81ff">0</span>][i] <span style="color:#f92672">=</span> v[i];
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> len <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;</span> (<span style="color:#66d9ef">int</span>)st.size(); <span style="color:#f92672">++</span>i) {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">+</span> len <span style="color:#f92672">&lt;</span> N; j<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>                    st[i][j] <span style="color:#f92672">=</span> min(st[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>][j], st[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>][j <span style="color:#f92672">+</span> len]);
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>                len <span style="color:#f92672">&lt;&lt;=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            lookup.resize(N <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>; i <span style="color:#f92672">&lt;</span> (<span style="color:#66d9ef">int</span>)lookup.size(); <span style="color:#f92672">++</span>i) lookup[i] <span style="color:#f92672">=</span> lookup[i <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">prod</span>(<span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r) {
+</span></span><span style="display:flex;"><span>            assert(<span style="color:#ae81ff">0</span> <span style="color:#f92672">&lt;=</span> l <span style="color:#f92672">&amp;&amp;</span> l <span style="color:#f92672">&lt;=</span> r <span style="color:#f92672">&amp;&amp;</span> r <span style="color:#f92672">&lt;=</span> n);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (l <span style="color:#f92672">==</span> r) <span style="color:#66d9ef">return</span> (<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span>)<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> b <span style="color:#f92672">=</span> lookup[r <span style="color:#f92672">-</span> l];
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> min(st[b][l], st[b][r <span style="color:#f92672">-</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> b)]);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span>edge<span style="color:#f92672">&gt;</span> <span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span>G;
+</span></span><span style="display:flex;"><span>    SparseTable st;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs</span>() {
+</span></span><span style="display:flex;"><span>        stack<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">&gt;</span> s;
+</span></span><span style="display:flex;"><span>        s.push(root);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> (<span style="color:#f92672">!</span>s.empty()) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> v <span style="color:#f92672">=</span> s.top();
+</span></span><span style="display:flex;"><span>            s.pop();
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (v <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>                _id[v] <span style="color:#f92672">=</span> _vs.size();
+</span></span><span style="display:flex;"><span>                _vs.push_back(v);
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#66d9ef">int</span>(G[v].size()); <span style="color:#f92672">++</span>i) {
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">const</span> edge <span style="color:#f92672">&amp;</span>e <span style="color:#f92672">=</span> G[v][i];
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">if</span> (_parent[v] <span style="color:#f92672">==</span> e.to) <span style="color:#66d9ef">continue</span>;
+</span></span><span style="display:flex;"><span>                    _parent[e.to] <span style="color:#f92672">=</span> v;
+</span></span><span style="display:flex;"><span>                    _depth[e.to] <span style="color:#f92672">=</span> _depth[v] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>                    s.push(<span style="color:#f92672">~</span>v);
+</span></span><span style="display:flex;"><span>                    s.push(e.to);
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>            } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>                _vs.push_back(<span style="color:#f92672">~</span>v);
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> root, logV;
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> _parent, _depth, _vs, _id;
+</span></span><span style="display:flex;"><span>    LCA(<span style="color:#66d9ef">const</span> vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span>edge<span style="color:#f92672">&gt;</span> <span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span>_G, <span style="color:#66d9ef">int</span> _root <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>) <span style="color:#f92672">:</span> G(_G), root(_root) {
+</span></span><span style="display:flex;"><span>        logV <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> _v <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> (_v <span style="color:#f92672">&lt;</span> <span style="color:#66d9ef">int</span>(G.size())) _v <span style="color:#f92672">*=</span> <span style="color:#ae81ff">2</span>, logV<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>        _parent <span style="color:#f92672">=</span> vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span>(G.size());
+</span></span><span style="display:flex;"><span>        _depth <span style="color:#f92672">=</span> vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span>(G.size());
+</span></span><span style="display:flex;"><span>        _id <span style="color:#f92672">=</span> vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span>(G.size());
+</span></span><span style="display:flex;"><span>        dfs();
+</span></span><span style="display:flex;"><span>        vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span><span style="color:#f92672">&gt;</span> v(_vs.size());
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#66d9ef">int</span>(_vs.size()); <span style="color:#f92672">++</span>i) v[i] <span style="color:#f92672">=</span> ((<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span>)_depth[_vs[i]] <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">32</span>) <span style="color:#f92672">|</span> _vs[i];
+</span></span><span style="display:flex;"><span>        st <span style="color:#f92672">=</span> SparseTable(v);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">getLca</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> v) { <span style="color:#66d9ef">return</span> st.prod(min(_id[u], _id[v]), max(_id[u], _id[v]) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">&amp;</span> ((<span style="color:#ae81ff">1ull</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">32</span>) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>); }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">getDist</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> v) { <span style="color:#66d9ef">return</span> _depth[u] <span style="color:#f92672">+</span> _depth[v] <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> _depth[getLca(u, v)]; }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">edge</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> to;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> cost;
+</span></span><span style="display:flex;"><span>    edge(<span style="color:#66d9ef">int</span> _to, <span style="color:#66d9ef">int</span> _cost) <span style="color:#f92672">:</span> to(_to), cost(_cost) {}
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    ios_base<span style="color:#f92672">::</span>sync_with_stdio(false);
+</span></span><span style="display:flex;"><span>    cin.tie(NULL);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> n, m;
+</span></span><span style="display:flex;"><span>    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> m;
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span>edge<span style="color:#f92672">&gt;</span> <span style="color:#f92672">&gt;</span> G(n);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    rep(i, m) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> a, b, c;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">char</span> d;
+</span></span><span style="display:flex;"><span>        cin <span style="color:#f92672">&gt;&gt;</span> a <span style="color:#f92672">&gt;&gt;</span> b <span style="color:#f92672">&gt;&gt;</span> c <span style="color:#f92672">&gt;&gt;</span> d;
+</span></span><span style="display:flex;"><span>        a<span style="color:#f92672">--</span>, b<span style="color:#f92672">--</span>;
+</span></span><span style="display:flex;"><span>        G[a].push_back(edge(b, c));
+</span></span><span style="display:flex;"><span>        G[b].push_back(edge(a, c));
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> dist(n, inf);
+</span></span><span style="display:flex;"><span>    dist[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    stack<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">&gt;</span> st;
+</span></span><span style="display:flex;"><span>    st.push(<span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> (<span style="color:#f92672">!</span>st.empty()) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> u <span style="color:#f92672">=</span> st.top();
+</span></span><span style="display:flex;"><span>        st.pop();
+</span></span><span style="display:flex;"><span>        rep(i, G[u].size()) {
+</span></span><span style="display:flex;"><span>            edge e <span style="color:#f92672">=</span> G[u][i];
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (dist[e.to] <span style="color:#f92672">&gt;</span> dist[u] <span style="color:#f92672">+</span> e.cost) {
+</span></span><span style="display:flex;"><span>                dist[e.to] <span style="color:#f92672">=</span> dist[u] <span style="color:#f92672">+</span> e.cost;
+</span></span><span style="display:flex;"><span>                st.push(e.to);
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    LCA<span style="color:#f92672">&lt;</span>edge<span style="color:#f92672">&gt;</span> lca(G);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> q;
+</span></span><span style="display:flex;"><span>    cin <span style="color:#f92672">&gt;&gt;</span> q;
+</span></span><span style="display:flex;"><span>    rep(i, q) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> a, b;
+</span></span><span style="display:flex;"><span>        cin <span style="color:#f92672">&gt;&gt;</span> a <span style="color:#f92672">&gt;&gt;</span> b;
+</span></span><span style="display:flex;"><span>        a<span style="color:#f92672">--</span>, b<span style="color:#f92672">--</span>;
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> dist[a] <span style="color:#f92672">+</span> dist[b] <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> dist[lca.getLca(a, b)] <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
+        </div>
+        
+
+    
+
+
+
+<div class="post-info">
+    
+        <div class="post-date dt-published">
+            <a class="u-url" href="/blog/posts/practice/poj-1986/"><time datetime="2025-03-04">2025-03-04</time></a>
+            
+        </div>
+    
+
+    <a class="post-hidden-url u-url" href="https://coindarw.github.io/blog/posts/practice/poj-1986/">https://coindarw.github.io/blog/posts/practice/poj-1986/</a>
+    <a href="https://coindarw.github.io/blog/" class="p-name p-author post-hidden-author h-card" rel="me">coindarw</a>
+
+
+    <div class="post-taxonomies">
+        
+        
+            <ul class="post-tags">
+                
+                    
+                    <li><a href="">#競技プログラミング</a></li>
+                
+                    
+                    <li><a href="">#蟻本練習問題</a></li>
+                
+            </ul>
+        
+        
+    </div>
+</div>
+
+    </article>
+
+    
+
+    
+
+    
+        
+    
+
+        </main>
+        
+            <footer class="common-footer">
+    
+    
+
+    <div class="common-footer-bottom">
+        
+        <div class="copyright">
+            <p>© coindarw, 2025<br>
+             <a target="_blank" rel="noopener noreferrer" href="https://gohugo.io/">Hugo</a>,  <a target="_blank" rel="noopener noreferrer" href="https://github.com/mitrichius/hugo-theme-anubis">Anubis</a>.<br>
+            
+            </p>  
+        </div> 
+    </div>
+
+    <p class="h-card vcard">
+
+    <a href=https://coindarw.github.io/blog/ class="p-name u-url url fn" rel="me">coindarw</a> 
+
+    
+
+    
+</p> 
+</footer>
+
+        
+    </div>
+</body>
+</html>

@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+
+
+<html lang="ja" data-theme="">
+<head>
+    
+        
+<meta charset="utf-8">
+<meta name="HandheldFriendly" content="True">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer-when-downgrade">
+
+<title>AOJ 2292 Common Palindromes(BOJ 22496) - coindarw&rsquo;s page</title>
+
+<meta name="description" content="https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=2292
+https://www.acmicpc.net/problem/22496
+https://vjudge.net/problem/Aizu-2292
+https://vjudge.net/problem/Baekjoon-22496
+なお、yukicoderには$|S|,|T|$の制約が10倍になったこと以外は同じ問題「Common Palindromes Extra」が存在する
+https://yukicoder.me/problems/no/263
+https://vjudge.net/problem/Yukicoder-263">
+
+
+
+
+
+<link rel="icon" type="image/x-icon" href="https://coindarw.github.io/blog/favicon.ico">
+<link rel="apple-touch-icon-precomposed" href="https://coindarw.github.io/blog/favicon.png">
+
+
+
+
+    
+
+
+
+<style>
+  body {
+    visibility: hidden;
+    opacity: 0;
+  }
+</style>
+
+<noscript>
+  <style>
+    body {
+      visibility: visible;
+      opacity: 1;
+    }
+  </style>
+</noscript>
+
+
+
+
+    
+
+
+
+
+
+    
+    
+        
+    
+    
+
+    
+        <link rel="stylesheet" href="https://coindarw.github.io/blog/css/style.min.a9fc9636a4bb1c27b94647cef1d5457e897a9155d53fca3900cc91d7cfe8e983.css" integrity="sha256-qfyWNqS7HCe5RkfO8dVFfol6kVXVP8o5AMyR18/o6YM=">
+    
+
+
+
+
+
+    
+
+    
+
+
+
+
+
+    
+    
+        
+    
+    
+
+    
+        <script src="https://coindarw.github.io/blog/js/script.min.74bf1a3fcf1af396efa4acf3e660e876b61a2153ab9cbe1893ac24ea6d4f94ee.js" type="text/javascript" charset="utf-8" integrity="sha256-dL8aP88a85bvpKzz5mDodrYaIVOrnL4Yk6wk6m1PlO4="></script>
+    
+
+
+
+
+
+
+
+<meta property="og:url" content="https://coindarw.github.io/blog/posts/practice/aoj-2292/">
+  <meta property="og:site_name" content="coindarw&#39;s page">
+  <meta property="og:title" content="AOJ 2292 Common Palindromes(BOJ 22496)">
+  <meta property="og:description" content="https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=2292 https://www.acmicpc.net/problem/22496
+https://vjudge.net/problem/Aizu-2292 https://vjudge.net/problem/Baekjoon-22496
+なお、yukicoderには$|S|,|T|$の制約が10倍になったこと以外は同じ問題「Common Palindromes Extra」が存在する https://yukicoder.me/problems/no/263 https://vjudge.net/problem/Yukicoder-263">
+  <meta property="og:locale" content="ja">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-03-04T13:53:01+09:00">
+    <meta property="article:modified_time" content="2025-03-04T13:53:01+09:00">
+    <meta property="article:tag" content="競技プログラミング">
+    <meta property="article:tag" content="蟻本練習問題">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="AOJ 2292 Common Palindromes(BOJ 22496)">
+  <meta name="twitter:description" content="https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=2292 https://www.acmicpc.net/problem/22496
+https://vjudge.net/problem/Aizu-2292 https://vjudge.net/problem/Baekjoon-22496
+なお、yukicoderには$|S|,|T|$の制約が10倍になったこと以外は同じ問題「Common Palindromes Extra」が存在する https://yukicoder.me/problems/no/263 https://vjudge.net/problem/Yukicoder-263">
+
+
+
+
+
+
+
+
+
+    
+</head>
+<body>
+    <a class="skip-main" href="#main"></a>
+    <div class="container">
+        <header class="common-header"> 
+            
+                <div class="header-top">
+    <div class="header-top-left">
+        <h1 class="site-title">
+    <a href="/blog">coindarw&#39;s page</a>
+</h1>
+        <ul class="social-icons">
+
+
+    
+        <li>
+            <a href="https://github.com/coindarw" title="Github" rel="me">
+            <span class="inline-svg" >
+
+
+
+
+    
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+
+</span>
+
+            </a>
+        </li>
+    
+
+
+
+    <li>
+            <a href="https://coindarw.github.io/blog/index.xml" title="RSS" rel="me">
+            <span class="inline-svg" >
+
+
+
+
+    
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M128.081 415.959c0 35.369-28.672 64.041-64.041 64.041S0 451.328 0 415.959s28.672-64.041 64.041-64.041 64.04 28.673 64.04 64.041zm175.66 47.25c-8.354-154.6-132.185-278.587-286.95-286.95C7.656 175.765 0 183.105 0 192.253v48.069c0 8.415 6.49 15.472 14.887 16.018 111.832 7.284 201.473 96.702 208.772 208.772.547 8.397 7.604 14.887 16.018 14.887h48.069c9.149.001 16.489-7.655 15.995-16.79zm144.249.288C439.596 229.677 251.465 40.445 16.503 32.01 7.473 31.686 0 38.981 0 48.016v48.068c0 8.625 6.835 15.645 15.453 15.999 191.179 7.839 344.627 161.316 352.465 352.465.353 8.618 7.373 15.453 15.999 15.453h48.068c9.034-.001 16.329-7.474 16.005-16.504z"/></svg>
+
+</span>
+
+            </a>
+        </li>
+    
+
+</ul>
+    </div>
+    <div class="header-top-right">
+        
+
+    
+
+
+
+
+    <div class="theme-switcher">
+        <span class="inline-svg" >
+
+
+
+
+    
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 290 290">
+<path fill="currentColor" d="M142.959,0C64.131,0,0,64.132,0,142.96c0,78.828,64.131,142.959,142.959,142.959c78.828,0,142.96-64.131,142.96-142.959  C285.919,64.132,221.787,0,142.959,0z M142.959,260.919V142.96V25c65.043,0,117.96,52.917,117.96,117.96  C260.919,208.003,208.002,260.919,142.959,260.919z"/>
+</svg>
+
+</span>
+
+    </div>
+
+
+<script>
+const STORAGE_KEY = 'user-color-scheme'
+const defaultTheme = "auto"
+
+let currentTheme
+let switchButton
+let autoDefinedScheme = window.matchMedia('(prefers-color-scheme: dark)')
+
+const autoChangeScheme = e => {
+    currentTheme = e.matches ? 'dark' : 'light'
+    document.documentElement.setAttribute('data-theme', currentTheme)
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    switchButton = document.querySelector('.theme-switcher')
+    currentTheme = detectCurrentScheme()
+    if (currentTheme == 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark')
+    }
+    if (currentTheme == 'auto') {
+        autoChangeScheme(autoDefinedScheme);
+        autoDefinedScheme.addListener(autoChangeScheme);
+    }
+
+    if (switchButton) {
+        switchButton.addEventListener('click', switchTheme, false)
+    }
+  
+    showContent()
+})
+
+function detectCurrentScheme() {
+    if (localStorage !== null && localStorage.getItem(STORAGE_KEY)) {
+        return localStorage.getItem(STORAGE_KEY)
+    } 
+    if (defaultTheme) {
+        return defaultTheme
+    } 
+    if (!window.matchMedia) {
+        return 'light'
+    } 
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        return 'dark'
+    }
+    return 'light'
+}
+
+function switchTheme(e) {
+    if (currentTheme == 'dark') {
+        if (localStorage !== null)
+            localStorage.setItem(STORAGE_KEY, 'light')
+        document.documentElement.setAttribute('data-theme', 'light')
+        currentTheme = 'light'
+    } else {
+        if (localStorage !== null)
+            localStorage.setItem(STORAGE_KEY, 'dark')
+        document.documentElement.setAttribute('data-theme', 'dark')
+        currentTheme = 'dark'
+    }
+}
+
+function showContent() {
+    document.body.style.visibility = 'visible';
+    document.body.style.opacity = 1;
+}
+</script>
+
+  
+    </div>
+</div>
+
+
+    <nav>
+        
+        
+        <a class="" href="https://coindarw.github.io/blog/about/" title="">About</a>
+        
+        <a class="" href="https://coindarw.github.io/blog/tags/" title="">Tags</a>
+        
+        <a class="" href="https://coindarw.github.io/blog/posts/" title="">Archive</a>
+        
+    </nav>
+
+
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$','$$'], ['\\[', '\\]']],
+      processEscapes: true,
+      processEnvironments: true
+    },
+    options: {
+      skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+    }
+  };
+
+  window.addEventListener('load', (event) => {
+      document.querySelectorAll("mjx-container").forEach(function(x){
+        x.parentElement.classList += 'has-jax'})
+    });
+
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
+            
+        </header>
+        <main id="main" tabindex="-1"> 
+            
+    
+
+    <article class="post h-entry">
+        <div class="post-header">
+            <header>
+                <h1 class="p-name post-title">AOJ 2292 Common Palindromes(BOJ 22496)</h1>
+
+                
+            </header>
+        </div>
+        
+
+
+
+
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#問題概要">問題概要</a>
+      <ul>
+        <li><a href="#制約">制約</a></li>
+      </ul>
+    </li>
+    <li><a href="#解法メモ">解法メモ</a></li>
+    <li><a href="#実装例">実装例</a></li>
+  </ul>
+</nav>
+
+        <div class="content e-content">
+            <p><a href="https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=2292">https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=2292</a>
+<a href="https://www.acmicpc.net/problem/22496">https://www.acmicpc.net/problem/22496</a></p>
+<p><a href="https://vjudge.net/problem/Aizu-2292">https://vjudge.net/problem/Aizu-2292</a>
+<a href="https://vjudge.net/problem/Baekjoon-22496">https://vjudge.net/problem/Baekjoon-22496</a></p>
+<p>なお、yukicoderには$|S|,|T|$の制約が10倍になったこと以外は同じ問題「Common Palindromes Extra」が存在する
+<a href="https://yukicoder.me/problems/no/263">https://yukicoder.me/problems/no/263</a>
+<a href="https://vjudge.net/problem/Yukicoder-263">https://vjudge.net/problem/Yukicoder-263</a></p>
+<h2 id="問題概要" >問題概要
+<span>
+    <a href="#%e5%95%8f%e9%a1%8c%e6%a6%82%e8%a6%81">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h2><ul>
+<li>文字列$S,T$が与えられる。$S,T$の部分文字列の組$(s,t)$で、$s=t$かつそれらが回文であるものの個数を数えよ</li>
+<li>部分文字列は場所が異なれば違うとみなす</li>
+</ul>
+<h3 id="制約" >制約
+<span>
+    <a href="#%e5%88%b6%e7%b4%84">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><ul>
+<li>$1\leq |S|,|T|\leq 5\times 10^4$</li>
+<li>$S,T$は英大文字からなる</li>
+</ul>
+<h2 id="解法メモ" >解法メモ
+<span>
+    <a href="#%e8%a7%a3%e6%b3%95%e3%83%a1%e3%83%a2">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h2><ul>
+<li>
+<p>$S$に登場する回文の種類数を$N$とすると$N\leq |S|$になる</p>
+<ul>
+<li>ある文字列の末尾に1文字追加しても回文が2種類増えることはないから</li>
+<li>（あるABC-Exの解説に載っていたので知った。ネタバレ防止 <a href="https://kmyk.github.io/cp-unspoiler/?q=aHR0cHM6Ly9hdGNvZGVyLmpwL2NvbnRlc3RzL2FiYzIzNy90YXNrcy9hYmMyMzdfaA%3D%3D">https://kmyk.github.io/cp-unspoiler/?q=aHR0cHM6Ly9hdGNvZGVyLmpwL2NvbnRlc3RzL2FiYzIzNy90YXNrcy9hYmMyMzdfaA%3D%3D</a> ）</li>
+</ul>
+</li>
+<li>
+<p>回文ごとにLCP等を使って数えていけばよさそう</p>
+</li>
+<li>
+<p>回文の列挙方法を知らないので考えてみる</p>
+<ul>
+<li>manacherのアルゴリズムを使えば各場所を中心とする最長回文を$O(|S|)$で列挙できる（数えられるのは奇数長の回文なので、<code>A$B$C$D</code> のような感じで間に使わない文字を挟む）</li>
+<li>最長回文長$m[i]$を$i$昇順に見ていく
+<ul>
+<li>$i$を中心とする半径$m[i], m[i]-1, \cdots, 1$の回文を見る
+<ul>
+<li>既に列挙済みであれば次の場所に行く</li>
+<li>そうでなければ列挙する</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>というようにすれば列挙できる。既に列挙済みかどうかチェックする方法は以下のように適当に</p>
+<ul>
+<li>ハッシュをsetに入れておく</li>
+<li>SAで左端のindexが出てくる場所をsetに入れておき、左右の要素とのLCPが回文の直径以上か見る</li>
+</ul>
+</li>
+<li>
+<p>このような方法で回文の区間を列挙しておいたあと、</p>
+<ul>
+<li>$S+T$ののLCPを見て、同じ回文のペアの個数を数える(1)</li>
+<li>$S$のLCPを見て、同じ回文のペアの個数を数える(2)</li>
+<li>$T$のLCPを見て、同じ回文のペアの個数を数える(3)</li>
+<li>(1)-(2)-(3)を求める</li>
+</ul>
+</li>
+<li>
+<p>で答えが求められる</p>
+</li>
+<li>
+<p><code>A</code> 1文字や <code>B</code> 1文字は回文だが、manacherの時に追加した <code>$</code> 1文字は回文にならないのでその分は引く必要がある</p>
+</li>
+<li>
+<p><a href="https://jag-icpc.org/?2011%2FPractice%2F%E5%A4%8F%E5%90%88%E5%AE%BF%2F%E8%AC%9B%E8%A9%95">2011/Practice/夏合宿/講評 - ICPC OB/OG の会 (jag-icpc.org)</a> に解説があり、想定解は少し違う</p>
+</li>
+<li>
+<p>他の人の実装も見た感じPalindromic Treeというのを使うと回文列挙を線形時間でできるらしい</p>
+<ul>
+<li>LCに入っていた <a href="https://judge.yosupo.jp/problem/eertree">https://judge.yosupo.jp/problem/eertree</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="実装例" >実装例
+<span>
+    <a href="#%e5%ae%9f%e8%a3%85%e4%be%8b">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h2><p>AOJではこのLCP+SparseTable上二分探索したコードで通るが、yukicoderのExtraの方はTLEしてしまった
+Extraの方で通るコードは記事末尾</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;algorithm&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;cassert&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;cmath&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;set&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;vector&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> ll;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#define rep(i, n) for (int i = 0, i##_len = (n); i &lt; i##_len; ++i)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define inf int(2e9)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> sa_is(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> v, <span style="color:#66d9ef">int</span> upper) {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 1 &lt;= v[i] &lt;= upper
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (v.size() <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">return</span> vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span> (v.size() <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">return</span> vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span>(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span> (v.size() <span style="color:#f92672">==</span> <span style="color:#ae81ff">2</span>) {
+</span></span><span style="display:flex;"><span>        vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> res(<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (v[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">&lt;</span> v[<span style="color:#ae81ff">1</span>]) res[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span> res[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> res;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    v.push_back(<span style="color:#ae81ff">0</span>);  <span style="color:#75715e">// sentinel
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> v.size();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> bl(upper <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>), br(upper <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);  <span style="color:#75715e">// bucket range
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; <span style="color:#f92672">++</span>i) br[v[i]]<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> upper; <span style="color:#f92672">++</span>i) br[i] <span style="color:#f92672">+=</span> br[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>];
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> upper; <span style="color:#f92672">++</span>i) bl[i] <span style="color:#f92672">=</span> br[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> is_l(n);
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> lms, sa(n, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>), lms_ord(n);  <span style="color:#75715e">// lms_ord[i] := 0 -&gt; not lms, 1~ -&gt; 1-indexed
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> n <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; <span style="color:#f92672">--</span>i) is_l[i] <span style="color:#f92672">=</span> (v[i] <span style="color:#f92672">==</span> v[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>]) <span style="color:#f92672">?</span> is_l[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">:</span> (v[i] <span style="color:#f92672">&gt;</span> v[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>]);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;</span> n; <span style="color:#f92672">++</span>i) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>is_l[i] <span style="color:#f92672">&amp;&amp;</span> is_l[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]) {
+</span></span><span style="display:flex;"><span>            sa[<span style="color:#f92672">--</span>br[v[i]]] <span style="color:#f92672">=</span> i;
+</span></span><span style="display:flex;"><span>            lms_ord[i] <span style="color:#f92672">=</span> <span style="color:#f92672">~</span><span style="color:#66d9ef">int</span>(lms.size());
+</span></span><span style="display:flex;"><span>            lms.push_back(i);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> upper; <span style="color:#f92672">++</span>i) br[i] <span style="color:#f92672">=</span> bl[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>];
+</span></span><span style="display:flex;"><span>    br[upper] <span style="color:#f92672">=</span> n;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; <span style="color:#f92672">++</span>i)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (sa[i] <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> is_l[sa[i] <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]) sa[bl[v[sa[i] <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]]<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> sa[i] <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> upper; <span style="color:#f92672">++</span>i) bl[i] <span style="color:#f92672">=</span> br[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>];
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (sa[i] <span style="color:#f92672">&gt;</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>is_l[sa[i]]) sa[i] <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> n <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1</span>; i<span style="color:#f92672">--</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (sa[i] <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>is_l[sa[i] <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]) sa[<span style="color:#f92672">--</span>br[v[sa[i] <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]]] <span style="color:#f92672">=</span> sa[i] <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> upper; <span style="color:#f92672">++</span>i) br[i] <span style="color:#f92672">=</span> bl[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>];
+</span></span><span style="display:flex;"><span>    br[upper] <span style="color:#f92672">=</span> n;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> lms_substr_sorted(lms.size());
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> cnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; <span style="color:#f92672">++</span>i)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (sa[i] <span style="color:#f92672">&gt;</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> lms_ord[sa[i]]) lms_substr_sorted[cnt<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> sa[i];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// same lms_substr -&gt; same rank
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> ord(lms.size());
+</span></span><span style="display:flex;"><span>    ord[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#66d9ef">int</span>(lms.size()) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>; <span style="color:#f92672">++</span>i) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> l1 <span style="color:#f92672">=</span> lms_substr_sorted[i], l2 <span style="color:#f92672">=</span> lms_substr_sorted[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>];
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (l1 <span style="color:#f92672">&gt;</span> l2) swap(l1, l2);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (l2 <span style="color:#f92672">==</span> n <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) ord[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> ord[i] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> p1 <span style="color:#f92672">=</span> l1, p2 <span style="color:#f92672">=</span> l2;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">bool</span> f <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">while</span> (p1 <span style="color:#f92672">&lt;=</span> lms[<span style="color:#f92672">~</span>lms_ord[l1] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">&amp;&amp;</span> p2 <span style="color:#f92672">&lt;</span> n)
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> (v[p1] <span style="color:#f92672">==</span> v[p2]) <span style="color:#f92672">++</span>p1, <span style="color:#f92672">++</span>p2;
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>                    f <span style="color:#f92672">=</span> false;
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>            ord[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> f <span style="color:#f92672">?</span> ord[i] <span style="color:#f92672">:</span> ord[i] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> va(lms.size());  <span style="color:#75715e">// make array of appearance order
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#66d9ef">int</span>(lms.size()); <span style="color:#f92672">++</span>i) va[<span style="color:#f92672">~</span>lms_ord[lms_substr_sorted[i]]] <span style="color:#f92672">=</span> ord[i];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> lms_sorted <span style="color:#f92672">=</span> sa_is(va, ord.back());
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// place lms at correct position
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    fill(sa.begin(), sa.end(), <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> lms.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; i<span style="color:#f92672">--</span>) sa[<span style="color:#f92672">--</span>br[v[lms[lms_sorted[i]]]]] <span style="color:#f92672">=</span> lms[lms_sorted[i]];
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> upper; <span style="color:#f92672">++</span>i) br[i] <span style="color:#f92672">=</span> bl[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>];
+</span></span><span style="display:flex;"><span>    br[upper] <span style="color:#f92672">=</span> n;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; <span style="color:#f92672">++</span>i)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (sa[i] <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> is_l[sa[i] <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]) sa[bl[v[sa[i] <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]]<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> sa[i] <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (sa[i] <span style="color:#f92672">&gt;</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>is_l[sa[i]]) sa[i] <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> n <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1</span>; i<span style="color:#f92672">--</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (sa[i] <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>is_l[sa[i] <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]) sa[<span style="color:#f92672">--</span>br[v[sa[i] <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]]] <span style="color:#f92672">=</span> sa[i] <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    sa.erase(sa.begin());
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> sa;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> sa_is(string s) {
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> v(s.size());
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#66d9ef">int</span>(s.size()); i<span style="color:#f92672">++</span>) v[i] <span style="color:#f92672">=</span> s[i];
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">sa_is</span>(v, <span style="color:#ae81ff">255</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> lcp(<span style="color:#66d9ef">const</span> string<span style="color:#f92672">&amp;</span> s, <span style="color:#66d9ef">const</span> vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> sa) {
+</span></span><span style="display:flex;"><span>    assert(sa.size() <span style="color:#f92672">==</span> s.size());
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> rank(s.size()), _lcp(s.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> s.size();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>) rank[sa[i]] <span style="color:#f92672">=</span> i;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> h <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (rank[i] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">continue</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> sa[rank[i] <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>];
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (h <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) h<span style="color:#f92672">--</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (; j <span style="color:#f92672">+</span> h <span style="color:#f92672">&lt;</span> n <span style="color:#f92672">&amp;&amp;</span> i <span style="color:#f92672">+</span> h <span style="color:#f92672">&lt;</span> n; h<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (s[j <span style="color:#f92672">+</span> h] <span style="color:#f92672">!=</span> s[i <span style="color:#f92672">+</span> h]) <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>        _lcp[rank[i] <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> h;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> _lcp;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> manacher(<span style="color:#66d9ef">const</span> string<span style="color:#f92672">&amp;</span> s) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> s.size();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> res(n);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> (i <span style="color:#f92672">&lt;</span> n) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> (i <span style="color:#f92672">-</span> j <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> i <span style="color:#f92672">+</span> j <span style="color:#f92672">&lt;</span> n <span style="color:#f92672">&amp;&amp;</span> s[i <span style="color:#f92672">-</span> j] <span style="color:#f92672">==</span> s[i <span style="color:#f92672">+</span> j]) <span style="color:#f92672">++</span>j;
+</span></span><span style="display:flex;"><span>        res[i] <span style="color:#f92672">=</span> j;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> (i <span style="color:#f92672">-</span> k <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> k <span style="color:#f92672">+</span> res[i <span style="color:#f92672">-</span> k] <span style="color:#f92672">&lt;</span> j) res[i <span style="color:#f92672">+</span> k] <span style="color:#f92672">=</span> res[i <span style="color:#f92672">-</span> k], <span style="color:#f92672">++</span>k;
+</span></span><span style="display:flex;"><span>        i <span style="color:#f92672">+=</span> k, j <span style="color:#f92672">-=</span> k;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> res;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T, T INF<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SparseTableMin</span> {
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;&gt;</span> st;
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> lookup;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> n, N, logN;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">__bit_ceil</span>(<span style="color:#66d9ef">int</span> num) { <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> (<span style="color:#ae81ff">32</span> <span style="color:#f92672">-</span> __builtin_clz(num)); }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    SparseTableMin() {}
+</span></span><span style="display:flex;"><span>    SparseTableMin(<span style="color:#66d9ef">const</span> vector<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;&amp;</span> v) {
+</span></span><span style="display:flex;"><span>        n <span style="color:#f92672">=</span> v.size();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (n <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>        N <span style="color:#f92672">=</span> __bit_ceil(v.size());
+</span></span><span style="display:flex;"><span>        logN <span style="color:#f92672">=</span> <span style="color:#ae81ff">32</span> <span style="color:#f92672">-</span> __builtin_clz(N);
+</span></span><span style="display:flex;"><span>        st.assign(logN, vector<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span>(N, INF));
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>) st[<span style="color:#ae81ff">0</span>][i] <span style="color:#f92672">=</span> v[i];
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> len <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;</span> (<span style="color:#66d9ef">int</span>)st.size(); i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">+</span> len <span style="color:#f92672">&lt;</span> N; j<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>                st[i][j] <span style="color:#f92672">=</span> min(st[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>][j], st[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>][j <span style="color:#f92672">+</span> len]);
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            len <span style="color:#f92672">&lt;&lt;=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        lookup.resize(N <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>; i <span style="color:#f92672">&lt;</span> (<span style="color:#66d9ef">int</span>)lookup.size(); i<span style="color:#f92672">++</span>) lookup[i] <span style="color:#f92672">=</span> lookup[i <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    T <span style="color:#a6e22e">prod</span>(<span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r) {
+</span></span><span style="display:flex;"><span>        assert(<span style="color:#ae81ff">0</span> <span style="color:#f92672">&lt;=</span> l <span style="color:#f92672">&amp;&amp;</span> l <span style="color:#f92672">&lt;=</span> r <span style="color:#f92672">&amp;&amp;</span> r <span style="color:#f92672">&lt;=</span> n);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (l <span style="color:#f92672">==</span> r) <span style="color:#66d9ef">return</span> INF;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> b <span style="color:#f92672">=</span> lookup[r <span style="color:#f92672">-</span> l];
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> min(st[b][l], st[b][r <span style="color:#f92672">-</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> b)]);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>vector<span style="color:#f92672">&lt;</span>pair<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> enumerate_palindromes(<span style="color:#66d9ef">const</span> string<span style="color:#f92672">&amp;</span> s, <span style="color:#66d9ef">const</span> vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> sa, <span style="color:#66d9ef">const</span> vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> la) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> s.size();
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span>pair<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> res;
+</span></span><span style="display:flex;"><span>    string <span style="color:#a6e22e">t</span>(n <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#39;$&#39;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; <span style="color:#f92672">++</span>i) t[i <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>] <span style="color:#f92672">=</span> s[i];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    SparseTableMin<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, inf<span style="color:#f92672">&gt;</span> st(la);
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> rev_sa(n);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; <span style="color:#f92672">++</span>i) rev_sa[sa[i]] <span style="color:#f92672">=</span> i;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> man <span style="color:#f92672">=</span> manacher(t);
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span>set<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> lefts(n <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>; <span style="color:#f92672">++</span>i) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> rad <span style="color:#f92672">=</span> man[i]; rad <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>; <span style="color:#f92672">--</span>rad) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> l <span style="color:#f92672">=</span> i <span style="color:#f92672">-</span> (rad <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> r <span style="color:#f92672">=</span> i <span style="color:#f92672">+</span> (rad <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (l <span style="color:#f92672">%</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">continue</span>;
+</span></span><span style="display:flex;"><span>            l <span style="color:#f92672">=</span> l <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>;
+</span></span><span style="display:flex;"><span>            r <span style="color:#f92672">=</span> r <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> len <span style="color:#f92672">=</span> r <span style="color:#f92672">-</span> l;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">auto</span> ub <span style="color:#f92672">=</span> lefts[len].upper_bound(rev_sa[l]);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (ub <span style="color:#f92672">!=</span> lefts[len].end()) {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> (st.prod(min(rev_sa[l], <span style="color:#f92672">*</span>ub), max(rev_sa[l], <span style="color:#f92672">*</span>ub)) <span style="color:#f92672">&gt;=</span> len) {
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (ub <span style="color:#f92672">!=</span> lefts[len].begin()) {
+</span></span><span style="display:flex;"><span>                ub<span style="color:#f92672">--</span>;
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> (st.prod(min(rev_sa[l], <span style="color:#f92672">*</span>ub), max(rev_sa[l], <span style="color:#f92672">*</span>ub)) <span style="color:#f92672">&gt;=</span> len) {
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            lefts[len].insert(rev_sa[l]);
+</span></span><span style="display:flex;"><span>            res.emplace_back(l, r);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> res;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    ios_base<span style="color:#f92672">::</span>sync_with_stdio(false);
+</span></span><span style="display:flex;"><span>    cin.tie(NULL);
+</span></span><span style="display:flex;"><span>    string s, t;
+</span></span><span style="display:flex;"><span>    cin <span style="color:#f92672">&gt;&gt;</span> s <span style="color:#f92672">&gt;&gt;</span> t;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">auto</span> count_palindrome_pairs <span style="color:#f92672">=</span> [](string str) <span style="color:#f92672">-&gt;</span> ll {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">auto</span> sa <span style="color:#f92672">=</span> sa_is(str);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">auto</span> la <span style="color:#f92672">=</span> lcp(str, sa);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">auto</span> pal <span style="color:#f92672">=</span> enumerate_palindromes(str, sa, la);
+</span></span><span style="display:flex;"><span>        vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> rev(str.size());
+</span></span><span style="display:flex;"><span>        rep(i, str.size()) rev[sa[i]] <span style="color:#f92672">=</span> i;
+</span></span><span style="display:flex;"><span>        SparseTableMin<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, inf<span style="color:#f92672">&gt;</span> st(la);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        ll res <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> [l, r] <span style="color:#f92672">:</span> pal) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">auto</span> bsearch <span style="color:#f92672">=</span> [<span style="color:#f92672">&amp;</span>](<span style="color:#66d9ef">auto</span> cmp, <span style="color:#66d9ef">int</span> ok, <span style="color:#66d9ef">int</span> ng) {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">while</span> (abs(ng <span style="color:#f92672">-</span> ok) <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1</span>) {
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (ng <span style="color:#f92672">+</span> ok) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>;
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">if</span> (cmp(mid)) ok <span style="color:#f92672">=</span> mid;
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">else</span> ng <span style="color:#f92672">=</span> mid;
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> ok;
+</span></span><span style="display:flex;"><span>            };
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// [l, r)とのLCPがr-l以上のものの個数を数える
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            ll ls <span style="color:#f92672">=</span> bsearch([<span style="color:#f92672">&amp;</span>](<span style="color:#66d9ef">int</span> x) { <span style="color:#66d9ef">return</span> st.prod(min(rev[l], rev[l] <span style="color:#f92672">-</span> x), max(rev[l], rev[l] <span style="color:#f92672">-</span> x)) <span style="color:#f92672">&gt;=</span> r <span style="color:#f92672">-</span> l; }, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span> <span style="color:#f92672">+</span> rev[l]);
+</span></span><span style="display:flex;"><span>            ll rs <span style="color:#f92672">=</span> bsearch([<span style="color:#f92672">&amp;</span>](<span style="color:#66d9ef">int</span> x) { <span style="color:#66d9ef">return</span> st.prod(min(rev[l], rev[l] <span style="color:#f92672">+</span> x), max(rev[l], rev[l] <span style="color:#f92672">+</span> x)) <span style="color:#f92672">&gt;=</span> r <span style="color:#f92672">-</span> l; }, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span> <span style="color:#f92672">+</span> <span style="color:#66d9ef">int</span>(str.size()) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> rev[l]);
+</span></span><span style="display:flex;"><span>            ll cnt <span style="color:#f92672">=</span> rs <span style="color:#f92672">-</span> (<span style="color:#f92672">-</span>ls) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>            res <span style="color:#f92672">+=</span> cnt <span style="color:#f92672">*</span> (cnt <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> res;
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    ll ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    ans <span style="color:#f92672">+=</span> count_palindrome_pairs(s <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;/@&#34;</span> <span style="color:#f92672">+</span> t);  <span style="color:#75715e">// 区切り文字を中心とする回文ができないように適当な記号2つで区切る
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    ans <span style="color:#f92672">-=</span> count_palindrome_pairs(s);
+</span></span><span style="display:flex;"><span>    ans <span style="color:#f92672">-=</span> count_palindrome_pairs(t);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> ans <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#39;\n&#39;</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>回文列挙をRollingHashとunordered_setで線形時間で行えるようにし、ペアの個数をカウントするときはatcoder::segtree.max_right, min_leftを使うようにしたら1ケースだけ通らず</p>
+<p>unordered_setをgp_hash_tableに変え、いくつかの#pragmaディレクティブ(いわゆるQCFium法)を付けたら通った</p>
+<p>想定解法が回文木なので余計なlogのつくこの解法だとかなりTLがきつい</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#pragma GCC target(&#34;avx2&#34;)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#pragma GCC optimize(&#34;O3&#34;)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#pragma GCC optimize(&#34;unroll-loops&#34;)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;algorithm&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;atcoder/segtree&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;cassert&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;ext/pb_ds/assoc_container.hpp&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;random&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;unordered_set&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;vector&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> ll;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#define rep(i, n) for (int i = 0, i##_len = (n); i &lt; i##_len; ++i)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define inf int(2e9)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> __gnu_pbds;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> sa_is(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> v, <span style="color:#66d9ef">int</span> upper) {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 1 &lt;= v[i] &lt;= upper
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (v.size() <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">return</span> vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span> (v.size() <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">return</span> vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span>(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span> (v.size() <span style="color:#f92672">==</span> <span style="color:#ae81ff">2</span>) {
+</span></span><span style="display:flex;"><span>        vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> res(<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (v[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">&lt;</span> v[<span style="color:#ae81ff">1</span>]) res[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span> res[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> res;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    v.push_back(<span style="color:#ae81ff">0</span>);  <span style="color:#75715e">// sentinel
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> v.size();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> bl(upper <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>), br(upper <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);  <span style="color:#75715e">// bucket range
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; <span style="color:#f92672">++</span>i) br[v[i]]<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> upper; <span style="color:#f92672">++</span>i) br[i] <span style="color:#f92672">+=</span> br[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>];
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> upper; <span style="color:#f92672">++</span>i) bl[i] <span style="color:#f92672">=</span> br[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> is_l(n);
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> lms, sa(n, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>), lms_ord(n);  <span style="color:#75715e">// lms_ord[i] := 0 -&gt; not lms, 1~ -&gt; 1-indexed
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> n <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; <span style="color:#f92672">--</span>i) is_l[i] <span style="color:#f92672">=</span> (v[i] <span style="color:#f92672">==</span> v[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>]) <span style="color:#f92672">?</span> is_l[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">:</span> (v[i] <span style="color:#f92672">&gt;</span> v[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>]);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;</span> n; <span style="color:#f92672">++</span>i) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>is_l[i] <span style="color:#f92672">&amp;&amp;</span> is_l[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]) {
+</span></span><span style="display:flex;"><span>            sa[<span style="color:#f92672">--</span>br[v[i]]] <span style="color:#f92672">=</span> i;
+</span></span><span style="display:flex;"><span>            lms_ord[i] <span style="color:#f92672">=</span> <span style="color:#f92672">~</span><span style="color:#66d9ef">int</span>(lms.size());
+</span></span><span style="display:flex;"><span>            lms.push_back(i);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> upper; <span style="color:#f92672">++</span>i) br[i] <span style="color:#f92672">=</span> bl[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>];
+</span></span><span style="display:flex;"><span>    br[upper] <span style="color:#f92672">=</span> n;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; <span style="color:#f92672">++</span>i)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (sa[i] <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> is_l[sa[i] <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]) sa[bl[v[sa[i] <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]]<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> sa[i] <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> upper; <span style="color:#f92672">++</span>i) bl[i] <span style="color:#f92672">=</span> br[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>];
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (sa[i] <span style="color:#f92672">&gt;</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>is_l[sa[i]]) sa[i] <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> n <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1</span>; i<span style="color:#f92672">--</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (sa[i] <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>is_l[sa[i] <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]) sa[<span style="color:#f92672">--</span>br[v[sa[i] <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]]] <span style="color:#f92672">=</span> sa[i] <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> upper; <span style="color:#f92672">++</span>i) br[i] <span style="color:#f92672">=</span> bl[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>];
+</span></span><span style="display:flex;"><span>    br[upper] <span style="color:#f92672">=</span> n;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> lms_substr_sorted(lms.size());
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> cnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; <span style="color:#f92672">++</span>i)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (sa[i] <span style="color:#f92672">&gt;</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> lms_ord[sa[i]]) lms_substr_sorted[cnt<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> sa[i];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// same lms_substr -&gt; same rank
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> ord(lms.size());
+</span></span><span style="display:flex;"><span>    ord[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#66d9ef">int</span>(lms.size()) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>; <span style="color:#f92672">++</span>i) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> l1 <span style="color:#f92672">=</span> lms_substr_sorted[i], l2 <span style="color:#f92672">=</span> lms_substr_sorted[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>];
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (l1 <span style="color:#f92672">&gt;</span> l2) swap(l1, l2);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (l2 <span style="color:#f92672">==</span> n <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) ord[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> ord[i] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> p1 <span style="color:#f92672">=</span> l1, p2 <span style="color:#f92672">=</span> l2;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">bool</span> f <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">while</span> (p1 <span style="color:#f92672">&lt;=</span> lms[<span style="color:#f92672">~</span>lms_ord[l1] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">&amp;&amp;</span> p2 <span style="color:#f92672">&lt;</span> n)
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> (v[p1] <span style="color:#f92672">==</span> v[p2]) <span style="color:#f92672">++</span>p1, <span style="color:#f92672">++</span>p2;
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>                    f <span style="color:#f92672">=</span> false;
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>            ord[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> f <span style="color:#f92672">?</span> ord[i] <span style="color:#f92672">:</span> ord[i] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> va(lms.size());  <span style="color:#75715e">// make array of appearance order
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#66d9ef">int</span>(lms.size()); <span style="color:#f92672">++</span>i) va[<span style="color:#f92672">~</span>lms_ord[lms_substr_sorted[i]]] <span style="color:#f92672">=</span> ord[i];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> lms_sorted <span style="color:#f92672">=</span> sa_is(va, ord.back());
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// place lms at correct position
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    fill(sa.begin(), sa.end(), <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> lms.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; i<span style="color:#f92672">--</span>) sa[<span style="color:#f92672">--</span>br[v[lms[lms_sorted[i]]]]] <span style="color:#f92672">=</span> lms[lms_sorted[i]];
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> upper; <span style="color:#f92672">++</span>i) br[i] <span style="color:#f92672">=</span> bl[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>];
+</span></span><span style="display:flex;"><span>    br[upper] <span style="color:#f92672">=</span> n;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; <span style="color:#f92672">++</span>i)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (sa[i] <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> is_l[sa[i] <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]) sa[bl[v[sa[i] <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]]<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> sa[i] <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (sa[i] <span style="color:#f92672">&gt;</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>is_l[sa[i]]) sa[i] <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> n <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1</span>; i<span style="color:#f92672">--</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (sa[i] <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>is_l[sa[i] <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]) sa[<span style="color:#f92672">--</span>br[v[sa[i] <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]]] <span style="color:#f92672">=</span> sa[i] <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    sa.erase(sa.begin());
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> sa;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> sa_is(string s) {
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> v(s.size());
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#66d9ef">int</span>(s.size()); i<span style="color:#f92672">++</span>) v[i] <span style="color:#f92672">=</span> s[i];
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">sa_is</span>(v, <span style="color:#ae81ff">255</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> lcp(<span style="color:#66d9ef">const</span> string<span style="color:#f92672">&amp;</span> s, <span style="color:#66d9ef">const</span> vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> sa) {
+</span></span><span style="display:flex;"><span>    assert(sa.size() <span style="color:#f92672">==</span> s.size());
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> rank(s.size()), _lcp(s.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> s.size();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>) rank[sa[i]] <span style="color:#f92672">=</span> i;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> h <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (rank[i] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">continue</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> sa[rank[i] <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>];
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (h <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) h<span style="color:#f92672">--</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (; j <span style="color:#f92672">+</span> h <span style="color:#f92672">&lt;</span> n <span style="color:#f92672">&amp;&amp;</span> i <span style="color:#f92672">+</span> h <span style="color:#f92672">&lt;</span> n; h<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (s[j <span style="color:#f92672">+</span> h] <span style="color:#f92672">!=</span> s[i <span style="color:#f92672">+</span> h]) <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>        _lcp[rank[i] <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> h;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> _lcp;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> manacher(<span style="color:#66d9ef">const</span> string<span style="color:#f92672">&amp;</span> s) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> s.size();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> res(n);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> (i <span style="color:#f92672">&lt;</span> n) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> (i <span style="color:#f92672">-</span> j <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> i <span style="color:#f92672">+</span> j <span style="color:#f92672">&lt;</span> n <span style="color:#f92672">&amp;&amp;</span> s[i <span style="color:#f92672">-</span> j] <span style="color:#f92672">==</span> s[i <span style="color:#f92672">+</span> j]) <span style="color:#f92672">++</span>j;
+</span></span><span style="display:flex;"><span>        res[i] <span style="color:#f92672">=</span> j;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> (i <span style="color:#f92672">-</span> k <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> k <span style="color:#f92672">+</span> res[i <span style="color:#f92672">-</span> k] <span style="color:#f92672">&lt;</span> j) res[i <span style="color:#f92672">+</span> k] <span style="color:#f92672">=</span> res[i <span style="color:#f92672">-</span> k], <span style="color:#f92672">++</span>k;
+</span></span><span style="display:flex;"><span>        i <span style="color:#f92672">+=</span> k, j <span style="color:#f92672">-=</span> k;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> res;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T, T INF<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SparseTableMin</span> {
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;&gt;</span> st;
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> lookup;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> n, N, logN;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">__bit_ceil</span>(<span style="color:#66d9ef">int</span> num) { <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> (<span style="color:#ae81ff">32</span> <span style="color:#f92672">-</span> __builtin_clz(num)); }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    SparseTableMin() {}
+</span></span><span style="display:flex;"><span>    SparseTableMin(<span style="color:#66d9ef">const</span> vector<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;&amp;</span> v) {
+</span></span><span style="display:flex;"><span>        n <span style="color:#f92672">=</span> v.size();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (n <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>        N <span style="color:#f92672">=</span> __bit_ceil(v.size());
+</span></span><span style="display:flex;"><span>        logN <span style="color:#f92672">=</span> <span style="color:#ae81ff">32</span> <span style="color:#f92672">-</span> __builtin_clz(N);
+</span></span><span style="display:flex;"><span>        st.assign(logN, vector<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span>(N, INF));
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>) st[<span style="color:#ae81ff">0</span>][i] <span style="color:#f92672">=</span> v[i];
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> len <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;</span> (<span style="color:#66d9ef">int</span>)st.size(); i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">+</span> len <span style="color:#f92672">&lt;</span> N; j<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>                st[i][j] <span style="color:#f92672">=</span> min(st[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>][j], st[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>][j <span style="color:#f92672">+</span> len]);
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            len <span style="color:#f92672">&lt;&lt;=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        lookup.resize(N <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>; i <span style="color:#f92672">&lt;</span> (<span style="color:#66d9ef">int</span>)lookup.size(); i<span style="color:#f92672">++</span>) lookup[i] <span style="color:#f92672">=</span> lookup[i <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    T <span style="color:#a6e22e">prod</span>(<span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r) {
+</span></span><span style="display:flex;"><span>        assert(<span style="color:#ae81ff">0</span> <span style="color:#f92672">&lt;=</span> l <span style="color:#f92672">&amp;&amp;</span> l <span style="color:#f92672">&lt;=</span> r <span style="color:#f92672">&amp;&amp;</span> r <span style="color:#f92672">&lt;=</span> n);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (l <span style="color:#f92672">==</span> r) <span style="color:#66d9ef">return</span> INF;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> b <span style="color:#f92672">=</span> lookup[r <span style="color:#f92672">-</span> l];
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> min(st[b][l], st[b][r <span style="color:#f92672">-</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> b)]);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">RollingHash</span> {
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span>ll<span style="color:#f92672">&gt;</span> MOD <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#ae81ff">999999503</span>, <span style="color:#ae81ff">999999527</span>, <span style="color:#ae81ff">999999541</span>, <span style="color:#ae81ff">999999587</span>, <span style="color:#ae81ff">999999599</span>, <span style="color:#ae81ff">999999607</span>, <span style="color:#ae81ff">999999613</span>, <span style="color:#ae81ff">999999667</span>, <span style="color:#ae81ff">999999677</span>, <span style="color:#ae81ff">999999733</span>, <span style="color:#ae81ff">999999739</span>, <span style="color:#ae81ff">999999751</span>, <span style="color:#ae81ff">999999757</span>, <span style="color:#ae81ff">999999761</span>, <span style="color:#ae81ff">999999797</span>, <span style="color:#ae81ff">999999883</span>, <span style="color:#ae81ff">999999893</span>, <span style="color:#ae81ff">999999929</span>, <span style="color:#ae81ff">999999937</span>, <span style="color:#ae81ff">1000000007</span>, <span style="color:#ae81ff">1000000009</span>, <span style="color:#ae81ff">1000000021</span>, <span style="color:#ae81ff">1000000033</span>, <span style="color:#ae81ff">1000000087</span>, <span style="color:#ae81ff">1000000093</span>, <span style="color:#ae81ff">1000000097</span>, <span style="color:#ae81ff">1000000103</span>, <span style="color:#ae81ff">1000000123</span>, <span style="color:#ae81ff">1000000181</span>, <span style="color:#ae81ff">1000000207</span>, <span style="color:#ae81ff">1000000223</span>, <span style="color:#ae81ff">1000000241</span>, <span style="color:#ae81ff">1000000271</span>, <span style="color:#ae81ff">1000000289</span>, <span style="color:#ae81ff">1000000297</span>, <span style="color:#ae81ff">1000000321</span>, <span style="color:#ae81ff">1000000349</span>, <span style="color:#ae81ff">1000000363</span>, <span style="color:#ae81ff">1000000403</span>, <span style="color:#ae81ff">1000000409</span>, <span style="color:#ae81ff">1000000411</span>, <span style="color:#ae81ff">1000000427</span>, <span style="color:#ae81ff">1000000433</span>, <span style="color:#ae81ff">1000000439</span>, <span style="color:#ae81ff">1000000447</span>, <span style="color:#ae81ff">1000000453</span>, <span style="color:#ae81ff">1000000459</span>, <span style="color:#ae81ff">1000000483</span>,
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span>ll<span style="color:#f92672">&gt;</span> BASE <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#ae81ff">999611</span>, <span style="color:#ae81ff">999613</span>, <span style="color:#ae81ff">999623</span>, <span style="color:#ae81ff">999631</span>, <span style="color:#ae81ff">999653</span>, <span style="color:#ae81ff">999667</span>, <span style="color:#ae81ff">999671</span>, <span style="color:#ae81ff">999683</span>, <span style="color:#ae81ff">999721</span>, <span style="color:#ae81ff">999727</span>, <span style="color:#ae81ff">999749</span>, <span style="color:#ae81ff">999763</span>, <span style="color:#ae81ff">999769</span>, <span style="color:#ae81ff">999773</span>, <span style="color:#ae81ff">999809</span>, <span style="color:#ae81ff">999853</span>, <span style="color:#ae81ff">999863</span>, <span style="color:#ae81ff">999883</span>, <span style="color:#ae81ff">999907</span>, <span style="color:#ae81ff">999917</span>, <span style="color:#ae81ff">999931</span>, <span style="color:#ae81ff">999953</span>, <span style="color:#ae81ff">999959</span>, <span style="color:#ae81ff">999961</span>, <span style="color:#ae81ff">999979</span>, <span style="color:#ae81ff">999983</span>, <span style="color:#ae81ff">1000003</span>, <span style="color:#ae81ff">1000033</span>, <span style="color:#ae81ff">1000037</span>, <span style="color:#ae81ff">1000039</span>, <span style="color:#ae81ff">1000081</span>, <span style="color:#ae81ff">1000099</span>, <span style="color:#ae81ff">1000117</span>, <span style="color:#ae81ff">1000121</span>, <span style="color:#ae81ff">1000133</span>, <span style="color:#ae81ff">1000151</span>, <span style="color:#ae81ff">1000159</span>, <span style="color:#ae81ff">1000171</span>, <span style="color:#ae81ff">1000183</span>, <span style="color:#ae81ff">1000187</span>, <span style="color:#ae81ff">1000193</span>, <span style="color:#ae81ff">1000199</span>, <span style="color:#ae81ff">1000211</span>, <span style="color:#ae81ff">1000213</span>, <span style="color:#ae81ff">1000231</span>, <span style="color:#ae81ff">1000249</span>, <span style="color:#ae81ff">1000253</span>, <span style="color:#ae81ff">1000273</span>, <span style="color:#ae81ff">1000289</span>, <span style="color:#ae81ff">1000291</span>, <span style="color:#ae81ff">1000303</span>, <span style="color:#ae81ff">1000313</span>, <span style="color:#ae81ff">1000333</span>, <span style="color:#ae81ff">1000357</span>, <span style="color:#ae81ff">1000367</span>, <span style="color:#ae81ff">1000381</span>, <span style="color:#ae81ff">1000393</span>, <span style="color:#ae81ff">1000397</span>, <span style="color:#ae81ff">1000403</span>,
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>    ll MOD1, MOD2, BASE1, BASE2;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span>ll<span style="color:#f92672">&gt;</span> power1, power2;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">using</span> Hash <span style="color:#f92672">=</span> tuple<span style="color:#f92672">&lt;</span>ll, ll, ll<span style="color:#f92672">&gt;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">using</span> Hashes <span style="color:#f92672">=</span> pair<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span>ll<span style="color:#f92672">&gt;</span>, vector<span style="color:#f92672">&lt;</span>ll<span style="color:#f92672">&gt;&gt;</span>;
+</span></span><span style="display:flex;"><span>    RollingHash() {
+</span></span><span style="display:flex;"><span>        random_device rnd;
+</span></span><span style="display:flex;"><span>        MOD1 <span style="color:#f92672">=</span> MOD[rnd() <span style="color:#f92672">%</span> MOD.size()];
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">do</span> {
+</span></span><span style="display:flex;"><span>            MOD2 <span style="color:#f92672">=</span> MOD[rnd() <span style="color:#f92672">%</span> MOD.size()];
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">while</span> (MOD1 <span style="color:#f92672">==</span> MOD2);
+</span></span><span style="display:flex;"><span>        BASE1 <span style="color:#f92672">=</span> BASE[rnd() <span style="color:#f92672">%</span> BASE.size()];
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">do</span> {
+</span></span><span style="display:flex;"><span>            BASE2 <span style="color:#f92672">=</span> BASE[rnd() <span style="color:#f92672">%</span> BASE.size()];
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">while</span> (BASE1 <span style="color:#f92672">==</span> BASE2);
+</span></span><span style="display:flex;"><span>        power1 <span style="color:#f92672">=</span> {<span style="color:#ae81ff">1</span>}, power2 <span style="color:#f92672">=</span> {<span style="color:#ae81ff">1</span>};
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Hashes <span style="color:#a6e22e">operator</span>()(<span style="color:#66d9ef">const</span> string<span style="color:#f92672">&amp;</span> str) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> size <span style="color:#f92672">=</span> str.size();
+</span></span><span style="display:flex;"><span>        vector<span style="color:#f92672">&lt;</span>ll<span style="color:#f92672">&gt;</span> hash1(size <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>), hash2(size <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> size; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>            hash1[i] <span style="color:#f92672">=</span> (hash1[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> str[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]) <span style="color:#f92672">*</span> BASE1 <span style="color:#f92672">%</span> MOD1;
+</span></span><span style="display:flex;"><span>            hash2[i] <span style="color:#f92672">=</span> (hash2[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> str[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]) <span style="color:#f92672">*</span> BASE2 <span style="color:#f92672">%</span> MOD2;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> (power1.size() <span style="color:#f92672">&lt;=</span> size) {
+</span></span><span style="display:flex;"><span>            power1.push_back(power1.back() <span style="color:#f92672">*</span> BASE1 <span style="color:#f92672">%</span> MOD1);
+</span></span><span style="display:flex;"><span>            power2.push_back(power2.back() <span style="color:#f92672">*</span> BASE2 <span style="color:#f92672">%</span> MOD2);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> {hash1, hash2};
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>    Hashes <span style="color:#66d9ef">operator</span>()(<span style="color:#66d9ef">const</span> vector<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;&amp;</span> v) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> size <span style="color:#f92672">=</span> v.size();
+</span></span><span style="display:flex;"><span>        vector<span style="color:#f92672">&lt;</span>ll<span style="color:#f92672">&gt;</span> hash1(size <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>), hash2(size <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> size; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>            hash1[i] <span style="color:#f92672">=</span> (hash1[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> v[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">%</span> MOD1) <span style="color:#f92672">*</span> BASE1 <span style="color:#f92672">%</span> MOD1;
+</span></span><span style="display:flex;"><span>            hash2[i] <span style="color:#f92672">=</span> (hash2[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> v[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">%</span> MOD2) <span style="color:#f92672">*</span> BASE2 <span style="color:#f92672">%</span> MOD2;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> (power1.size() <span style="color:#f92672">&lt;=</span> size) {
+</span></span><span style="display:flex;"><span>            power1.push_back(power1.back() <span style="color:#f92672">*</span> BASE1 <span style="color:#f92672">%</span> MOD1);
+</span></span><span style="display:flex;"><span>            power2.push_back(power2.back() <span style="color:#f92672">*</span> BASE2 <span style="color:#f92672">%</span> MOD2);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> {hash1, hash2};
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    Hash <span style="color:#a6e22e">get</span>(<span style="color:#66d9ef">const</span> Hashes<span style="color:#f92672">&amp;</span> hashes, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r) {
+</span></span><span style="display:flex;"><span>        assert(<span style="color:#ae81ff">0</span> <span style="color:#f92672">&lt;=</span> l <span style="color:#f92672">&amp;&amp;</span> l <span style="color:#f92672">&lt;=</span> r <span style="color:#f92672">&amp;&amp;</span> r <span style="color:#f92672">&lt;=</span> hashes.first.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> make_tuple(((hashes.first[r] <span style="color:#f92672">-</span> hashes.first[l] <span style="color:#f92672">*</span> power1[r <span style="color:#f92672">-</span> l]) <span style="color:#f92672">%</span> MOD1 <span style="color:#f92672">+</span> MOD1) <span style="color:#f92672">%</span> MOD1, ((hashes.second[r] <span style="color:#f92672">-</span> hashes.second[l] <span style="color:#f92672">*</span> power2[r <span style="color:#f92672">-</span> l]) <span style="color:#f92672">%</span> MOD2 <span style="color:#f92672">+</span> MOD2) <span style="color:#f92672">%</span> MOD2, r <span style="color:#f92672">-</span> l);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    Hash <span style="color:#a6e22e">concat</span>(<span style="color:#66d9ef">const</span> Hash<span style="color:#f92672">&amp;</span> h1, <span style="color:#66d9ef">const</span> Hash<span style="color:#f92672">&amp;</span> h2) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">auto</span> [h1_1, h1_2, h1_length] <span style="color:#f92672">=</span> h1;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">auto</span> [h2_1, h2_2, h2_length] <span style="color:#f92672">=</span> h2;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> make_tuple((h1_1 <span style="color:#f92672">*</span> power1[h2_length] <span style="color:#f92672">+</span> h2_1) <span style="color:#f92672">%</span> MOD1, (h1_2 <span style="color:#f92672">*</span> power2[h2_length] <span style="color:#f92672">+</span> h2_2) <span style="color:#f92672">%</span> MOD2, h1_length <span style="color:#f92672">+</span> h2_length);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>} RH;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">using</span> Hashes <span style="color:#f92672">=</span> RollingHash<span style="color:#f92672">::</span>Hashes;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">using</span> Hash <span style="color:#f92672">=</span> RollingHash<span style="color:#f92672">::</span>Hash;
+</span></span><span style="display:flex;"><span>Hash <span style="color:#66d9ef">operator</span><span style="color:#f92672">+</span>(<span style="color:#66d9ef">const</span> Hash<span style="color:#f92672">&amp;</span> a, <span style="color:#66d9ef">const</span> Hash<span style="color:#f92672">&amp;</span> b) <span style="color:#66d9ef">noexcept</span> { <span style="color:#66d9ef">return</span> RH.concat(a, b); }
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Usage: string s = &#34;abc&#34;; Hashes rh = RH(s); Hash hash = RH.get(rh, 0, 3);
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>vector<span style="color:#f92672">&lt;</span>pair<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> enumerate_palindromes(<span style="color:#66d9ef">const</span> string<span style="color:#f92672">&amp;</span> s) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> s.size();
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span>pair<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> res;
+</span></span><span style="display:flex;"><span>    string <span style="color:#a6e22e">t</span>(n <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#39;$&#39;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; <span style="color:#f92672">++</span>i) t[i <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>] <span style="color:#f92672">=</span> s[i];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Hashes rh <span style="color:#f92672">=</span> RH(s);
+</span></span><span style="display:flex;"><span>    gp_hash_table<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">uint64_t</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> table;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> man <span style="color:#f92672">=</span> manacher(t);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>; <span style="color:#f92672">++</span>i) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> rad <span style="color:#f92672">=</span> man[i]; rad <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>; <span style="color:#f92672">--</span>rad) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> l <span style="color:#f92672">=</span> i <span style="color:#f92672">-</span> (rad <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> r <span style="color:#f92672">=</span> i <span style="color:#f92672">+</span> (rad <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (l <span style="color:#f92672">%</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">continue</span>;
+</span></span><span style="display:flex;"><span>            l <span style="color:#f92672">=</span> l <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>;
+</span></span><span style="display:flex;"><span>            r <span style="color:#f92672">=</span> r <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> len <span style="color:#f92672">=</span> r <span style="color:#f92672">-</span> l;
+</span></span><span style="display:flex;"><span>            Hash hash <span style="color:#f92672">=</span> RH.get(rh, l, r);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">uint64_t</span> h <span style="color:#f92672">=</span> get<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">0</span><span style="color:#f92672">&gt;</span>(hash) <span style="color:#f92672">*</span> <span style="color:#ae81ff">1e9</span> <span style="color:#f92672">+</span> get<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">&gt;</span>(hash) <span style="color:#f92672">+</span> get<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">2</span><span style="color:#f92672">&gt;</span>(hash);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (table.find(h) <span style="color:#f92672">!=</span> table.end()) <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>            table[h] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>            res.emplace_back(l, r);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> res;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">op</span>(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b) { <span style="color:#66d9ef">return</span> min(a, b); }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">e</span>() { <span style="color:#66d9ef">return</span> inf; }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    ios_base<span style="color:#f92672">::</span>sync_with_stdio(false);
+</span></span><span style="display:flex;"><span>    cin.tie(NULL);
+</span></span><span style="display:flex;"><span>    string s, t;
+</span></span><span style="display:flex;"><span>    cin <span style="color:#f92672">&gt;&gt;</span> s <span style="color:#f92672">&gt;&gt;</span> t;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">auto</span> count_palindrome_pairs <span style="color:#f92672">=</span> [](string str) <span style="color:#f92672">-&gt;</span> ll {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">auto</span> sa <span style="color:#f92672">=</span> sa_is(str);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">auto</span> la <span style="color:#f92672">=</span> lcp(str, sa);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">auto</span> pal <span style="color:#f92672">=</span> enumerate_palindromes(str);
+</span></span><span style="display:flex;"><span>        vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> rev(str.size());
+</span></span><span style="display:flex;"><span>        rep(i, str.size()) rev[sa[i]] <span style="color:#f92672">=</span> i;
+</span></span><span style="display:flex;"><span>        atcoder<span style="color:#f92672">::</span>segtree<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, op, e<span style="color:#f92672">&gt;</span> st(la);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        ll res <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> [l, r] <span style="color:#f92672">:</span> pal) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> ls <span style="color:#f92672">=</span> st.min_left(rev[l], [<span style="color:#f92672">&amp;</span>](<span style="color:#66d9ef">int</span> x) { <span style="color:#66d9ef">return</span> x <span style="color:#f92672">&gt;=</span> r <span style="color:#f92672">-</span> l; });
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> rs <span style="color:#f92672">=</span> st.max_right(rev[l], [<span style="color:#f92672">&amp;</span>](<span style="color:#66d9ef">int</span> x) { <span style="color:#66d9ef">return</span> x <span style="color:#f92672">&gt;=</span> r <span style="color:#f92672">-</span> l; });
+</span></span><span style="display:flex;"><span>            ll cnt <span style="color:#f92672">=</span> rs <span style="color:#f92672">-</span> ls <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>            res <span style="color:#f92672">+=</span> cnt <span style="color:#f92672">*</span> (cnt <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> res;
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    ll ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    ans <span style="color:#f92672">+=</span> count_palindrome_pairs(s <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;/@&#34;</span> <span style="color:#f92672">+</span> t);  <span style="color:#75715e">// 区切り文字を中心とする回文ができないように適当な記号2つで区切る
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    ans <span style="color:#f92672">-=</span> count_palindrome_pairs(s);
+</span></span><span style="display:flex;"><span>    ans <span style="color:#f92672">-=</span> count_palindrome_pairs(t);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> ans <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#39;\n&#39;</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
+        </div>
+        
+
+    
+
+
+
+<div class="post-info">
+    
+        <div class="post-date dt-published">
+            <a class="u-url" href="/blog/posts/practice/aoj-2292/"><time datetime="2025-03-04">2025-03-04</time></a>
+            
+        </div>
+    
+
+    <a class="post-hidden-url u-url" href="https://coindarw.github.io/blog/posts/practice/aoj-2292/">https://coindarw.github.io/blog/posts/practice/aoj-2292/</a>
+    <a href="https://coindarw.github.io/blog/" class="p-name p-author post-hidden-author h-card" rel="me">coindarw</a>
+
+
+    <div class="post-taxonomies">
+        
+        
+            <ul class="post-tags">
+                
+                    
+                    <li><a href="">#競技プログラミング</a></li>
+                
+                    
+                    <li><a href="">#蟻本練習問題</a></li>
+                
+            </ul>
+        
+        
+    </div>
+</div>
+
+    </article>
+
+    
+
+    
+
+    
+        
+    
+
+        </main>
+        
+            <footer class="common-footer">
+    
+    
+
+    <div class="common-footer-bottom">
+        
+        <div class="copyright">
+            <p>© coindarw, 2025<br>
+             <a target="_blank" rel="noopener noreferrer" href="https://gohugo.io/">Hugo</a>,  <a target="_blank" rel="noopener noreferrer" href="https://github.com/mitrichius/hugo-theme-anubis">Anubis</a>.<br>
+            
+            </p>  
+        </div> 
+    </div>
+
+    <p class="h-card vcard">
+
+    <a href=https://coindarw.github.io/blog/ class="p-name u-url url fn" rel="me">coindarw</a> 
+
+    
+
+    
+</p> 
+</footer>
+
+        
+    </div>
+</body>
+</html>

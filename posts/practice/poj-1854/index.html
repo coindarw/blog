@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+
+
+<html lang="ja" data-theme="">
+<head>
+    
+        
+<meta charset="utf-8">
+<meta name="HandheldFriendly" content="True">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer-when-downgrade">
+
+<title>POJ 1854 Evil Straw Warts Live(BOJ 4309,UVA 10716) - coindarw&rsquo;s page</title>
+
+<meta name="description" content="http://poj.org/problem?id=1854
+https://www.acmicpc.net/problem/4309
+https://onlinejudge.org/index.php?option=com_onlinejudge&amp;Itemid=8&amp;category=24&amp;page=show_problem&amp;problem=1657
+https://vjudge.net/problem/POJ-1854
+https://vjudge.net/problem/Baekjoon-4309
+https://vjudge.net/problem/UVA-10716">
+
+
+
+
+
+<link rel="icon" type="image/x-icon" href="https://coindarw.github.io/blog/favicon.ico">
+<link rel="apple-touch-icon-precomposed" href="https://coindarw.github.io/blog/favicon.png">
+
+
+
+
+    
+
+
+
+<style>
+  body {
+    visibility: hidden;
+    opacity: 0;
+  }
+</style>
+
+<noscript>
+  <style>
+    body {
+      visibility: visible;
+      opacity: 1;
+    }
+  </style>
+</noscript>
+
+
+
+
+    
+
+
+
+
+
+    
+    
+        
+    
+    
+
+    
+        <link rel="stylesheet" href="https://coindarw.github.io/blog/css/style.min.a9fc9636a4bb1c27b94647cef1d5457e897a9155d53fca3900cc91d7cfe8e983.css" integrity="sha256-qfyWNqS7HCe5RkfO8dVFfol6kVXVP8o5AMyR18/o6YM=">
+    
+
+
+
+
+
+    
+
+    
+
+
+
+
+
+    
+    
+        
+    
+    
+
+    
+        <script src="https://coindarw.github.io/blog/js/script.min.74bf1a3fcf1af396efa4acf3e660e876b61a2153ab9cbe1893ac24ea6d4f94ee.js" type="text/javascript" charset="utf-8" integrity="sha256-dL8aP88a85bvpKzz5mDodrYaIVOrnL4Yk6wk6m1PlO4="></script>
+    
+
+
+
+
+
+
+
+<meta property="og:url" content="https://coindarw.github.io/blog/posts/practice/poj-1854/">
+  <meta property="og:site_name" content="coindarw&#39;s page">
+  <meta property="og:title" content="POJ 1854 Evil Straw Warts Live(BOJ 4309,UVA 10716)">
+  <meta property="og:description" content="http://poj.org/problem?id=1854 https://www.acmicpc.net/problem/4309 https://onlinejudge.org/index.php?option=com_onlinejudge&amp;Itemid=8&amp;category=24&amp;page=show_problem&amp;problem=1657
+https://vjudge.net/problem/POJ-1854 https://vjudge.net/problem/Baekjoon-4309 https://vjudge.net/problem/UVA-10716">
+  <meta property="og:locale" content="ja">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-03-04T13:53:26+09:00">
+    <meta property="article:modified_time" content="2025-03-04T13:53:26+09:00">
+    <meta property="article:tag" content="競技プログラミング">
+    <meta property="article:tag" content="蟻本練習問題">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="POJ 1854 Evil Straw Warts Live(BOJ 4309,UVA 10716)">
+  <meta name="twitter:description" content="http://poj.org/problem?id=1854 https://www.acmicpc.net/problem/4309 https://onlinejudge.org/index.php?option=com_onlinejudge&amp;Itemid=8&amp;category=24&amp;page=show_problem&amp;problem=1657
+https://vjudge.net/problem/POJ-1854 https://vjudge.net/problem/Baekjoon-4309 https://vjudge.net/problem/UVA-10716">
+
+
+
+
+
+
+
+
+
+    
+</head>
+<body>
+    <a class="skip-main" href="#main"></a>
+    <div class="container">
+        <header class="common-header"> 
+            
+                <div class="header-top">
+    <div class="header-top-left">
+        <h1 class="site-title">
+    <a href="/blog">coindarw&#39;s page</a>
+</h1>
+        <ul class="social-icons">
+
+
+    
+        <li>
+            <a href="https://github.com/coindarw" title="Github" rel="me">
+            <span class="inline-svg" >
+
+
+
+
+    
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+
+</span>
+
+            </a>
+        </li>
+    
+
+
+
+    <li>
+            <a href="https://coindarw.github.io/blog/index.xml" title="RSS" rel="me">
+            <span class="inline-svg" >
+
+
+
+
+    
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M128.081 415.959c0 35.369-28.672 64.041-64.041 64.041S0 451.328 0 415.959s28.672-64.041 64.041-64.041 64.04 28.673 64.04 64.041zm175.66 47.25c-8.354-154.6-132.185-278.587-286.95-286.95C7.656 175.765 0 183.105 0 192.253v48.069c0 8.415 6.49 15.472 14.887 16.018 111.832 7.284 201.473 96.702 208.772 208.772.547 8.397 7.604 14.887 16.018 14.887h48.069c9.149.001 16.489-7.655 15.995-16.79zm144.249.288C439.596 229.677 251.465 40.445 16.503 32.01 7.473 31.686 0 38.981 0 48.016v48.068c0 8.625 6.835 15.645 15.453 15.999 191.179 7.839 344.627 161.316 352.465 352.465.353 8.618 7.373 15.453 15.999 15.453h48.068c9.034-.001 16.329-7.474 16.005-16.504z"/></svg>
+
+</span>
+
+            </a>
+        </li>
+    
+
+</ul>
+    </div>
+    <div class="header-top-right">
+        
+
+    
+
+
+
+
+    <div class="theme-switcher">
+        <span class="inline-svg" >
+
+
+
+
+    
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 290 290">
+<path fill="currentColor" d="M142.959,0C64.131,0,0,64.132,0,142.96c0,78.828,64.131,142.959,142.959,142.959c78.828,0,142.96-64.131,142.96-142.959  C285.919,64.132,221.787,0,142.959,0z M142.959,260.919V142.96V25c65.043,0,117.96,52.917,117.96,117.96  C260.919,208.003,208.002,260.919,142.959,260.919z"/>
+</svg>
+
+</span>
+
+    </div>
+
+
+<script>
+const STORAGE_KEY = 'user-color-scheme'
+const defaultTheme = "auto"
+
+let currentTheme
+let switchButton
+let autoDefinedScheme = window.matchMedia('(prefers-color-scheme: dark)')
+
+const autoChangeScheme = e => {
+    currentTheme = e.matches ? 'dark' : 'light'
+    document.documentElement.setAttribute('data-theme', currentTheme)
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    switchButton = document.querySelector('.theme-switcher')
+    currentTheme = detectCurrentScheme()
+    if (currentTheme == 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark')
+    }
+    if (currentTheme == 'auto') {
+        autoChangeScheme(autoDefinedScheme);
+        autoDefinedScheme.addListener(autoChangeScheme);
+    }
+
+    if (switchButton) {
+        switchButton.addEventListener('click', switchTheme, false)
+    }
+  
+    showContent()
+})
+
+function detectCurrentScheme() {
+    if (localStorage !== null && localStorage.getItem(STORAGE_KEY)) {
+        return localStorage.getItem(STORAGE_KEY)
+    } 
+    if (defaultTheme) {
+        return defaultTheme
+    } 
+    if (!window.matchMedia) {
+        return 'light'
+    } 
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        return 'dark'
+    }
+    return 'light'
+}
+
+function switchTheme(e) {
+    if (currentTheme == 'dark') {
+        if (localStorage !== null)
+            localStorage.setItem(STORAGE_KEY, 'light')
+        document.documentElement.setAttribute('data-theme', 'light')
+        currentTheme = 'light'
+    } else {
+        if (localStorage !== null)
+            localStorage.setItem(STORAGE_KEY, 'dark')
+        document.documentElement.setAttribute('data-theme', 'dark')
+        currentTheme = 'dark'
+    }
+}
+
+function showContent() {
+    document.body.style.visibility = 'visible';
+    document.body.style.opacity = 1;
+}
+</script>
+
+  
+    </div>
+</div>
+
+
+    <nav>
+        
+        
+        <a class="" href="https://coindarw.github.io/blog/about/" title="">About</a>
+        
+        <a class="" href="https://coindarw.github.io/blog/tags/" title="">Tags</a>
+        
+        <a class="" href="https://coindarw.github.io/blog/posts/" title="">Archive</a>
+        
+    </nav>
+
+
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$','$$'], ['\\[', '\\]']],
+      processEscapes: true,
+      processEnvironments: true
+    },
+    options: {
+      skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+    }
+  };
+
+  window.addEventListener('load', (event) => {
+      document.querySelectorAll("mjx-container").forEach(function(x){
+        x.parentElement.classList += 'has-jax'})
+    });
+
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
+            
+        </header>
+        <main id="main" tabindex="-1"> 
+            
+    
+
+    <article class="post h-entry">
+        <div class="post-header">
+            <header>
+                <h1 class="p-name post-title">POJ 1854 Evil Straw Warts Live(BOJ 4309,UVA 10716)</h1>
+
+                
+            </header>
+        </div>
+        
+
+
+
+
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#問題概要">問題概要</a>
+      <ul>
+        <li><a href="#制約">制約</a></li>
+      </ul>
+    </li>
+    <li><a href="#解法メモ">解法メモ</a></li>
+    <li><a href="#実装例">実装例</a></li>
+  </ul>
+</nav>
+
+        <div class="content e-content">
+            <p><a href="http://poj.org/problem?id=1854">http://poj.org/problem?id=1854</a>
+<a href="https://www.acmicpc.net/problem/4309">https://www.acmicpc.net/problem/4309</a>
+<a href="https://onlinejudge.org/index.php?option=com_onlinejudge&amp;Itemid=8&amp;category=24&amp;page=show_problem&amp;problem=1657">https://onlinejudge.org/index.php?option=com_onlinejudge&amp;Itemid=8&amp;category=24&amp;page=show_problem&amp;problem=1657</a></p>
+<p><a href="https://vjudge.net/problem/POJ-1854">https://vjudge.net/problem/POJ-1854</a>
+<a href="https://vjudge.net/problem/Baekjoon-4309">https://vjudge.net/problem/Baekjoon-4309</a>
+<a href="https://vjudge.net/problem/UVA-10716">https://vjudge.net/problem/UVA-10716</a></p>
+<h2 id="問題概要" >問題概要
+<span>
+    <a href="#%e5%95%8f%e9%a1%8c%e6%a6%82%e8%a6%81">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h2><ul>
+<li>文字列$s$が与えられる。隣接swapによって回文にできるか判定、できる場合は最小回数を出力</li>
+</ul>
+<h3 id="制約" >制約
+<span>
+    <a href="#%e5%88%b6%e7%b4%84">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><ul>
+<li>$|s|\leq 8000$</li>
+</ul>
+<h2 id="解法メモ" >解法メモ
+<span>
+    <a href="#%e8%a7%a3%e6%b3%95%e3%83%a1%e3%83%a2">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h2><ul>
+<li>
+<p>回文にできる条件は「奇数個存在する値が1種類以下であること」。これはよく見る気がする</p>
+</li>
+<li>
+<p>最終的にどのような形になるかだが、これは左半分を貪欲に決めてよい</p>
+</li>
+<li>
+<p>$s$の各文字$s_i$を順番に見て、登場回数が全体の半分を超えるまで取っていく（実装を参照）</p>
+</li>
+<li>
+<p>あとは$p_i =$ 「文字$s_i$が最終的につくる回文で何番目に出てくるか」の反転数が答えになる</p>
+</li>
+</ul>
+<h2 id="実装例" >実装例
+<span>
+    <a href="#%e5%ae%9f%e8%a3%85%e4%be%8b">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h2><p>BITで実装したもの。最初に書いた下の雑実装マージソートより数倍速い</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;algorithm&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;string&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;vector&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> ll;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#define rep(i, n) for (int i = 0, i##_len = (n); i &lt; i##_len; ++i)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define all(v) v.begin(), v.end()
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">BIT</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> n;
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> data;
+</span></span><span style="display:flex;"><span>    BIT(<span style="color:#66d9ef">int</span> n) <span style="color:#f92672">:</span> n(n), data(n <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>) {}
+</span></span><span style="display:flex;"><span>    BIT() {}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">add</span>(<span style="color:#66d9ef">int</span> i, T x <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (i<span style="color:#f92672">++</span>; i <span style="color:#f92672">&lt;=</span> n; i <span style="color:#f92672">+=</span> (i <span style="color:#f92672">&amp;</span> <span style="color:#f92672">-</span>i)) data[i] <span style="color:#f92672">+=</span> x;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    T <span style="color:#a6e22e">sum</span>(<span style="color:#66d9ef">int</span> i) {
+</span></span><span style="display:flex;"><span>        T s(<span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (i<span style="color:#f92672">++</span>; i; i <span style="color:#f92672">-=</span> (i <span style="color:#f92672">&amp;</span> <span style="color:#f92672">-</span>i)) s <span style="color:#f92672">+=</span> data[i];
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> s;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    T <span style="color:#a6e22e">sum</span>(<span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r) { <span style="color:#66d9ef">return</span> sum(r <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">-</span> sum(l <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>); }
+</span></span><span style="display:flex;"><span>    T <span style="color:#a6e22e">get</span>(<span style="color:#66d9ef">int</span> i) { <span style="color:#66d9ef">return</span> sum(i) <span style="color:#f92672">-</span> sum(i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>); }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">lower_bound</span>(T w) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (w <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> x <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, r <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> (r <span style="color:#f92672">&lt;</span> n) r <span style="color:#f92672">&lt;&lt;=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> len <span style="color:#f92672">=</span> r; len <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>; len <span style="color:#f92672">&gt;&gt;=</span> <span style="color:#ae81ff">1</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">+</span> len <span style="color:#f92672">&lt;=</span> n <span style="color:#f92672">&amp;&amp;</span> data[x <span style="color:#f92672">+</span> len] <span style="color:#f92672">&lt;</span> w) {
+</span></span><span style="display:flex;"><span>                w <span style="color:#f92672">-=</span> data[x <span style="color:#f92672">+</span> len];
+</span></span><span style="display:flex;"><span>                x <span style="color:#f92672">+=</span> len;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> x;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">*</span>ptr;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">compare</span>(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b) { <span style="color:#66d9ef">return</span> (ptr<span style="color:#f92672">-&gt;</span>at(a) <span style="color:#f92672">==</span> ptr<span style="color:#f92672">-&gt;</span>at(b)) <span style="color:#f92672">?</span> (a <span style="color:#f92672">&gt;</span> b) <span style="color:#f92672">:</span> (ptr<span style="color:#f92672">-&gt;</span>at(a) <span style="color:#f92672">&gt;</span> ptr<span style="color:#f92672">-&gt;</span>at(b)); }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> inversion(<span style="color:#66d9ef">const</span> vector<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span>v) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> v.size();
+</span></span><span style="display:flex;"><span>    BIT<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> bit(n);
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> idx(n);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; <span style="color:#f92672">++</span>i) idx[i] <span style="color:#f92672">=</span> i;
+</span></span><span style="display:flex;"><span>    ptr <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>v;
+</span></span><span style="display:flex;"><span>    sort(idx.begin(), idx.end(), compare);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; <span style="color:#f92672">++</span>i) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> id <span style="color:#f92672">=</span> idx[i];
+</span></span><span style="display:flex;"><span>        ans <span style="color:#f92672">+=</span> bit.sum(<span style="color:#ae81ff">0</span>, id);
+</span></span><span style="display:flex;"><span>        bit.add(id, <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> ans;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    ios_base<span style="color:#f92672">::</span>sync_with_stdio(false);
+</span></span><span style="display:flex;"><span>    cin.tie(NULL);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> q;
+</span></span><span style="display:flex;"><span>    cin <span style="color:#f92672">&gt;&gt;</span> q;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> (q<span style="color:#f92672">--</span>) {
+</span></span><span style="display:flex;"><span>        string s;
+</span></span><span style="display:flex;"><span>        cin <span style="color:#f92672">&gt;&gt;</span> s;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> cnt(<span style="color:#ae81ff">26</span>, <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>        rep(i, s.size()) cnt[s[i] <span style="color:#f92672">-</span> <span style="color:#e6db74">&#39;a&#39;</span>]<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> oddCnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        rep(i, <span style="color:#ae81ff">26</span>) <span style="color:#66d9ef">if</span> (cnt[i] <span style="color:#f92672">%</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) oddCnt<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (oddCnt <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1</span>) {
+</span></span><span style="display:flex;"><span>            cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Impossible</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">continue</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        string t;  <span style="color:#75715e">// 最終的に作る文字列
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        {
+</span></span><span style="display:flex;"><span>            vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> tmp(<span style="color:#ae81ff">26</span>);
+</span></span><span style="display:flex;"><span>            rep(i, s.size()) {
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">// s[i]の現時点での登場回数が半分以下ならtに追加
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                tmp[s[i] <span style="color:#f92672">-</span> <span style="color:#e6db74">&#39;a&#39;</span>]<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> (tmp[s[i] <span style="color:#f92672">-</span> <span style="color:#e6db74">&#39;a&#39;</span>] <span style="color:#f92672">&lt;=</span> cnt[s[i] <span style="color:#f92672">-</span> <span style="color:#e6db74">&#39;a&#39;</span>] <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>) t.push_back(s[i]);
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 後ろ半分を繋げて回文にする
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        string u <span style="color:#f92672">=</span> t;
+</span></span><span style="display:flex;"><span>        reverse(all(u));
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (s.size() <span style="color:#f92672">%</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) {  <span style="color:#75715e">// 奇数の場合は中央の文字を追加
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            rep(i, <span style="color:#ae81ff">26</span>) {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> (cnt[i] <span style="color:#f92672">%</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) {
+</span></span><span style="display:flex;"><span>                    t.push_back(i <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;a&#39;</span>);
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        t <span style="color:#f92672">+=</span> u;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// sの各文字が最終的には何番目に登場するかの順列を求める
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">&gt;</span> idx(<span style="color:#ae81ff">26</span>);
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> tmp(<span style="color:#ae81ff">26</span>);
+</span></span><span style="display:flex;"><span>            rep(i, t.size()) {
+</span></span><span style="display:flex;"><span>                idx[t[i] <span style="color:#f92672">-</span> <span style="color:#e6db74">&#39;a&#39;</span>].push_back(i);
+</span></span><span style="display:flex;"><span>                tmp[t[i] <span style="color:#f92672">-</span> <span style="color:#e6db74">&#39;a&#39;</span>]<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> p(s.size());
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> tmp(<span style="color:#ae81ff">26</span>);
+</span></span><span style="display:flex;"><span>            rep(i, s.size()) {
+</span></span><span style="display:flex;"><span>                p[i] <span style="color:#f92672">=</span> idx[s[i] <span style="color:#f92672">-</span> <span style="color:#e6db74">&#39;a&#39;</span>][tmp[s[i] <span style="color:#f92672">-</span> <span style="color:#e6db74">&#39;a&#39;</span>]];
+</span></span><span style="display:flex;"><span>                tmp[s[i] <span style="color:#f92672">-</span> <span style="color:#e6db74">&#39;a&#39;</span>]<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// pの反転数が答え
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        cout <span style="color:#f92672">&lt;&lt;</span> inversion(p) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>マージソートで反転数を求めている。実装が雑なのでかなり低速</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;algorithm&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;string&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;vector&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> ll;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#define rep(i, n) for (int i = 0, i##_len = (n); i &lt; i##_len; ++i)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define all(v) v.begin(), v.end()
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>ll ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> merge(vector<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span>v1, vector<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span>v2, vector<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span>v) {
+</span></span><span style="display:flex;"><span>    size_t i1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, i2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> (i1 <span style="color:#f92672">&lt;</span> v1.size() <span style="color:#f92672">||</span> i2 <span style="color:#f92672">&lt;</span> v2.size()) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (i2 <span style="color:#f92672">==</span> v2.size() <span style="color:#f92672">||</span> (i1 <span style="color:#f92672">&lt;</span> v1.size() <span style="color:#f92672">&amp;&amp;</span> (v1[i1] <span style="color:#f92672">&lt;</span> v2[i2]))) {
+</span></span><span style="display:flex;"><span>            v.push_back(v1[i1]);
+</span></span><span style="display:flex;"><span>            i1<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>            v.push_back(v2[i2]);
+</span></span><span style="display:flex;"><span>            i2<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>            ans <span style="color:#f92672">+=</span> v1.size() <span style="color:#f92672">-</span> i1;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> merge_sort(vector<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span>v) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (v.size() <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> u(v.begin(), v.begin() <span style="color:#f92672">+</span> v.size() <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>);
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> w(v.begin() <span style="color:#f92672">+</span> v.size() <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>, v.end());
+</span></span><span style="display:flex;"><span>    merge_sort(u);
+</span></span><span style="display:flex;"><span>    merge_sort(w);
+</span></span><span style="display:flex;"><span>    v.clear();
+</span></span><span style="display:flex;"><span>    merge(u, w, v);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    ios_base<span style="color:#f92672">::</span>sync_with_stdio(false);
+</span></span><span style="display:flex;"><span>    cin.tie(NULL);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> q;
+</span></span><span style="display:flex;"><span>    cin <span style="color:#f92672">&gt;&gt;</span> q;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> (q<span style="color:#f92672">--</span>) {
+</span></span><span style="display:flex;"><span>        string s;
+</span></span><span style="display:flex;"><span>        cin <span style="color:#f92672">&gt;&gt;</span> s;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> cnt(<span style="color:#ae81ff">26</span>, <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>        rep(i, s.size()) cnt[s[i] <span style="color:#f92672">-</span> <span style="color:#e6db74">&#39;a&#39;</span>]<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> oddCnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        rep(i, <span style="color:#ae81ff">26</span>) <span style="color:#66d9ef">if</span> (cnt[i] <span style="color:#f92672">%</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) oddCnt<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (oddCnt <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1</span>) {
+</span></span><span style="display:flex;"><span>            cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Impossible</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">continue</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        string t;  <span style="color:#75715e">// 最終的に作る文字列
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        {
+</span></span><span style="display:flex;"><span>            vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> tmp(<span style="color:#ae81ff">26</span>);
+</span></span><span style="display:flex;"><span>            rep(i, s.size()) {
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">// s[i]の現時点での登場回数が半分以下ならtに追加
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                tmp[s[i] <span style="color:#f92672">-</span> <span style="color:#e6db74">&#39;a&#39;</span>]<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> (tmp[s[i] <span style="color:#f92672">-</span> <span style="color:#e6db74">&#39;a&#39;</span>] <span style="color:#f92672">&lt;=</span> cnt[s[i] <span style="color:#f92672">-</span> <span style="color:#e6db74">&#39;a&#39;</span>] <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>) t.push_back(s[i]);
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 後ろ半分を繋げて回文にする
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        string u <span style="color:#f92672">=</span> t;
+</span></span><span style="display:flex;"><span>        reverse(all(u));
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (s.size() <span style="color:#f92672">%</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) {  <span style="color:#75715e">// 奇数の場合は中央の文字を追加
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            rep(i, <span style="color:#ae81ff">26</span>) {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> (cnt[i] <span style="color:#f92672">%</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) {
+</span></span><span style="display:flex;"><span>                    t.push_back(i <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;a&#39;</span>);
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        t <span style="color:#f92672">+=</span> u;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// sの各文字が最終的には何番目に登場するかの順列を求める
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">&gt;</span> idx(<span style="color:#ae81ff">26</span>);
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> tmp(<span style="color:#ae81ff">26</span>);
+</span></span><span style="display:flex;"><span>            rep(i, t.size()) {
+</span></span><span style="display:flex;"><span>                idx[t[i] <span style="color:#f92672">-</span> <span style="color:#e6db74">&#39;a&#39;</span>].push_back(i);
+</span></span><span style="display:flex;"><span>                tmp[t[i] <span style="color:#f92672">-</span> <span style="color:#e6db74">&#39;a&#39;</span>]<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> p(s.size());
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> tmp(<span style="color:#ae81ff">26</span>);
+</span></span><span style="display:flex;"><span>            rep(i, s.size()) {
+</span></span><span style="display:flex;"><span>                p[i] <span style="color:#f92672">=</span> idx[s[i] <span style="color:#f92672">-</span> <span style="color:#e6db74">&#39;a&#39;</span>][tmp[s[i] <span style="color:#f92672">-</span> <span style="color:#e6db74">&#39;a&#39;</span>]];
+</span></span><span style="display:flex;"><span>                tmp[s[i] <span style="color:#f92672">-</span> <span style="color:#e6db74">&#39;a&#39;</span>]<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// pの反転数が答え
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        merge_sort(p);
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> ans <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
+        </div>
+        
+
+    
+
+
+
+<div class="post-info">
+    
+        <div class="post-date dt-published">
+            <a class="u-url" href="/blog/posts/practice/poj-1854/"><time datetime="2025-03-04">2025-03-04</time></a>
+            
+        </div>
+    
+
+    <a class="post-hidden-url u-url" href="https://coindarw.github.io/blog/posts/practice/poj-1854/">https://coindarw.github.io/blog/posts/practice/poj-1854/</a>
+    <a href="https://coindarw.github.io/blog/" class="p-name p-author post-hidden-author h-card" rel="me">coindarw</a>
+
+
+    <div class="post-taxonomies">
+        
+        
+            <ul class="post-tags">
+                
+                    
+                    <li><a href="">#競技プログラミング</a></li>
+                
+                    
+                    <li><a href="">#蟻本練習問題</a></li>
+                
+            </ul>
+        
+        
+    </div>
+</div>
+
+    </article>
+
+    
+
+    
+
+    
+        
+    
+
+        </main>
+        
+            <footer class="common-footer">
+    
+    
+
+    <div class="common-footer-bottom">
+        
+        <div class="copyright">
+            <p>© coindarw, 2025<br>
+             <a target="_blank" rel="noopener noreferrer" href="https://gohugo.io/">Hugo</a>,  <a target="_blank" rel="noopener noreferrer" href="https://github.com/mitrichius/hugo-theme-anubis">Anubis</a>.<br>
+            
+            </p>  
+        </div> 
+    </div>
+
+    <p class="h-card vcard">
+
+    <a href=https://coindarw.github.io/blog/ class="p-name u-url url fn" rel="me">coindarw</a> 
+
+    
+
+    
+</p> 
+</footer>
+
+        
+    </div>
+</body>
+</html>

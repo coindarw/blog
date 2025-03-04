@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+
+
+<html lang="ja" data-theme="">
+<head>
+    
+        
+<meta charset="utf-8">
+<meta name="HandheldFriendly" content="True">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer-when-downgrade">
+
+<title>AOJ 1312 Where&rsquo;s Wally - coindarw&rsquo;s page</title>
+
+<meta name="description" content="https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=1312
+https://vjudge.net/problem/Aizu-1312">
+
+
+
+
+
+<link rel="icon" type="image/x-icon" href="https://coindarw.github.io/blog/favicon.ico">
+<link rel="apple-touch-icon-precomposed" href="https://coindarw.github.io/blog/favicon.png">
+
+
+
+
+    
+
+
+
+<style>
+  body {
+    visibility: hidden;
+    opacity: 0;
+  }
+</style>
+
+<noscript>
+  <style>
+    body {
+      visibility: visible;
+      opacity: 1;
+    }
+  </style>
+</noscript>
+
+
+
+
+    
+
+
+
+
+
+    
+    
+        
+    
+    
+
+    
+        <link rel="stylesheet" href="https://coindarw.github.io/blog/css/style.min.a9fc9636a4bb1c27b94647cef1d5457e897a9155d53fca3900cc91d7cfe8e983.css" integrity="sha256-qfyWNqS7HCe5RkfO8dVFfol6kVXVP8o5AMyR18/o6YM=">
+    
+
+
+
+
+
+    
+
+    
+
+
+
+
+
+    
+    
+        
+    
+    
+
+    
+        <script src="https://coindarw.github.io/blog/js/script.min.74bf1a3fcf1af396efa4acf3e660e876b61a2153ab9cbe1893ac24ea6d4f94ee.js" type="text/javascript" charset="utf-8" integrity="sha256-dL8aP88a85bvpKzz5mDodrYaIVOrnL4Yk6wk6m1PlO4="></script>
+    
+
+
+
+
+
+
+
+<meta property="og:url" content="https://coindarw.github.io/blog/posts/practice/aoj-1312/">
+  <meta property="og:site_name" content="coindarw&#39;s page">
+  <meta property="og:title" content="AOJ 1312 Where&#39;s Wally">
+  <meta property="og:description" content="https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=1312
+https://vjudge.net/problem/Aizu-1312">
+  <meta property="og:locale" content="ja">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-03-04T13:52:55+09:00">
+    <meta property="article:modified_time" content="2025-03-04T13:52:55+09:00">
+    <meta property="article:tag" content="競技プログラミング">
+    <meta property="article:tag" content="蟻本練習問題">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="AOJ 1312 Where&#39;s Wally">
+  <meta name="twitter:description" content="https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=1312
+https://vjudge.net/problem/Aizu-1312">
+
+
+
+
+
+
+
+
+
+    
+</head>
+<body>
+    <a class="skip-main" href="#main"></a>
+    <div class="container">
+        <header class="common-header"> 
+            
+                <div class="header-top">
+    <div class="header-top-left">
+        <h1 class="site-title">
+    <a href="/blog">coindarw&#39;s page</a>
+</h1>
+        <ul class="social-icons">
+
+
+    
+        <li>
+            <a href="https://github.com/coindarw" title="Github" rel="me">
+            <span class="inline-svg" >
+
+
+
+
+    
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+
+</span>
+
+            </a>
+        </li>
+    
+
+
+
+    <li>
+            <a href="https://coindarw.github.io/blog/index.xml" title="RSS" rel="me">
+            <span class="inline-svg" >
+
+
+
+
+    
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M128.081 415.959c0 35.369-28.672 64.041-64.041 64.041S0 451.328 0 415.959s28.672-64.041 64.041-64.041 64.04 28.673 64.04 64.041zm175.66 47.25c-8.354-154.6-132.185-278.587-286.95-286.95C7.656 175.765 0 183.105 0 192.253v48.069c0 8.415 6.49 15.472 14.887 16.018 111.832 7.284 201.473 96.702 208.772 208.772.547 8.397 7.604 14.887 16.018 14.887h48.069c9.149.001 16.489-7.655 15.995-16.79zm144.249.288C439.596 229.677 251.465 40.445 16.503 32.01 7.473 31.686 0 38.981 0 48.016v48.068c0 8.625 6.835 15.645 15.453 15.999 191.179 7.839 344.627 161.316 352.465 352.465.353 8.618 7.373 15.453 15.999 15.453h48.068c9.034-.001 16.329-7.474 16.005-16.504z"/></svg>
+
+</span>
+
+            </a>
+        </li>
+    
+
+</ul>
+    </div>
+    <div class="header-top-right">
+        
+
+    
+
+
+
+
+    <div class="theme-switcher">
+        <span class="inline-svg" >
+
+
+
+
+    
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 290 290">
+<path fill="currentColor" d="M142.959,0C64.131,0,0,64.132,0,142.96c0,78.828,64.131,142.959,142.959,142.959c78.828,0,142.96-64.131,142.96-142.959  C285.919,64.132,221.787,0,142.959,0z M142.959,260.919V142.96V25c65.043,0,117.96,52.917,117.96,117.96  C260.919,208.003,208.002,260.919,142.959,260.919z"/>
+</svg>
+
+</span>
+
+    </div>
+
+
+<script>
+const STORAGE_KEY = 'user-color-scheme'
+const defaultTheme = "auto"
+
+let currentTheme
+let switchButton
+let autoDefinedScheme = window.matchMedia('(prefers-color-scheme: dark)')
+
+const autoChangeScheme = e => {
+    currentTheme = e.matches ? 'dark' : 'light'
+    document.documentElement.setAttribute('data-theme', currentTheme)
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    switchButton = document.querySelector('.theme-switcher')
+    currentTheme = detectCurrentScheme()
+    if (currentTheme == 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark')
+    }
+    if (currentTheme == 'auto') {
+        autoChangeScheme(autoDefinedScheme);
+        autoDefinedScheme.addListener(autoChangeScheme);
+    }
+
+    if (switchButton) {
+        switchButton.addEventListener('click', switchTheme, false)
+    }
+  
+    showContent()
+})
+
+function detectCurrentScheme() {
+    if (localStorage !== null && localStorage.getItem(STORAGE_KEY)) {
+        return localStorage.getItem(STORAGE_KEY)
+    } 
+    if (defaultTheme) {
+        return defaultTheme
+    } 
+    if (!window.matchMedia) {
+        return 'light'
+    } 
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        return 'dark'
+    }
+    return 'light'
+}
+
+function switchTheme(e) {
+    if (currentTheme == 'dark') {
+        if (localStorage !== null)
+            localStorage.setItem(STORAGE_KEY, 'light')
+        document.documentElement.setAttribute('data-theme', 'light')
+        currentTheme = 'light'
+    } else {
+        if (localStorage !== null)
+            localStorage.setItem(STORAGE_KEY, 'dark')
+        document.documentElement.setAttribute('data-theme', 'dark')
+        currentTheme = 'dark'
+    }
+}
+
+function showContent() {
+    document.body.style.visibility = 'visible';
+    document.body.style.opacity = 1;
+}
+</script>
+
+  
+    </div>
+</div>
+
+
+    <nav>
+        
+        
+        <a class="" href="https://coindarw.github.io/blog/about/" title="">About</a>
+        
+        <a class="" href="https://coindarw.github.io/blog/tags/" title="">Tags</a>
+        
+        <a class="" href="https://coindarw.github.io/blog/posts/" title="">Archive</a>
+        
+    </nav>
+
+
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$','$$'], ['\\[', '\\]']],
+      processEscapes: true,
+      processEnvironments: true
+    },
+    options: {
+      skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+    }
+  };
+
+  window.addEventListener('load', (event) => {
+      document.querySelectorAll("mjx-container").forEach(function(x){
+        x.parentElement.classList += 'has-jax'})
+    });
+
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
+            
+        </header>
+        <main id="main" tabindex="-1"> 
+            
+    
+
+    <article class="post h-entry">
+        <div class="post-header">
+            <header>
+                <h1 class="p-name post-title">AOJ 1312 Where&rsquo;s Wally</h1>
+
+                
+            </header>
+        </div>
+        
+
+
+
+
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#問題概要">問題概要</a>
+      <ul>
+        <li><a href="#制約">制約</a></li>
+      </ul>
+    </li>
+    <li><a href="#解法メモ">解法メモ</a></li>
+    <li><a href="#実装例">実装例</a></li>
+  </ul>
+</nav>
+
+        <div class="content e-content">
+            <p><a href="https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=1312">https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=1312</a></p>
+<p><a href="https://vjudge.net/problem/Aizu-1312">https://vjudge.net/problem/Aizu-1312</a></p>
+<h2 id="問題概要" >問題概要
+<span>
+    <a href="#%e5%95%8f%e9%a1%8c%e6%a6%82%e8%a6%81">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h2><ul>
+<li>base64形式で$H\times W$の2値画像、$P\times P$の2値パターンが与えられる</li>
+<li>画像内の$P\times P$領域の中で、パターンの0・90・180・270度回転・反転いずれかに一致するものはいくつあるか</li>
+</ul>
+<h3 id="制約" >制約
+<span>
+    <a href="#%e5%88%b6%e7%b4%84">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><ul>
+<li>$1\leq W\leq 1000$</li>
+<li>$1\leq H\leq 1000$</li>
+<li>$1\leq P\leq 1000$</li>
+</ul>
+<h2 id="解法メモ" >解法メモ
+<span>
+    <a href="#%e8%a7%a3%e6%b3%95%e3%83%a1%e3%83%a2">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h2><ul>
+<li>
+<p>2次元でRolling Hashをやればよい</p>
+</li>
+<li>
+<p>前処理として、あらかじめ画像とパターン（反転・回転）のハッシュを計算しておく</p>
+</li>
+<li>
+<p>画像の中の各$P\times P$領域のハッシュがパターンの反転・回転8通りのいずれかと一致する場所をカウントしていけばよい。</p>
+</li>
+<li>
+<p><del>（書いていて思ったが8種とハッシュをかけている&hellip;？）</del></p>
+</li>
+</ul>
+<h2 id="実装例" >実装例
+<span>
+    <a href="#%e5%ae%9f%e8%a3%85%e4%be%8b">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h2><p>BASE64の中身を初めて調べた
+Rolling Hashに加えてBASE64デコード処理や回転・反転も書かないといけなくてまあまあ実装が面倒</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;algorithm&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;array&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;cassert&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;random&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;set&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;vector&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define rep(i, n) for (int i = 0, i##_len = (n); i &lt; i##_len; ++i)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">bool</span><span style="color:#f92672">&gt;</span> base64_decoding(<span style="color:#66d9ef">const</span> string<span style="color:#f92672">&amp;</span> s) {
+</span></span><span style="display:flex;"><span>    assert(s.size() <span style="color:#f92672">%</span> <span style="color:#ae81ff">4</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">bool</span><span style="color:#f92672">&gt;</span> res(s.size() <span style="color:#f92672">*</span> <span style="color:#ae81ff">6</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (size_t i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> s.size(); i <span style="color:#f92672">+=</span> <span style="color:#ae81ff">4</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">unsigned</span> x <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (size_t j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">4</span>; <span style="color:#f92672">++</span>j) {
+</span></span><span style="display:flex;"><span>            x <span style="color:#f92672">&lt;&lt;=</span> <span style="color:#ae81ff">6</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (s[i <span style="color:#f92672">+</span> j] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;=&#39;</span>) x <span style="color:#f92672">|=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span> (<span style="color:#e6db74">&#39;A&#39;</span> <span style="color:#f92672">&lt;=</span> s[i <span style="color:#f92672">+</span> j] <span style="color:#f92672">&amp;&amp;</span> s[i <span style="color:#f92672">+</span> j] <span style="color:#f92672">&lt;=</span> <span style="color:#e6db74">&#39;Z&#39;</span>) x <span style="color:#f92672">|=</span> s[i <span style="color:#f92672">+</span> j] <span style="color:#f92672">-</span> <span style="color:#e6db74">&#39;A&#39;</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span> (<span style="color:#e6db74">&#39;a&#39;</span> <span style="color:#f92672">&lt;=</span> s[i <span style="color:#f92672">+</span> j] <span style="color:#f92672">&amp;&amp;</span> s[i <span style="color:#f92672">+</span> j] <span style="color:#f92672">&lt;=</span> <span style="color:#e6db74">&#39;z&#39;</span>) x <span style="color:#f92672">|=</span> s[i <span style="color:#f92672">+</span> j] <span style="color:#f92672">-</span> <span style="color:#e6db74">&#39;a&#39;</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">26</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span> (<span style="color:#e6db74">&#39;0&#39;</span> <span style="color:#f92672">&lt;=</span> s[i <span style="color:#f92672">+</span> j] <span style="color:#f92672">&amp;&amp;</span> s[i <span style="color:#f92672">+</span> j] <span style="color:#f92672">&lt;=</span> <span style="color:#e6db74">&#39;9&#39;</span>) x <span style="color:#f92672">|=</span> s[i <span style="color:#f92672">+</span> j] <span style="color:#f92672">-</span> <span style="color:#e6db74">&#39;0&#39;</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">52</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span> (s[i <span style="color:#f92672">+</span> j] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;+&#39;</span>) x <span style="color:#f92672">|=</span> <span style="color:#ae81ff">62</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span> (s[i <span style="color:#f92672">+</span> j] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;/&#39;</span>) x <span style="color:#f92672">|=</span> <span style="color:#ae81ff">63</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">else</span> <span style="color:#a6e22e">assert</span>(false);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (size_t j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">24</span>; <span style="color:#f92672">++</span>j) res[i <span style="color:#f92672">*</span> <span style="color:#ae81ff">6</span> <span style="color:#f92672">+</span> j] <span style="color:#f92672">=</span> x <span style="color:#f92672">&amp;</span> (<span style="color:#ae81ff">1u</span> <span style="color:#f92672">&lt;&lt;</span> (<span style="color:#ae81ff">23</span> <span style="color:#f92672">-</span> j));
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> res;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span>size_t MOD_NUM<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">RollingHash2d</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">using</span> Hash <span style="color:#f92672">=</span> array<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, MOD_NUM<span style="color:#f92672">&gt;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">using</span> Hashes <span style="color:#f92672">=</span> vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span>Hash<span style="color:#f92672">&gt;&gt;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static_assert</span>(MOD_NUM <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">40</span>, <span style="color:#e6db74">&#34;MOD_NUM must be less than 40&#34;</span>);
+</span></span><span style="display:flex;"><span>    array<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span>, <span style="color:#ae81ff">50</span><span style="color:#f92672">&gt;</span> MODS <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#ae81ff">999999503</span>, <span style="color:#ae81ff">999999527</span>, <span style="color:#ae81ff">999999541</span>, <span style="color:#ae81ff">999999587</span>, <span style="color:#ae81ff">999999599</span>, <span style="color:#ae81ff">999999607</span>, <span style="color:#ae81ff">999999613</span>, <span style="color:#ae81ff">999999667</span>, <span style="color:#ae81ff">999999677</span>, <span style="color:#ae81ff">999999733</span>, <span style="color:#ae81ff">999999739</span>, <span style="color:#ae81ff">999999751</span>, <span style="color:#ae81ff">999999757</span>, <span style="color:#ae81ff">999999761</span>, <span style="color:#ae81ff">999999797</span>, <span style="color:#ae81ff">999999883</span>, <span style="color:#ae81ff">999999893</span>, <span style="color:#ae81ff">999999929</span>, <span style="color:#ae81ff">999999937</span>, <span style="color:#ae81ff">1000000007</span>, <span style="color:#ae81ff">1000000009</span>, <span style="color:#ae81ff">1000000021</span>, <span style="color:#ae81ff">1000000033</span>, <span style="color:#ae81ff">1000000087</span>, <span style="color:#ae81ff">1000000093</span>, <span style="color:#ae81ff">1000000097</span>, <span style="color:#ae81ff">1000000103</span>, <span style="color:#ae81ff">1000000123</span>, <span style="color:#ae81ff">1000000181</span>, <span style="color:#ae81ff">1000000207</span>, <span style="color:#ae81ff">1000000223</span>, <span style="color:#ae81ff">1000000241</span>, <span style="color:#ae81ff">1000000271</span>, <span style="color:#ae81ff">1000000289</span>, <span style="color:#ae81ff">1000000297</span>, <span style="color:#ae81ff">1000000321</span>, <span style="color:#ae81ff">1000000349</span>, <span style="color:#ae81ff">1000000363</span>, <span style="color:#ae81ff">1000000403</span>, <span style="color:#ae81ff">1000000409</span>, <span style="color:#ae81ff">1000000411</span>, <span style="color:#ae81ff">1000000427</span>, <span style="color:#ae81ff">1000000433</span>, <span style="color:#ae81ff">1000000439</span>, <span style="color:#ae81ff">1000000447</span>, <span style="color:#ae81ff">1000000453</span>, <span style="color:#ae81ff">1000000459</span>, <span style="color:#ae81ff">1000000483</span>, <span style="color:#ae81ff">1000000513</span>, <span style="color:#ae81ff">1000000531</span>,
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    array<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span>, MOD_NUM<span style="color:#f92672">&gt;</span> MOD;
+</span></span><span style="display:flex;"><span>    array<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span>, MOD_NUM <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">&gt;</span> BASE;
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span><span style="color:#f92672">&gt;&gt;</span> power_table, power_table_inv;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">mod_inv</span>(<span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> a, <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> M) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> b <span style="color:#f92672">=</span> M, u <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, v <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> (b) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> t <span style="color:#f92672">=</span> a <span style="color:#f92672">/</span> b;
+</span></span><span style="display:flex;"><span>            a <span style="color:#f92672">-=</span> t <span style="color:#f92672">*</span> b;
+</span></span><span style="display:flex;"><span>            swap(a, b);
+</span></span><span style="display:flex;"><span>            u <span style="color:#f92672">-=</span> t <span style="color:#f92672">*</span> v;
+</span></span><span style="display:flex;"><span>            swap(u, v);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        u <span style="color:#f92672">%=</span> M;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (u <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) u <span style="color:#f92672">+=</span> M;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> u;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">power</span>(size_t x, size_t baseIdx) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> (power_table[baseIdx].size() <span style="color:#f92672">&lt;=</span> x) {
+</span></span><span style="display:flex;"><span>            power_table[baseIdx].push_back((power_table[baseIdx].back() <span style="color:#f92672">*</span> BASE[baseIdx] <span style="color:#f92672">%</span> MOD[baseIdx <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>]));
+</span></span><span style="display:flex;"><span>            power_table_inv[baseIdx].push_back(mod_inv(power_table[baseIdx].back(), MOD[baseIdx <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>]));
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> power_table[baseIdx][x];
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">power_inv</span>(size_t x, size_t baseIdx) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> (power_table_inv[baseIdx].size() <span style="color:#f92672">&lt;=</span> x) {
+</span></span><span style="display:flex;"><span>            power_table[baseIdx].push_back((power_table[baseIdx].back() <span style="color:#f92672">*</span> BASE[baseIdx] <span style="color:#f92672">%</span> MOD[baseIdx <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>]));
+</span></span><span style="display:flex;"><span>            power_table_inv[baseIdx].push_back(mod_inv(power_table[baseIdx].back(), MOD[baseIdx <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>]));
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> power_table_inv[baseIdx][x];
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> _compute_hash(<span style="color:#66d9ef">const</span> vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;&gt;&amp;</span> a, size_t mIdx) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">const</span> size_t n <span style="color:#f92672">=</span> a.size();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">const</span> size_t m <span style="color:#f92672">=</span> a[<span style="color:#ae81ff">0</span>].size();
+</span></span><span style="display:flex;"><span>        vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> hash_(n <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span>(m <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>));
+</span></span><span style="display:flex;"><span>        size_t b1Idx <span style="color:#f92672">=</span> mIdx <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>, b2Idx <span style="color:#f92672">=</span> mIdx <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> mod <span style="color:#f92672">=</span> MOD[mIdx];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (size_t i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; <span style="color:#f92672">++</span>i)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> (size_t j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> m; <span style="color:#f92672">++</span>j) hash_[i][j] <span style="color:#f92672">=</span> a.at(i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>).at(j <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">%</span> mod;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (size_t i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; <span style="color:#f92672">++</span>i)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> (size_t j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> m; <span style="color:#f92672">++</span>j) {
+</span></span><span style="display:flex;"><span>                hash_[i][j] <span style="color:#f92672">=</span> (hash_[i][j] <span style="color:#f92672">*</span> power(j <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>, b1Idx)) <span style="color:#f92672">%</span> mod;
+</span></span><span style="display:flex;"><span>                hash_[i][j] <span style="color:#f92672">+=</span> hash_[i][j <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>];
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> (hash_[i][j] <span style="color:#f92672">&gt;=</span> mod) hash_[i][j] <span style="color:#f92672">-=</span> mod;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (size_t i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; <span style="color:#f92672">++</span>i)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> (size_t j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> m; <span style="color:#f92672">++</span>j) {
+</span></span><span style="display:flex;"><span>                hash_[i][j] <span style="color:#f92672">=</span> (hash_[i][j] <span style="color:#f92672">*</span> power(i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>, b2Idx)) <span style="color:#f92672">%</span> mod;
+</span></span><span style="display:flex;"><span>                hash_[i][j] <span style="color:#f92672">+=</span> hash_[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>][j];
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> (hash_[i][j] <span style="color:#f92672">&gt;=</span> mod) hash_[i][j] <span style="color:#f92672">-=</span> mod;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> hash_;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">_get_hash</span>(<span style="color:#66d9ef">const</span> Hashes<span style="color:#f92672">&amp;</span> hashes, size_t i, size_t j, size_t h, size_t w, size_t mIdx) {
+</span></span><span style="display:flex;"><span>        size_t b1Idx <span style="color:#f92672">=</span> mIdx <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>, b2Idx <span style="color:#f92672">=</span> mIdx <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> res <span style="color:#f92672">=</span> hashes[i <span style="color:#f92672">+</span> h <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>][j <span style="color:#f92672">+</span> w <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>][mIdx];
+</span></span><span style="display:flex;"><span>        res <span style="color:#f92672">-=</span> hashes[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>][j <span style="color:#f92672">+</span> w <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>][mIdx];
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (res <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) res <span style="color:#f92672">+=</span> MOD[mIdx];
+</span></span><span style="display:flex;"><span>        res <span style="color:#f92672">-=</span> hashes[i <span style="color:#f92672">+</span> h <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>][j <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>][mIdx];
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (res <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) res <span style="color:#f92672">+=</span> MOD[mIdx];
+</span></span><span style="display:flex;"><span>        res <span style="color:#f92672">+=</span> hashes[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>][j <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>][mIdx];
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (res <span style="color:#f92672">&gt;=</span> MOD[mIdx]) res <span style="color:#f92672">-=</span> MOD[mIdx];
+</span></span><span style="display:flex;"><span>        res <span style="color:#f92672">=</span> (res <span style="color:#f92672">*</span> power_inv(j <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>, b1Idx)) <span style="color:#f92672">%</span> MOD[mIdx];
+</span></span><span style="display:flex;"><span>        res <span style="color:#f92672">=</span> (res <span style="color:#f92672">*</span> power_inv(i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>, b2Idx)) <span style="color:#f92672">%</span> MOD[mIdx];
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> res;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    RollingHash2d() {
+</span></span><span style="display:flex;"><span>        random_device rnd;
+</span></span><span style="display:flex;"><span>        set<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> mods_idx;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> (mods_idx.size() <span style="color:#f92672">&lt;</span> size_t(MOD_NUM)) mods_idx.insert(rnd() <span style="color:#f92672">%</span> MODS.size());
+</span></span><span style="display:flex;"><span>        vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> tmp(mods_idx.begin(), mods_idx.end());
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (size_t i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> MOD_NUM; <span style="color:#f92672">++</span>i) MOD[i] <span style="color:#f92672">=</span> MODS[tmp[i]];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (size_t i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> MOD_NUM <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>; <span style="color:#f92672">++</span>i) BASE[i] <span style="color:#f92672">=</span> rnd() <span style="color:#f92672">%</span> (MOD[i <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>] <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>) <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>;
+</span></span><span style="display:flex;"><span>        power_table.resize(MOD_NUM <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>, vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span><span style="color:#f92672">&gt;</span>(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>));
+</span></span><span style="display:flex;"><span>        power_table_inv.resize(MOD_NUM <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>, vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span><span style="color:#f92672">&gt;</span>(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>));
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>    Hashes compute_hash(<span style="color:#66d9ef">const</span> vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;&gt;&amp;</span> a) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">const</span> size_t n <span style="color:#f92672">=</span> a.size();
+</span></span><span style="display:flex;"><span>        assert(n <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">const</span> size_t m <span style="color:#f92672">=</span> a[<span style="color:#ae81ff">0</span>].size();
+</span></span><span style="display:flex;"><span>        assert(m <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>        Hashes <span style="color:#a6e22e">res</span>(n <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, vector<span style="color:#f92672">&lt;</span>Hash<span style="color:#f92672">&gt;</span>(m <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>));
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (size_t i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> MOD_NUM; <span style="color:#f92672">++</span>i) {
+</span></span><span style="display:flex;"><span>            vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> hashes <span style="color:#f92672">=</span> _compute_hash(a, i);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> (size_t y <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; y <span style="color:#f92672">&lt;=</span> n; <span style="color:#f92672">++</span>y)
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">for</span> (size_t x <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; x <span style="color:#f92672">&lt;=</span> m; <span style="color:#f92672">++</span>x) {
+</span></span><span style="display:flex;"><span>                    res[y][x][i] <span style="color:#f92672">=</span> hashes[y][x];
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> res;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    Hashes <span style="color:#a6e22e">compute_hash</span>(<span style="color:#66d9ef">const</span> vector<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;&amp;</span> a) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> <span style="color:#66d9ef">int</span>(a.size()) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        assert(n <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> m <span style="color:#f92672">=</span> <span style="color:#66d9ef">int</span>(a[<span style="color:#ae81ff">1</span>].size()) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        assert(m <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>        vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> a_(n <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span>(m <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>));
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (size_t i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; <span style="color:#f92672">++</span>i)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> (size_t j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> m; <span style="color:#f92672">++</span>j) a_[i][j] <span style="color:#f92672">=</span> a[i][j];
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> compute_hash(a_);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Hash <span style="color:#a6e22e">get_hash</span>(<span style="color:#66d9ef">const</span> Hashes<span style="color:#f92672">&amp;</span> hashes, size_t i, size_t j, size_t h, size_t w) {
+</span></span><span style="display:flex;"><span>        assert(i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> j <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> i <span style="color:#f92672">+</span> h <span style="color:#f92672">&lt;=</span> hashes.size() <span style="color:#f92672">&amp;&amp;</span> j <span style="color:#f92672">+</span> w <span style="color:#f92672">&lt;=</span> hashes[<span style="color:#ae81ff">0</span>].size());
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">++</span>i, <span style="color:#f92672">++</span>j;
+</span></span><span style="display:flex;"><span>        Hash res;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (size_t k <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; k <span style="color:#f92672">&lt;</span> MOD_NUM; <span style="color:#f92672">++</span>k) res[k] <span style="color:#f92672">=</span> _get_hash(hashes, i, j, h, w, k);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> res;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">using</span> RollingHash <span style="color:#f92672">=</span> RollingHash2d<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">2</span><span style="color:#f92672">&gt;</span>;
+</span></span><span style="display:flex;"><span>RollingHash RH;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> rotate_invert(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;&gt;&amp;</span> a, <span style="color:#66d9ef">int</span> rotate, <span style="color:#66d9ef">bool</span> invert) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> a.size();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> m <span style="color:#f92672">=</span> a[<span style="color:#ae81ff">0</span>].size();
+</span></span><span style="display:flex;"><span>    assert(n <span style="color:#f92672">==</span> m);
+</span></span><span style="display:flex;"><span>    assert(<span style="color:#ae81ff">0</span> <span style="color:#f92672">&lt;=</span> rotate <span style="color:#f92672">&amp;&amp;</span> rotate <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">4</span>);
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;&gt;</span> b <span style="color:#f92672">=</span> a;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (rotate <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) {
+</span></span><span style="display:flex;"><span>        rep(i, n) rep(j, m) a[i][j] <span style="color:#f92672">=</span> b[j][n <span style="color:#f92672">-</span> i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>];
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span> (rotate <span style="color:#f92672">==</span> <span style="color:#ae81ff">2</span>) {
+</span></span><span style="display:flex;"><span>        rep(i, n) rep(j, m) a[i][j] <span style="color:#f92672">=</span> b[n <span style="color:#f92672">-</span> i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>][m <span style="color:#f92672">-</span> j <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>];
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span> (rotate <span style="color:#f92672">==</span> <span style="color:#ae81ff">3</span>) {
+</span></span><span style="display:flex;"><span>        rep(i, n) rep(j, m) a[i][j] <span style="color:#f92672">=</span> b[m <span style="color:#f92672">-</span> j <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>][i];
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (invert) {
+</span></span><span style="display:flex;"><span>        rep(i, n) reverse(a[i].begin(), a[i].end());
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    ios_base<span style="color:#f92672">::</span>sync_with_stdio(false);
+</span></span><span style="display:flex;"><span>    cin.tie(NULL);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> (true) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> w, h, p;
+</span></span><span style="display:flex;"><span>        cin <span style="color:#f92672">&gt;&gt;</span> w <span style="color:#f92672">&gt;&gt;</span> h <span style="color:#f92672">&gt;&gt;</span> p;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (w <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> h <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> p <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>        vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">bool</span><span style="color:#f92672">&gt;&gt;</span> image(h), pattern(p);
+</span></span><span style="display:flex;"><span>        rep(i, h) {
+</span></span><span style="display:flex;"><span>            string s;
+</span></span><span style="display:flex;"><span>            cin <span style="color:#f92672">&gt;&gt;</span> s;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">while</span> (s.size() <span style="color:#f92672">%</span> <span style="color:#ae81ff">4</span> <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>) s.push_back(<span style="color:#e6db74">&#39;=&#39;</span>);  <span style="color:#75715e">// この問題では必要ないが、base64の仕様に合わせている
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            image[i] <span style="color:#f92672">=</span> base64_decoding(s);
+</span></span><span style="display:flex;"><span>            image[i].resize(w);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        rep(i, p) {
+</span></span><span style="display:flex;"><span>            string s;
+</span></span><span style="display:flex;"><span>            cin <span style="color:#f92672">&gt;&gt;</span> s;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">while</span> (s.size() <span style="color:#f92672">%</span> <span style="color:#ae81ff">4</span> <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>) s.push_back(<span style="color:#e6db74">&#39;=&#39;</span>);
+</span></span><span style="display:flex;"><span>            pattern[i] <span style="color:#f92672">=</span> base64_decoding(s);
+</span></span><span style="display:flex;"><span>            pattern[i].resize(p);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">auto</span> image_hashes <span style="color:#f92672">=</span> RH.compute_hash(image);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        vector<span style="color:#f92672">&lt;</span>RollingHash<span style="color:#f92672">::</span>Hash<span style="color:#f92672">&gt;</span> pattern_hash(<span style="color:#ae81ff">8</span>);  <span style="color:#75715e">// 回転4通り * 反転2通りで8通りのパターンのハッシュを計算
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        rep(i, <span style="color:#ae81ff">4</span>) {
+</span></span><span style="display:flex;"><span>            rep(j, <span style="color:#ae81ff">2</span>) {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">auto</span> pattern_ <span style="color:#f92672">=</span> pattern;
+</span></span><span style="display:flex;"><span>                rotate_invert(pattern_, i, j);
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">auto</span> pattern_hashes_ <span style="color:#f92672">=</span> RH.compute_hash(pattern_);
+</span></span><span style="display:flex;"><span>                pattern_hash[i <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">+</span> j] <span style="color:#f92672">=</span> RH.get_hash(pattern_hashes_, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, p, p);
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        rep(i, h <span style="color:#f92672">-</span> p <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) {
+</span></span><span style="display:flex;"><span>            rep(j, w <span style="color:#f92672">-</span> p <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">auto</span> image_hash <span style="color:#f92672">=</span> RH.get_hash(image_hashes, i, j, p, p);
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">bool</span> found <span style="color:#f92672">=</span> false;
+</span></span><span style="display:flex;"><span>                rep(k, <span style="color:#ae81ff">8</span>) {
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">if</span> (image_hash <span style="color:#f92672">==</span> pattern_hash[k]) {
+</span></span><span style="display:flex;"><span>                        found <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>                        <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>                    }
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> (found) <span style="color:#f92672">++</span>ans;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> ans <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
+        </div>
+        
+
+    
+
+
+
+<div class="post-info">
+    
+        <div class="post-date dt-published">
+            <a class="u-url" href="/blog/posts/practice/aoj-1312/"><time datetime="2025-03-04">2025-03-04</time></a>
+            
+        </div>
+    
+
+    <a class="post-hidden-url u-url" href="https://coindarw.github.io/blog/posts/practice/aoj-1312/">https://coindarw.github.io/blog/posts/practice/aoj-1312/</a>
+    <a href="https://coindarw.github.io/blog/" class="p-name p-author post-hidden-author h-card" rel="me">coindarw</a>
+
+
+    <div class="post-taxonomies">
+        
+        
+            <ul class="post-tags">
+                
+                    
+                    <li><a href="">#競技プログラミング</a></li>
+                
+                    
+                    <li><a href="">#蟻本練習問題</a></li>
+                
+            </ul>
+        
+        
+    </div>
+</div>
+
+    </article>
+
+    
+
+    
+
+    
+        
+    
+
+        </main>
+        
+            <footer class="common-footer">
+    
+    
+
+    <div class="common-footer-bottom">
+        
+        <div class="copyright">
+            <p>© coindarw, 2025<br>
+             <a target="_blank" rel="noopener noreferrer" href="https://gohugo.io/">Hugo</a>,  <a target="_blank" rel="noopener noreferrer" href="https://github.com/mitrichius/hugo-theme-anubis">Anubis</a>.<br>
+            
+            </p>  
+        </div> 
+    </div>
+
+    <p class="h-card vcard">
+
+    <a href=https://coindarw.github.io/blog/ class="p-name u-url url fn" rel="me">coindarw</a> 
+
+    
+
+    
+</p> 
+</footer>
+
+        
+    </div>
+</body>
+</html>

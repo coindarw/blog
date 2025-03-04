@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+
+
+<html lang="ja" data-theme="">
+<head>
+    
+        
+<meta charset="utf-8">
+<meta name="HandheldFriendly" content="True">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer-when-downgrade">
+
+<title>POJ 3708 Recurrent Function - coindarw&rsquo;s page</title>
+
+<meta name="description" content="http://poj.org/problem?id=3708
+https://vjudge.net/problem/POJ-3708">
+
+
+
+
+
+<link rel="icon" type="image/x-icon" href="https://coindarw.github.io/blog/favicon.ico">
+<link rel="apple-touch-icon-precomposed" href="https://coindarw.github.io/blog/favicon.png">
+
+
+
+
+    
+
+
+
+<style>
+  body {
+    visibility: hidden;
+    opacity: 0;
+  }
+</style>
+
+<noscript>
+  <style>
+    body {
+      visibility: visible;
+      opacity: 1;
+    }
+  </style>
+</noscript>
+
+
+
+
+    
+
+
+
+
+
+    
+    
+        
+    
+    
+
+    
+        <link rel="stylesheet" href="https://coindarw.github.io/blog/css/style.min.a9fc9636a4bb1c27b94647cef1d5457e897a9155d53fca3900cc91d7cfe8e983.css" integrity="sha256-qfyWNqS7HCe5RkfO8dVFfol6kVXVP8o5AMyR18/o6YM=">
+    
+
+
+
+
+
+    
+
+    
+
+
+
+
+
+    
+    
+        
+    
+    
+
+    
+        <script src="https://coindarw.github.io/blog/js/script.min.74bf1a3fcf1af396efa4acf3e660e876b61a2153ab9cbe1893ac24ea6d4f94ee.js" type="text/javascript" charset="utf-8" integrity="sha256-dL8aP88a85bvpKzz5mDodrYaIVOrnL4Yk6wk6m1PlO4="></script>
+    
+
+
+
+
+
+
+
+<meta property="og:url" content="https://coindarw.github.io/blog/posts/practice/poj-3708/">
+  <meta property="og:site_name" content="coindarw&#39;s page">
+  <meta property="og:title" content="POJ 3708 Recurrent Function">
+  <meta property="og:description" content="http://poj.org/problem?id=3708
+https://vjudge.net/problem/POJ-3708">
+  <meta property="og:locale" content="ja">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-03-04T13:54:17+09:00">
+    <meta property="article:modified_time" content="2025-03-04T13:54:17+09:00">
+    <meta property="article:tag" content="競技プログラミング">
+    <meta property="article:tag" content="蟻本練習問題">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="POJ 3708 Recurrent Function">
+  <meta name="twitter:description" content="http://poj.org/problem?id=3708
+https://vjudge.net/problem/POJ-3708">
+
+
+
+
+
+
+
+
+
+    
+</head>
+<body>
+    <a class="skip-main" href="#main"></a>
+    <div class="container">
+        <header class="common-header"> 
+            
+                <div class="header-top">
+    <div class="header-top-left">
+        <h1 class="site-title">
+    <a href="/blog">coindarw&#39;s page</a>
+</h1>
+        <ul class="social-icons">
+
+
+    
+        <li>
+            <a href="https://github.com/coindarw" title="Github" rel="me">
+            <span class="inline-svg" >
+
+
+
+
+    
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+
+</span>
+
+            </a>
+        </li>
+    
+
+
+
+    <li>
+            <a href="https://coindarw.github.io/blog/index.xml" title="RSS" rel="me">
+            <span class="inline-svg" >
+
+
+
+
+    
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M128.081 415.959c0 35.369-28.672 64.041-64.041 64.041S0 451.328 0 415.959s28.672-64.041 64.041-64.041 64.04 28.673 64.04 64.041zm175.66 47.25c-8.354-154.6-132.185-278.587-286.95-286.95C7.656 175.765 0 183.105 0 192.253v48.069c0 8.415 6.49 15.472 14.887 16.018 111.832 7.284 201.473 96.702 208.772 208.772.547 8.397 7.604 14.887 16.018 14.887h48.069c9.149.001 16.489-7.655 15.995-16.79zm144.249.288C439.596 229.677 251.465 40.445 16.503 32.01 7.473 31.686 0 38.981 0 48.016v48.068c0 8.625 6.835 15.645 15.453 15.999 191.179 7.839 344.627 161.316 352.465 352.465.353 8.618 7.373 15.453 15.999 15.453h48.068c9.034-.001 16.329-7.474 16.005-16.504z"/></svg>
+
+</span>
+
+            </a>
+        </li>
+    
+
+</ul>
+    </div>
+    <div class="header-top-right">
+        
+
+    
+
+
+
+
+    <div class="theme-switcher">
+        <span class="inline-svg" >
+
+
+
+
+    
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 290 290">
+<path fill="currentColor" d="M142.959,0C64.131,0,0,64.132,0,142.96c0,78.828,64.131,142.959,142.959,142.959c78.828,0,142.96-64.131,142.96-142.959  C285.919,64.132,221.787,0,142.959,0z M142.959,260.919V142.96V25c65.043,0,117.96,52.917,117.96,117.96  C260.919,208.003,208.002,260.919,142.959,260.919z"/>
+</svg>
+
+</span>
+
+    </div>
+
+
+<script>
+const STORAGE_KEY = 'user-color-scheme'
+const defaultTheme = "auto"
+
+let currentTheme
+let switchButton
+let autoDefinedScheme = window.matchMedia('(prefers-color-scheme: dark)')
+
+const autoChangeScheme = e => {
+    currentTheme = e.matches ? 'dark' : 'light'
+    document.documentElement.setAttribute('data-theme', currentTheme)
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    switchButton = document.querySelector('.theme-switcher')
+    currentTheme = detectCurrentScheme()
+    if (currentTheme == 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark')
+    }
+    if (currentTheme == 'auto') {
+        autoChangeScheme(autoDefinedScheme);
+        autoDefinedScheme.addListener(autoChangeScheme);
+    }
+
+    if (switchButton) {
+        switchButton.addEventListener('click', switchTheme, false)
+    }
+  
+    showContent()
+})
+
+function detectCurrentScheme() {
+    if (localStorage !== null && localStorage.getItem(STORAGE_KEY)) {
+        return localStorage.getItem(STORAGE_KEY)
+    } 
+    if (defaultTheme) {
+        return defaultTheme
+    } 
+    if (!window.matchMedia) {
+        return 'light'
+    } 
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        return 'dark'
+    }
+    return 'light'
+}
+
+function switchTheme(e) {
+    if (currentTheme == 'dark') {
+        if (localStorage !== null)
+            localStorage.setItem(STORAGE_KEY, 'light')
+        document.documentElement.setAttribute('data-theme', 'light')
+        currentTheme = 'light'
+    } else {
+        if (localStorage !== null)
+            localStorage.setItem(STORAGE_KEY, 'dark')
+        document.documentElement.setAttribute('data-theme', 'dark')
+        currentTheme = 'dark'
+    }
+}
+
+function showContent() {
+    document.body.style.visibility = 'visible';
+    document.body.style.opacity = 1;
+}
+</script>
+
+  
+    </div>
+</div>
+
+
+    <nav>
+        
+        
+        <a class="" href="https://coindarw.github.io/blog/about/" title="">About</a>
+        
+        <a class="" href="https://coindarw.github.io/blog/tags/" title="">Tags</a>
+        
+        <a class="" href="https://coindarw.github.io/blog/posts/" title="">Archive</a>
+        
+    </nav>
+
+
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$','$$'], ['\\[', '\\]']],
+      processEscapes: true,
+      processEnvironments: true
+    },
+    options: {
+      skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+    }
+  };
+
+  window.addEventListener('load', (event) => {
+      document.querySelectorAll("mjx-container").forEach(function(x){
+        x.parentElement.classList += 'has-jax'})
+    });
+
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
+            
+        </header>
+        <main id="main" tabindex="-1"> 
+            
+    
+
+    <article class="post h-entry">
+        <div class="post-header">
+            <header>
+                <h1 class="p-name post-title">POJ 3708 Recurrent Function</h1>
+
+                
+            </header>
+        </div>
+        
+
+
+
+
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#問題概要">問題概要</a>
+      <ul>
+        <li><a href="#入力">入力</a></li>
+        <li><a href="#制約">制約</a></li>
+      </ul>
+    </li>
+    <li><a href="#解法メモ">解法メモ</a>
+      <ul>
+        <li><a href="#fxの定義について">f(x)の定義について</a></li>
+        <li><a href="#ここから解法">ここから解法</a></li>
+      </ul>
+    </li>
+    <li><a href="#実装例">実装例</a></li>
+  </ul>
+</nav>
+
+        <div class="content e-content">
+            <p><a href="http://poj.org/problem?id=3708">http://poj.org/problem?id=3708</a></p>
+<p><a href="https://vjudge.net/problem/POJ-3708">https://vjudge.net/problem/POJ-3708</a></p>
+<h2 id="問題概要" >問題概要
+<span>
+    <a href="#%e5%95%8f%e9%a1%8c%e6%a6%82%e8%a6%81">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h2><ul>
+<li>
+<p>ある関数$f(x)$があり、以下のように定義される
+$$
+\begin{align} f(j) &amp;= a_j &amp; \text{for } 1 \leq j &lt; d, \ f(d \times n + j) &amp;= d \times f(n) + b_j &amp; \text{for } 0 \leq j &lt; d \text{ and } n \geq 1, \end{align}
+$$</p>
+</li>
+<li>
+<p>ここで、集合 ${a_i}$ は ${1, 2, \ldots, d-1}$ から選ばれ、集合 ${b_i}$ は ${0, 1, \ldots, d-1}$ から選ばれる</p>
+</li>
+<li>
+<p>以下を定義する
+$$
+f_x(m) = f(f(f(\cdots f(m)))) \quad x\text{ times}</p>
+</li>
+</ul>
+<p>$$</p>
+<ul>
+<li>正の整数 $m$ と $k$ が与えられる。$f_x(m) = k$ となる最小の非負整数 $x$ が存在するか、存在する場合はその値を求めよ</li>
+<li>なお、答えが $2^{63}$ 未満であることが保証される</li>
+</ul>
+<h3 id="入力" >入力
+<span>
+    <a href="#%e5%85%a5%e5%8a%9b">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><p>マルチテストケースで、各ケースは以下のようになっている。整数-1のみの行が与えられたとき入力終了</p>
+<pre tabindex="0"><code>d
+a[1] a[2] ... a[d-1]
+b[0] b[1] b[2] ... b[d-1]
+m
+k
+</code></pre><h3 id="制約" >制約
+<span>
+    <a href="#%e5%88%b6%e7%b4%84">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><ul>
+<li>$2 \leq d \leq 100$</li>
+<li>$0 \leq m \leq 10^{100}$</li>
+<li>$0 \leq k \leq 10^{100}$</li>
+</ul>
+<h2 id="解法メモ" >解法メモ
+<span>
+    <a href="#%e8%a7%a3%e6%b3%95%e3%83%a1%e3%83%a2">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h2><p>かなり難しかった。</p>
+<h3 id="fxの定義について" >f(x)の定義について
+<span>
+    <a href="#fx%e3%81%ae%e5%ae%9a%e7%be%a9%e3%81%ab%e3%81%a4%e3%81%84%e3%81%a6">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><p>まず$f(x)$の定義が分かりづらい。再帰関数で書くと少しわかりやすくなる。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">f</span>(x):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> x <span style="color:#f92672">&lt;</span> d:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> a[x]
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> f(x <span style="color:#f92672">//</span> d) <span style="color:#f92672">*</span> d <span style="color:#f92672">+</span> b[x <span style="color:#f92672">%</span> d]
+</span></span></code></pre></div><p>つまり、$f(x)$は以下のような処理を行っていると考えられる。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">f</span>(x):
+</span></span><span style="display:flex;"><span>    xl <span style="color:#f92672">=</span> xをd進表記したリスト
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(len(xl)):
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> i <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>: <span style="color:#75715e"># 最上位桁だけは順列aで置換</span>
+</span></span><span style="display:flex;"><span>	  	  xl[i] <span style="color:#f92672">=</span> a[xl[i]]
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">else</span>: <span style="color:#75715e"># それ以外の桁は順列bで置換</span>
+</span></span><span style="display:flex;"><span>	    	xl[i] <span style="color:#f92672">=</span> b[xl[i]]
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> to_int(xl)
+</span></span></code></pre></div><p>問題文を言い換えると以下のようになる。なお、整数$n$を$d$進表記した時の$i$桁目を$n[i]$とする。(最上位桁が$n[1]$)</p>
+<blockquote>
+<p>$1,\cdots,d-1$の順列$a$, $0,\cdots,d-1$の順列$b$が与えられる。
+関数$f(x)$は以下のような関数である。</p></blockquote>
+<pre><code>$x$を$d$進表記した時、$f(x)$は$x$と同じ桁数の整数を返し、その時の$i$桁目$f(x)[i]$は以下のようになる。
+</code></pre>
+<blockquote>
+<p>$$
+\begin{align}f(x)[i]
+=\left{\begin{array}{ll}
+a_{x[i]}&amp;\text{if }i=1\
+b_{x[i]}&amp;\text{otherwise}
+\end{array}	\right.
+\end{align}
+$$
+$m$に何回$f$を適用すると$k$になるか求めよ</p></blockquote>
+<h3 id="ここから解法" >ここから解法
+<span>
+    <a href="#%e3%81%93%e3%81%93%e3%81%8b%e3%82%89%e8%a7%a3%e6%b3%95">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><ul>
+<li>
+<p>$a, b$は順列なので、各桁の変換は有向閉路上の移動とみなすことができる。</p>
+</li>
+<li>
+<p>各$k[i], m[i]$が同じ閉路上にあれば、それらが一致する$f$の適用回数は閉路のサイズを$c$として$ct+k\quad(t\geq1)$のような形で表すことができる。</p>
+</li>
+<li>
+<p>このような式が桁数分並び、それらすべてに当てはまる適用回数を求めればいい。これはGarnerのアルゴリズム（ACLのCRT）で求めることができる。</p>
+</li>
+</ul>
+<h2 id="実装例" >実装例
+<span>
+    <a href="#%e5%ae%9f%e8%a3%85%e4%be%8b">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h2><p>最初の$d$進に変換するところで多倍長整数がないと面倒なのでJavaで通した</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.Scanner;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.ArrayList;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.math.BigInteger;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.Collections;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Main</span> {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">long</span><span style="color:#f92672">[]</span> <span style="color:#a6e22e">inv_gcd</span>(<span style="color:#66d9ef">long</span> a, <span style="color:#66d9ef">long</span> b) { <span style="color:#75715e">// 拡張ユークリッド互除法</span>
+</span></span><span style="display:flex;"><span>        a <span style="color:#f92672">%=</span> b;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (a <span style="color:#f92672">&lt;</span> b)
+</span></span><span style="display:flex;"><span>            a <span style="color:#f92672">+=</span> b;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (a <span style="color:#f92672">==</span> 0) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">long</span><span style="color:#f92672">[]</span> { b, 0 };
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">long</span> s <span style="color:#f92672">=</span> b, t <span style="color:#f92672">=</span> a;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">long</span> m0 <span style="color:#f92672">=</span> 0, m1 <span style="color:#f92672">=</span> 1;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> (t <span style="color:#f92672">&gt;</span> 0) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">long</span> u <span style="color:#f92672">=</span> s <span style="color:#f92672">/</span> t;
+</span></span><span style="display:flex;"><span>            s <span style="color:#f92672">-=</span> t <span style="color:#f92672">*</span> u;
+</span></span><span style="display:flex;"><span>            m0 <span style="color:#f92672">-=</span> m1 <span style="color:#f92672">*</span> u;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">long</span> tmp <span style="color:#f92672">=</span> s;
+</span></span><span style="display:flex;"><span>            s <span style="color:#f92672">=</span> t;
+</span></span><span style="display:flex;"><span>            t <span style="color:#f92672">=</span> tmp;
+</span></span><span style="display:flex;"><span>            tmp <span style="color:#f92672">=</span> m0;
+</span></span><span style="display:flex;"><span>            m0 <span style="color:#f92672">=</span> m1;
+</span></span><span style="display:flex;"><span>            m1 <span style="color:#f92672">=</span> tmp;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (m0 <span style="color:#f92672">&lt;</span> 0)
+</span></span><span style="display:flex;"><span>            m0 <span style="color:#f92672">+=</span> b <span style="color:#f92672">/</span> s;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">long</span><span style="color:#f92672">[]</span> { s, m0 };
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">long</span><span style="color:#f92672">[]</span> <span style="color:#a6e22e">crt</span>(<span style="color:#66d9ef">long</span><span style="color:#f92672">[]</span> r, <span style="color:#66d9ef">long</span><span style="color:#f92672">[]</span> m) { <span style="color:#75715e">// ほぼACLと同じ</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> r.<span style="color:#a6e22e">length</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">long</span> r0 <span style="color:#f92672">=</span> 0, m0 <span style="color:#f92672">=</span> 1;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">long</span> r1 <span style="color:#f92672">=</span> r<span style="color:#f92672">[</span>i<span style="color:#f92672">]</span> <span style="color:#f92672">%</span> m<span style="color:#f92672">[</span>i<span style="color:#f92672">]</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (r1 <span style="color:#f92672">&lt;</span> 0)
+</span></span><span style="display:flex;"><span>                r1 <span style="color:#f92672">+=</span> m<span style="color:#f92672">[</span>i<span style="color:#f92672">]</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">long</span> m1 <span style="color:#f92672">=</span> m<span style="color:#f92672">[</span>i<span style="color:#f92672">]</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (m0 <span style="color:#f92672">&lt;</span> m1) {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">long</span> tmp <span style="color:#f92672">=</span> r0;
+</span></span><span style="display:flex;"><span>                r0 <span style="color:#f92672">=</span> r1;
+</span></span><span style="display:flex;"><span>                r1 <span style="color:#f92672">=</span> tmp;
+</span></span><span style="display:flex;"><span>                tmp <span style="color:#f92672">=</span> m0;
+</span></span><span style="display:flex;"><span>                m0 <span style="color:#f92672">=</span> m1;
+</span></span><span style="display:flex;"><span>                m1 <span style="color:#f92672">=</span> tmp;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (m0 <span style="color:#f92672">%</span> m1 <span style="color:#f92672">==</span> 0) {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> (r0 <span style="color:#f92672">%</span> m1 <span style="color:#f92672">!=</span> r1)
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">long</span><span style="color:#f92672">[]</span> { 0, 0 };
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">continue</span>;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">long</span><span style="color:#f92672">[]</span> inv <span style="color:#f92672">=</span> inv_gcd(m0, m1);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">long</span> g <span style="color:#f92672">=</span> inv<span style="color:#f92672">[</span>0<span style="color:#f92672">]</span>, im <span style="color:#f92672">=</span> inv<span style="color:#f92672">[</span>1<span style="color:#f92672">]</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">long</span> u1 <span style="color:#f92672">=</span> (m1 <span style="color:#f92672">/</span> g);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> ((r1 <span style="color:#f92672">-</span> r0) <span style="color:#f92672">%</span> g <span style="color:#f92672">!=</span> 0)
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">long</span><span style="color:#f92672">[]</span> { 0, 0 };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">long</span> x <span style="color:#f92672">=</span> (r1 <span style="color:#f92672">-</span> r0) <span style="color:#f92672">/</span> g <span style="color:#f92672">%</span> u1 <span style="color:#f92672">*</span> im <span style="color:#f92672">%</span> u1;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            r0 <span style="color:#f92672">+=</span> x <span style="color:#f92672">*</span> m0;
+</span></span><span style="display:flex;"><span>            m0 <span style="color:#f92672">*=</span> u1;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (r0 <span style="color:#f92672">&lt;</span> 0)
+</span></span><span style="display:flex;"><span>                r0 <span style="color:#f92672">+=</span> m0;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">long</span><span style="color:#f92672">[]</span> { r0, m0 };
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">solve</span>(<span style="color:#66d9ef">int</span> d, ArrayList<span style="color:#f92672">&lt;</span>Integer<span style="color:#f92672">&gt;</span> a, ArrayList<span style="color:#f92672">&lt;</span>Integer<span style="color:#f92672">&gt;</span> b, BigInteger m, BigInteger k) {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// m,kをd進数に変換</span>
+</span></span><span style="display:flex;"><span>        ArrayList<span style="color:#f92672">&lt;</span>Integer<span style="color:#f92672">&gt;</span> ml <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ArrayList<span style="color:#f92672">&lt;</span>Integer<span style="color:#f92672">&gt;</span>();
+</span></span><span style="display:flex;"><span>        ArrayList<span style="color:#f92672">&lt;</span>Integer<span style="color:#f92672">&gt;</span> kl <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ArrayList<span style="color:#f92672">&lt;</span>Integer<span style="color:#f92672">&gt;</span>();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> (m.<span style="color:#a6e22e">compareTo</span>(BigInteger.<span style="color:#a6e22e">ZERO</span>) <span style="color:#f92672">&gt;</span> 0) {
+</span></span><span style="display:flex;"><span>            ml.<span style="color:#a6e22e">add</span>(m.<span style="color:#a6e22e">mod</span>(BigInteger.<span style="color:#a6e22e">valueOf</span>(d)).<span style="color:#a6e22e">intValue</span>());
+</span></span><span style="display:flex;"><span>            m <span style="color:#f92672">=</span> m.<span style="color:#a6e22e">divide</span>(BigInteger.<span style="color:#a6e22e">valueOf</span>(d));
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        Collections.<span style="color:#a6e22e">reverse</span>(ml);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> (k.<span style="color:#a6e22e">compareTo</span>(BigInteger.<span style="color:#a6e22e">ZERO</span>) <span style="color:#f92672">&gt;</span> 0) {
+</span></span><span style="display:flex;"><span>            kl.<span style="color:#a6e22e">add</span>(k.<span style="color:#a6e22e">mod</span>(BigInteger.<span style="color:#a6e22e">valueOf</span>(d)).<span style="color:#a6e22e">intValue</span>());
+</span></span><span style="display:flex;"><span>            k <span style="color:#f92672">=</span> k.<span style="color:#a6e22e">divide</span>(BigInteger.<span style="color:#a6e22e">valueOf</span>(d));
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        Collections.<span style="color:#a6e22e">reverse</span>(kl);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 桁数が異なる場合は不可能</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (ml.<span style="color:#a6e22e">size</span>() <span style="color:#f92672">!=</span> kl.<span style="color:#a6e22e">size</span>()) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span>1;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 1桁目のループ周期を求める。 x0*t+y0回fを適用すると1桁目がkと一致する</span>
+</span></span><span style="display:flex;"><span>        ArrayList<span style="color:#f92672">&lt;</span>Boolean<span style="color:#f92672">&gt;</span> used0 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ArrayList<span style="color:#f92672">&lt;</span>Boolean<span style="color:#f92672">&gt;</span>(d);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0; i <span style="color:#f92672">&lt;</span> d; i<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>            used0.<span style="color:#a6e22e">add</span>(<span style="color:#66d9ef">false</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> x0 <span style="color:#f92672">=</span> 0, y0 <span style="color:#f92672">=</span> <span style="color:#f92672">-</span>1;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> ml0 <span style="color:#f92672">=</span> ml.<span style="color:#a6e22e">get</span>(0);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> (<span style="color:#66d9ef">true</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (ml0 <span style="color:#f92672">==</span> kl.<span style="color:#a6e22e">get</span>(0) <span style="color:#f92672">&amp;&amp;</span> y0 <span style="color:#f92672">==</span> <span style="color:#f92672">-</span>1)
+</span></span><span style="display:flex;"><span>                y0 <span style="color:#f92672">=</span> x0;
+</span></span><span style="display:flex;"><span>            ml0 <span style="color:#f92672">=</span> a.<span style="color:#a6e22e">get</span>(ml0);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (used0.<span style="color:#a6e22e">get</span>(ml0)) {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            x0<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>            used0.<span style="color:#a6e22e">set</span>(ml0, <span style="color:#66d9ef">true</span>);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 2桁目以降について、順列を閉路に分解、各閉路の情報を求める</span>
+</span></span><span style="display:flex;"><span>        ArrayList<span style="color:#f92672">&lt;</span>Integer<span style="color:#f92672">&gt;</span> cycleId <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ArrayList<span style="color:#f92672">&lt;</span>Integer<span style="color:#f92672">&gt;</span>(d); <span style="color:#75715e">// 各数がどの閉路に属するか</span>
+</span></span><span style="display:flex;"><span>        ArrayList<span style="color:#f92672">&lt;</span>Integer<span style="color:#f92672">&gt;</span> cycleSize <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ArrayList<span style="color:#f92672">&lt;</span>Integer<span style="color:#f92672">&gt;</span>(); <span style="color:#75715e">// 各閉路のサイズ</span>
+</span></span><span style="display:flex;"><span>        ArrayList<span style="color:#f92672">&lt;</span>Integer<span style="color:#f92672">&gt;</span> index <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ArrayList<span style="color:#f92672">&lt;</span>Integer<span style="color:#f92672">&gt;</span>(d); <span style="color:#75715e">// 各数が閉路内で何番目か</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0; i <span style="color:#f92672">&lt;</span> d; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>            cycleId.<span style="color:#a6e22e">add</span>(<span style="color:#f92672">-</span>1);
+</span></span><span style="display:flex;"><span>            index.<span style="color:#a6e22e">add</span>(<span style="color:#f92672">-</span>1);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0; i <span style="color:#f92672">&lt;</span> d; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (cycleId.<span style="color:#a6e22e">get</span>(i) <span style="color:#f92672">!=</span> <span style="color:#f92672">-</span>1)
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">continue</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> p <span style="color:#f92672">=</span> i;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> cnt <span style="color:#f92672">=</span> 0;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">while</span> (cycleId.<span style="color:#a6e22e">get</span>(p) <span style="color:#f92672">==</span> <span style="color:#f92672">-</span>1) {
+</span></span><span style="display:flex;"><span>                cycleId.<span style="color:#a6e22e">set</span>(p, cycleSize.<span style="color:#a6e22e">size</span>());
+</span></span><span style="display:flex;"><span>                index.<span style="color:#a6e22e">set</span>(p, cnt);
+</span></span><span style="display:flex;"><span>                p <span style="color:#f92672">=</span> b.<span style="color:#a6e22e">get</span>(p);
+</span></span><span style="display:flex;"><span>                cnt<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            cycleSize.<span style="color:#a6e22e">add</span>(cnt);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 2桁目以降の各桁の数字だけをkと一致させるために必要なfの適用回数・周期を求める</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">boolean</span> ok <span style="color:#f92672">=</span> used0.<span style="color:#a6e22e">get</span>(kl.<span style="color:#a6e22e">get</span>(0));
+</span></span><span style="display:flex;"><span>        ArrayList<span style="color:#f92672">&lt;</span>Long<span style="color:#f92672">&gt;</span> ra <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ArrayList<span style="color:#f92672">&lt;</span>Long<span style="color:#f92672">&gt;</span>(); <span style="color:#75715e">// 何回fを適用すれば一致するか</span>
+</span></span><span style="display:flex;"><span>        ArrayList<span style="color:#f92672">&lt;</span>Long<span style="color:#f92672">&gt;</span> ma <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ArrayList<span style="color:#f92672">&lt;</span>Long<span style="color:#f92672">&gt;</span>(); <span style="color:#75715e">// その周期</span>
+</span></span><span style="display:flex;"><span>        ra.<span style="color:#a6e22e">add</span>((<span style="color:#66d9ef">long</span>) y0);
+</span></span><span style="display:flex;"><span>        ma.<span style="color:#a6e22e">add</span>((<span style="color:#66d9ef">long</span>) x0);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 1; i <span style="color:#f92672">&lt;</span> ml.<span style="color:#a6e22e">size</span>(); i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (cycleId.<span style="color:#a6e22e">get</span>(ml.<span style="color:#a6e22e">get</span>(i)) <span style="color:#f92672">!=</span> cycleId.<span style="color:#a6e22e">get</span>(kl.<span style="color:#a6e22e">get</span>(i))) { <span style="color:#75715e">// 何回fを適用してもその桁が一致しない場合</span>
+</span></span><span style="display:flex;"><span>                ok <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>;
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> num <span style="color:#f92672">=</span> index.<span style="color:#a6e22e">get</span>(kl.<span style="color:#a6e22e">get</span>(i)) <span style="color:#f92672">-</span> index.<span style="color:#a6e22e">get</span>(ml.<span style="color:#a6e22e">get</span>(i));
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (num <span style="color:#f92672">&lt;</span> 0)
+</span></span><span style="display:flex;"><span>                num <span style="color:#f92672">+=</span> cycleSize.<span style="color:#a6e22e">get</span>(cycleId.<span style="color:#a6e22e">get</span>(ml.<span style="color:#a6e22e">get</span>(i)));
+</span></span><span style="display:flex;"><span>            ra.<span style="color:#a6e22e">add</span>((<span style="color:#66d9ef">long</span>) num);
+</span></span><span style="display:flex;"><span>            ma.<span style="color:#a6e22e">add</span>((<span style="color:#66d9ef">long</span>) cycleSize.<span style="color:#a6e22e">get</span>(cycleId.<span style="color:#a6e22e">get</span>(ml.<span style="color:#a6e22e">get</span>(i))));
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>ok) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span>1;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// CRTで解を求める</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">long</span><span style="color:#f92672">[]</span> _ra <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">long</span><span style="color:#f92672">[</span>ra.<span style="color:#a6e22e">size</span>()<span style="color:#f92672">]</span>; <span style="color:#75715e">// arrayに変換</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">long</span><span style="color:#f92672">[]</span> _ma <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">long</span><span style="color:#f92672">[</span>ma.<span style="color:#a6e22e">size</span>()<span style="color:#f92672">]</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0; i <span style="color:#f92672">&lt;</span> ra.<span style="color:#a6e22e">size</span>(); i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>            _ra<span style="color:#f92672">[</span>i<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> ra.<span style="color:#a6e22e">get</span>(i);
+</span></span><span style="display:flex;"><span>            _ma<span style="color:#f92672">[</span>i<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> ma.<span style="color:#a6e22e">get</span>(i);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">long</span><span style="color:#f92672">[]</span> ans <span style="color:#f92672">=</span> crt(_ra, _ma);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (ans<span style="color:#f92672">[</span>0<span style="color:#f92672">]</span> <span style="color:#f92672">==</span> 0 <span style="color:#f92672">&amp;&amp;</span> ans<span style="color:#f92672">[</span>1<span style="color:#f92672">]</span> <span style="color:#f92672">==</span> 0) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span>1;
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> ans<span style="color:#f92672">[</span>0<span style="color:#f92672">]</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span>(String<span style="color:#f92672">[]</span> args) {
+</span></span><span style="display:flex;"><span>        Scanner scanner <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Scanner(System.<span style="color:#a6e22e">in</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> (<span style="color:#66d9ef">true</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 入力ここから</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> d <span style="color:#f92672">=</span> scanner.<span style="color:#a6e22e">nextInt</span>();
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (d <span style="color:#f92672">==</span> <span style="color:#f92672">-</span>1)
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>            ArrayList<span style="color:#f92672">&lt;</span>Integer<span style="color:#f92672">&gt;</span> a <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ArrayList<span style="color:#f92672">&lt;</span>Integer<span style="color:#f92672">&gt;</span>(d);
+</span></span><span style="display:flex;"><span>            ArrayList<span style="color:#f92672">&lt;</span>Integer<span style="color:#f92672">&gt;</span> b <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ArrayList<span style="color:#f92672">&lt;</span>Integer<span style="color:#f92672">&gt;</span>(d);
+</span></span><span style="display:flex;"><span>            a.<span style="color:#a6e22e">add</span>(0);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 1; i <span style="color:#f92672">&lt;</span> d; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>                a.<span style="color:#a6e22e">add</span>(scanner.<span style="color:#a6e22e">nextInt</span>());
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0; i <span style="color:#f92672">&lt;</span> d; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>                b.<span style="color:#a6e22e">add</span>(scanner.<span style="color:#a6e22e">nextInt</span>());
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            BigInteger m <span style="color:#f92672">=</span> scanner.<span style="color:#a6e22e">nextBigInteger</span>();
+</span></span><span style="display:flex;"><span>            BigInteger k <span style="color:#f92672">=</span> scanner.<span style="color:#a6e22e">nextBigInteger</span>();
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 入力ここまで</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">long</span> ans <span style="color:#f92672">=</span> solve(d, a, b, m, k);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (ans <span style="color:#f92672">==</span> <span style="color:#f92672">-</span>1) {
+</span></span><span style="display:flex;"><span>                System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;NO&#34;</span>);
+</span></span><span style="display:flex;"><span>            } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>                System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(ans);
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        scanner.<span style="color:#a6e22e">close</span>();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
+        </div>
+        
+
+    
+
+
+
+<div class="post-info">
+    
+        <div class="post-date dt-published">
+            <a class="u-url" href="/blog/posts/practice/poj-3708/"><time datetime="2025-03-04">2025-03-04</time></a>
+            
+        </div>
+    
+
+    <a class="post-hidden-url u-url" href="https://coindarw.github.io/blog/posts/practice/poj-3708/">https://coindarw.github.io/blog/posts/practice/poj-3708/</a>
+    <a href="https://coindarw.github.io/blog/" class="p-name p-author post-hidden-author h-card" rel="me">coindarw</a>
+
+
+    <div class="post-taxonomies">
+        
+        
+            <ul class="post-tags">
+                
+                    
+                    <li><a href="">#競技プログラミング</a></li>
+                
+                    
+                    <li><a href="">#蟻本練習問題</a></li>
+                
+            </ul>
+        
+        
+    </div>
+</div>
+
+    </article>
+
+    
+
+    
+
+    
+        
+    
+
+        </main>
+        
+            <footer class="common-footer">
+    
+    
+
+    <div class="common-footer-bottom">
+        
+        <div class="copyright">
+            <p>© coindarw, 2025<br>
+             <a target="_blank" rel="noopener noreferrer" href="https://gohugo.io/">Hugo</a>,  <a target="_blank" rel="noopener noreferrer" href="https://github.com/mitrichius/hugo-theme-anubis">Anubis</a>.<br>
+            
+            </p>  
+        </div> 
+    </div>
+
+    <p class="h-card vcard">
+
+    <a href=https://coindarw.github.io/blog/ class="p-name u-url url fn" rel="me">coindarw</a> 
+
+    
+
+    
+</p> 
+</footer>
+
+        
+    </div>
+</body>
+</html>
